@@ -11,12 +11,18 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
 int main()
 {
 	char *line;
-	line = readline(NULL);
-	printf("%s", line);
+	while (1)
+	{
+		line = readline("minishell$ ");
+		add_history(line);
+		printf("%s \n", line);
+		free (line);
+	}
 }
