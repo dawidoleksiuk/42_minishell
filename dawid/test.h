@@ -25,5 +25,12 @@
 
 volatile sig_atomic_t	g_signum;
 
+typedef struct s_data
+{
+	char	*line;
+	struct termios termios_p_save;
+
+} t_data;
+
 
 #endif
