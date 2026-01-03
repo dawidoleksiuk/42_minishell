@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 15:43:38 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/02 22:45:20 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/03 10:57:11 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 void	sig_handler(int sig)
 {
+	struct termios_p tp;
+
 	g_signum = sig;
 	if (sig == SIGINT)
 	{
-		printf("lala");
-		// rl_on_new_line();
+		write (1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	if (sig == SIGQUIT)
 	{
-		printf("papa");
+		return ;
 	}
 }
+
 
 int	config_sigaction(struct sigaction *sa)
 {
@@ -48,13 +53,23 @@ int	signals(void)
 	return (0);
 }
 
+//prompting for an input, 
+//when CTRL+D clreas rl history and closes program
+//if we get input, it adds it to history
+
 void	prompt(void)
 {
 	char	*line;
 
 	line = readline("minishell$ ");
-	add_history(line);
-	printf("%s \n", line);
+	if (!line)
+	{
+		rl_clear_history();
+		write (1, "exit", 4);
+		exit (0);
+	}
+	if (line[0] != '\0')
+		add_history(line);
 	free (line);
 }
 

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 20:46:18 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/02 22:20:33 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/03 10:47:58 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h>
 // # include <sys/types.h>
 # include <unistd.h>
+# include <termios.h>
 
 volatile sig_atomic_t	g_signum;
 
