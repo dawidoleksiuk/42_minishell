@@ -6,20 +6,22 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/01 15:43:38 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/03 10:57:11 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/04 16:18:55 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./test.h"
+
+// syntax of the CL https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html
 
 void	clean_exit(t_data *data)
 {
 	if (data->line)
 		free (data->line);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save))
-	{
 		perror("error in tcsetattr");
-	}
+	//free tokens
+	//free cmds
 	exit (0);
 }
 
@@ -106,12 +108,14 @@ int	init(t_data *data)
 int	main(void)
 {
 	t_data	data;
+
 	if (isatty(STDIN_FILENO))
 	{
 		if (init(&data) == 1)
 			clean_exit(&data);
 		while (1)
 			prompt(&data);
+		// tokenizer(data);
 	}
 	return (0);
 }
