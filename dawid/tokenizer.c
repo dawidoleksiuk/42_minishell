@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:54:58 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/04 16:02:36 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/04 20:15:14 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token *last_node(t_token *token)
 	return (token);
 }
 
-void	create_token_node(t_token **token)
+void	create_token_node(t_data *data)
 {
 	t_token	*node;
 	t_token	*temp;
@@ -32,7 +32,7 @@ void	create_token_node(t_token **token)
 	temp = last_node(*token);
 }
 
-void	tokenizer(t_data *data)
+t_token	*tokenizer(t_data *data)
 {
 	t_token	*token;
 	int		i;
