@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alusnia <alusnia@student.42.fr>            +#+  +:+       +#+         #
+#    By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/01/05 14:59:52 by alusnia          ###   ########.fr        #
+#    Updated: 2026/01/05 15:48:18 by doleksiu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -I$(INCS_DIR) -I./libft -lreadline -lhistory
+CFLAGS = -Wall -Wextra -Werror -g -I$(INCS_DIR) -I./libft
 NAME = minishell
 
 SRC_DIR = ./srcs
@@ -25,7 +25,7 @@ INCS = $(INCS_DIR)/minishell.h
 all: $(LIBFT) $(NAME)
  
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -lhistory -o $(NAME)
 
 $(LIBFT):
 	@$(MAKE) -C ./libft
