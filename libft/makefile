@@ -2,13 +2,13 @@
 CC = cc
 
 # Compiler flags
-CFLAGS = -Wall -Wextra -Werror -I
+CFLAGS = -Wall -Wextra -Werror
 
 # Executable Name
 NAME = libft.a
 
 # Source Files (all .c files in the current directory)
-LIBFT_FILES = ft_substr.c ft_putnbr_fd.c ft_isdigit.c ft_atoi.c ft_isalpha.c \
+FILES = ft_substr.c ft_putnbr_fd.c ft_isdigit.c ft_atoi.c ft_isalpha.c \
         ft_memmove.c ft_isprint.c ft_memchr.c ft_striteri.c ft_putendl_fd.c \
         ft_strmapi.c ft_strrchr.c ft_toupper.c ft_memset.c ft_itoa.c \
         ft_isalnum.c ft_strtrim.c ft_putchar_fd.c ft_putstr_fd.c ft_strjoin.c \
@@ -19,20 +19,15 @@ LIBFT_FILES = ft_substr.c ft_putnbr_fd.c ft_isdigit.c ft_atoi.c ft_isalpha.c \
 		ft_lstiter.c ft_lstmap.c ft_putptr_fd.c ft_puthex_fd.c ft_putunbr_fd.c \
 		ft_putflt_fd.c ft_printf.c ft_isspace.c ft_atod.c ft_putdbl_fd.c ft_atol.c
 
-FILES = $(LIBFT_FILES)
-
 # Object Files
 OBJS = $(FILES:.c=.o)
-
-# Headers
-HEADERS = libft.h
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-%.o: %.c $(HEADERS)
+%.o: %.c libft.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
