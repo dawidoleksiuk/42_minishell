@@ -1,24 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/05 19:25:58 by alusnia          ###   ########.fr       */
+/*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
+/*   Updated: 2026/01/05 19:25:59 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "dawid/tokenizer.h"
-# include "libft/libft.h"
-
-typedef struct s_data
-{
-	int	fd_in;
-	int	fd_out;
-} t_data;
-
-#endif
