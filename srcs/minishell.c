@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/05 15:41:02 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/05 21:36:36 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/minishell.h"
+
 int main(void)
 {
+	ft_printf("test\n");
 	return (0);
 }
