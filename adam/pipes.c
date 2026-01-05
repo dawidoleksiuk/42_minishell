@@ -6,7 +6,9 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/05 19:25:59 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/05 19:35:00 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/minishell.h"
 
