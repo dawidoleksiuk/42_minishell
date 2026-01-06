@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:20:50 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/06 13:16:13 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/06 15:48:32 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef enum	e_redir_type
 
 typedef struct s_redir
 {
-	t_redir_type	type;
+	t_type			type;
 	char			*filename;
 	struct s_redir	*next;
 } t_redir;

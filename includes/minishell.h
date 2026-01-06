@@ -6,25 +6,16 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/01/05 21:37:13 by alusnia          ###   ########.fr       */
-=======
-/*   Updated: 2026/01/06 15:01:29 by doleksiu         ###   ########.fr       */
->>>>>>> 64f257e (creating first minishell files in srcs, moving gnl to libft, updading Makefile)
+/*   Updated: 2026/01/06 16:09:02 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../dawid/tokenizer.h"
-<<<<<<< HEAD
-# include "../libft/libft.h"
-# include "../gnl/get_next_line.h"
-=======
 # include "../dawid/parser.h"
 # include "../libft/libft.h"
 # include "../libft/gnl/get_next_line.h"
->>>>>>> 64f257e (creating first minishell files in srcs, moving gnl to libft, updading Makefile)
 # include "errno.h"
 # include <stdio.h>
 # include <stdlib.h>
