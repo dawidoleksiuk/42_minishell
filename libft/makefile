@@ -17,7 +17,8 @@ FILES = ft_substr.c ft_putnbr_fd.c ft_isdigit.c ft_atoi.c ft_isalpha.c \
         ft_calloc.c ft_isascii.c ft_split.c ft_lstsize.c ft_lstnew.c ft_lstlast.c \
         ft_lstdelone.c ft_lstclear.c ft_lstadd_front.c ft_lstadd_back.c \
 		ft_lstiter.c ft_lstmap.c ft_putptr_fd.c ft_puthex_fd.c ft_putunbr_fd.c \
-		ft_putflt_fd.c ft_printf.c ft_isspace.c ft_atod.c ft_putdbl_fd.c ft_atol.c
+		ft_putflt_fd.c ft_printf.c ft_isspace.c ft_atod.c ft_putdbl_fd.c ft_atol.c \
+		gnl/get_next_line.c gnl/get_next_line_utils.c
 
 # Object Files
 OBJS = $(FILES:.c=.o)
@@ -27,7 +28,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-%.o: %.c libft.h
+%.o: %.c libft.h gnl/get_next_line.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 20:46:18 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/04 16:02:29 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/06 14:58:00 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ typedef struct s_data
 	char			**envp;
 	struct termios	termios_p_save;
 
+	int				fd_in;
+	int				fd_out;
 	char			*line;
 	t_token			*token_head;
 	t_cmd			*cmd_head;
-
 } t_data;
 
 void	clean_exit(t_data *data);

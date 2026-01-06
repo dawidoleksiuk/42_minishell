@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:20:50 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/04 16:17:19 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/06 13:16:13 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PARSER_H
 
 //COMMANDS
-// ls -l > plik1.txt < input.dat - example or a more complex case with two files we need to take into account
+// ls -l > plik1.txt < input.dat - example of a more complex case with two files we need to take into account
 
 typedef enum	e_redir_type
 {
@@ -34,6 +34,7 @@ typedef struct s_redir
 typedef struct s_cmd
 {
 	char			**args;
+	t_redir			*redirs;
 	struct s_cmd	*next;
 } t_cmd;
 
