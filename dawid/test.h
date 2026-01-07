@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/02 20:46:18 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/06 14:58:00 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/07 22:28:13 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "./tokenizer.h"
 # include "./parser.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <strings.h>
