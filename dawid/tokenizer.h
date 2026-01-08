@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:55:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/04 20:49:03 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/08 22:12:08 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 // https://mvsrgc.xyz/posts/Write-a-Shell-Tokenizer-in-C/
 // TOKENS
+# define DEFAULT 0
+# define IN_SINGLE 1
+# define IN_DOUBLE 2
 
 typedef enum	e_type
 {

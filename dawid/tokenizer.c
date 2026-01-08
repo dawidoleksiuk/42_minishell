@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:54:58 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/07 23:11:26 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/08 22:17:26 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,31 @@ t_token *create_token_node(t_data *data, t_token **token)
 	return (node);
 }
 
-char *get_next_token(char *line, int *i, int par_on)
+void	get_next_token(char *line, int *i)
 {
-	char	*content;
-	int start;
+	int	status;
 
-	start = *i;
-	if (par_on)
-		(*i)++;
+	status = DEFAULT;
 	while(line[*i])
 	{
-		if (line[*i] == ' ' && par_on == 0)
+		if (status == DEFAULT && line[*i] == '\'')
+			status = IN_SINGLE;
+		else if (status == DEFAULT && line[*i] == '\"')
+			status = IN_DOUBLE;
+		else if (status == IN_SINGLE && line[*i] == '\'')
+			status = DEFAULT;
+		else if (status == IN_DOUBLE && line[*i] == '\"')
+			status = DEFAULT;
+		if (status == DEFAULT && line[*i] == ' ')
 			break ;
-		if (((line[*i] == '\"' || line[*i] == '\'') && par_on == 1))
-		{
-			(*i)++;
-			break ;
-		}
 		(*i)++;
 	}
-	content = ft_substr(line, start, *i - start);
-	return (content);
 }
 
 t_token	*tokenizer(t_data *data)
 {
 	int		i;
+	int		start;
 	t_token	*current_token;
 
 	i = 0;
@@ -70,16 +69,11 @@ t_token	*tokenizer(t_data *data)
 	current_token = data->token_head;
 	while(data->line[i])
 	{
-		if (data->line[i] != ' ')
-		{
-			current_token = create_token_node(data, &current_token);
-			if (data->line[i] == '"' || data->line[i] == '\'')
-				current_token->content = get_next_token(data->line, &i, 1);
-			else
-				current_token->content = get_next_token(data->line, &i, 0);
-			// assign_token_type(current_token);
-		}
-		else
+		start = i;
+		get_next_token(data->line, &i);
+		current_token = create_token_node(data, &current_token);
+		current_token->content = ft_substr(data->line, start, i - start);
+		if (data->line[i])
 			i++;
 	}
 }
