@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/05 21:33:54 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/09 18:05:55 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ Funtion takes type of redirection and returns 1 if executed correctly and
 assign file descriptor to correct value. If file was impossible to open function 
 will return 0, and if error ocurred function returns -1.
 */
-char	redirection(t_fd **fd, t_type *type, char *path)
+char	redirection(t_fd **fd, t_redir_type *type, char *path)
 {
-	if (type == HEREDOC)
+	if (type == P_HEREDOC)
 	{
 		if (!pipe((*fd)->pipe_fd))
 		{
@@ -48,11 +48,11 @@ char	redirection(t_fd **fd, t_type *type, char *path)
 		else
 			return (-1);
 	}
-	else if (type == REDIR_IN)
+	else if (type == P_REDIR_IN)
 		(*fd)->in = open(path, O_RDONLY);
-	else if (type == APPEND)
+	else if (type == P_APPEND)
 		(*fd)->out = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (type == REDIR_OUT)
+	else if (type == P_REDIR_OUT)
 		(*fd)->out = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if ((*fd)->in < 0 || (*fd)->out < 0)
 		return (0);
