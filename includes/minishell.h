@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/06 16:09:02 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/09 15:51:53 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include "../dawid/tokenizer.h"
 # include "../dawid/parser.h"
+# include "../adam/redirections.h"
 # include "../libft/libft.h"
 # include "../libft/gnl/get_next_line.h"
 # include "errno.h"
@@ -29,9 +30,10 @@
 
 typedef struct s_fd
 {
-	int	in;
-	int	pipe_fd[2];
-	int	out;
+	int		in;
+	int		pipe_fd[2];
+	int		out;
+	pid_t	pid;
 } t_fd;
 
 typedef struct s_data
@@ -39,11 +41,10 @@ typedef struct s_data
 	char			**envp;
 	struct termios	termios_p_save;
 
-	int				fd_in;
-	int				fd_out;
 	char			*line;
 	t_token			*token_head;
 	t_cmd			*cmd_head;
+	t_fd			*f_info;
 } t_data;
 
 // clean_exit.c
@@ -57,5 +58,8 @@ int	init(t_data *data);
 void	sig_handler(int sig);
 int	config_sigaction(struct sigaction *sa);
 int	signals(void);
+
+// redirections.c
+char	redirection(t_fd **fd, t_redir_type *type, char *path);
 
 #endif
