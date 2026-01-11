@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:54:58 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/08 22:17:26 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/11 13:37:15 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,14 @@ t_token *create_token_node(t_data *data, t_token **token)
 	return (node);
 }
 
-void	get_next_token(char *line, int *i)
+int	check_separator(char c)
+{
+	if (c == ' ' || c == '>' || c == '<' || c == '|')
+		return (1);
+	return (0);
+}
+
+void	get_next_word(char *line, int *i)
 {
 	int	status;
 
@@ -52,9 +59,42 @@ void	get_next_token(char *line, int *i)
 			status = DEFAULT;
 		else if (status == IN_DOUBLE && line[*i] == '\"')
 			status = DEFAULT;
-		if (status == DEFAULT && line[*i] == ' ')
+		if (status == DEFAULT && check_separator(line[*i]))
 			break ;
 		(*i)++;
+	}
+	if (status == IN_SINGLE || status == IN_DOUBLE)
+	{
+		printf("bad quotes");
+		exit (1);
+	}
+}
+
+
+// void	assign_token_type(t_data *data)
+// {
+// 	t_token	token;
+
+// 	token = data->token_head;
+
+// 	while (token)
+// 	{
+// 		if (ft_strncmp(token->content, "|", 1))
+// 			token->type = 
+// 		token = token->next;
+// 	}
+// }
+
+void	get_next_separator(char *line, int *start, int *i)
+{
+
+	if (line[*i] == '|')
+	{
+		*start = (*i) - 1;
+	}
+	else if (line[*i] == '<' || line[*i] == '>')
+	{
+		*start = (*i) - 1;
 	}
 }
 
@@ -69,8 +109,13 @@ t_token	*tokenizer(t_data *data)
 	current_token = data->token_head;
 	while(data->line[i])
 	{
+		while (data->line[i] == ' ')
+			i++;
 		start = i;
-		get_next_token(data->line, &i);
+		if (!check_separator(data->line[i]))
+			get_next_word(data->line, &i);
+		else if (check_separator(data->line[i]))
+			get_next_separator(data->line, &start, &i);
 		current_token = create_token_node(data, &current_token);
 		current_token->content = ft_substr(data->line, start, i - start);
 		if (data->line[i])
@@ -82,7 +127,7 @@ int	main(void)
 {
 	t_data data;
 	t_token *token;
-	data.line = "a co ' zaglądasz ?' xd ";
+	data.line = "2";
 	tokenizer(&data);
 	token =  data.token_head;
 	while (token)
