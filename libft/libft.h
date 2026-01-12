@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 07:04:37 by alusnia           #+#    #+#             */
-/*   Updated: 2025/11/26 10:20:39 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/12 11:56:46 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <limits.h>
-
+# include "./gnl/get_next_line.h"
 typedef struct s_list
 {
 	void			*content;

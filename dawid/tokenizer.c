@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:54:58 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 10:30:40 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:54:49 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,19 @@ void	get_next_word(char *line, int *i)
 }
 
 
-// void	assign_token_type(t_data *data)
-// {
-// 	t_token	token;
+void	assign_token_type(t_data *data)
+{
+	t_token	*token;
 
-// 	token = data->token_head;
+	token = data->token_head;
 
-// 	while (token)
-// 	{
-// 		if (ft_strncmp(token->content, "|", 1))
-// 			token->type = 
-// 		token = token->next;
-// 	}
-// }
+	while (token)
+	{
+		if (ft_strncmp(token->content, "|", 1))
+			token->type = PIPE;
+		token = token->next;
+	}
+}
 
 void	get_next_separator(char *line, int *start, int *i)
 {
@@ -131,7 +131,7 @@ int	main(void)
 	t_token *token;
 	t_token *temp;
 
-	data.line = "jwkrep  '' oiw3h| '''' ]>><>";
+	data.line = get_next_line(0);
 	tokenizer(&data);
 	token =  data.token_head;
 	while (token)
