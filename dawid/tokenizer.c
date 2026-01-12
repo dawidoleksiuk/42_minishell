@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:54:58 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 10:13:24 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:30:40 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,17 @@ int	main(void)
 {
 	t_data data;
 	t_token *token;
-	data.line = "jwkrep  '' oiw3h '''' ]>>><<";
+	t_token *temp;
+
+	data.line = "jwkrep  '' oiw3h| '''' ]>><>";
 	tokenizer(&data);
 	token =  data.token_head;
 	while (token)
 	{
 		printf("%sX\n", token->content);
+		free(token->content);
+		temp = token;
 		token = token->next;
+		free(temp);
 	}
 }
