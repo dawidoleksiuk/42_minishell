@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/09 15:51:53 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/12 14:20:34 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "../dawid/tokenizer.h"
-# include "../dawid/parser.h"
+# include "./tokenizer.h"
+// # include "../dawid/parser.h"
 # include "../adam/redirections.h"
 # include "../libft/libft.h"
 # include "../libft/gnl/get_next_line.h"
@@ -43,12 +43,13 @@ typedef struct s_data
 
 	char			*line;
 	t_token			*token_head;
-	t_cmd			*cmd_head;
+	// t_cmd			*cmd_head;
 	t_fd			*f_info;
 } t_data;
 
 // clean_exit.c
-void	clean_exit(t_data *data);
+void	free_tokens(t_data *data);
+void	clean_exit(t_data *data, char *msg);
 
 // init.c
 void	prompt(t_data *data);
@@ -60,6 +61,9 @@ int	config_sigaction(struct sigaction *sa);
 int	signals(void);
 
 // redirections.c
-char	redirection(t_fd **fd, t_redir_type *type, char *path);
+// char	redirection(t_fd **fd, t_redir_type *type, char *path);
+
+// tokenizer.c
+void	tokenizer(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/06 14:49:03 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:21:46 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,16 @@
 void	prompt(t_data *data)
 {
 	data->line = readline("minishell$ ");
+	// data->line = get_next_line(0);
+
 	if (!data->line)
 	{
 		rl_clear_history();
 		write (1, "exit\n", 5);
-		clean_exit(data);
+		clean_exit(data, NULL);
 	}
 	if (data->line[0] != '\0')
 		add_history(data->line);
-	free (data->line);
 }
 
 // termios https://www.gnu.org/software/libc/manual/html_node/Local-Modes.html
@@ -36,7 +37,8 @@ void	prompt(t_data *data)
 // turns off termios flag for signal output (^C, ^\ etc.) in terminal
 // sets signal handling
 
-int	init(t_data *data)
+
+int	init_signals(t_data *data)
 {
 	struct termios termios_p;
 
@@ -45,16 +47,24 @@ int	init(t_data *data)
 	if (tcgetattr(STDIN_FILENO, &termios_p) < 0)
 	{
 		perror("error in tcgetattr");
-		clean_exit(data);
+		clean_exit(data, NULL);
 	}
 	data->termios_p_save = termios_p;
 	termios_p.c_lflag &= ~ECHOCTL;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &termios_p) < 0)
 	{
 		perror("error in tcsetattr");
-		clean_exit(data);
+		clean_exit(data, NULL);
 	}
 	if (signals() == 1)
+		return (1);
+	return (0);
+}
+
+int	init(t_data *data)
+{
+	data->line = NULL;
+	if (init_signals(data))
 		return (1);
 	return (0);
 }

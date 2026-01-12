@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/04 13:54:58 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 12:23:35 by doleksiu         ###   ########.fr       */
+/*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
+/*   Updated: 2026/01/12 13:39:25 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./test.h"
+#include "../includes/minishell.h"
 
 t_token *last_node(t_token *node)
 {
@@ -108,7 +108,7 @@ void	get_next_separator(char *line, int *start, int *i)
 	(*i)++;
 }
 
-t_token	*tokenizer(t_data *data)
+void tokenizer(t_data *data)
 {
 	int		i;
 	int		start;
@@ -135,21 +135,21 @@ t_token	*tokenizer(t_data *data)
 	}
 }
 
-int	main(void)
-{
-	t_data data;
-	t_token *token;
-	t_token *temp;
+// int	main(void)
+// {
+// 	t_data data;
+// 	t_token *token;
+// 	t_token *temp;
 
-	data.line = get_next_line(0);
-	tokenizer(&data);
-	token =  data.token_head;
-	while (token)
-	{
-		printf("%sX, type: %d \n", token->content, token->type);
-		free(token->content);
-		temp = token;
-		token = token->next;
-		free(temp);
-	}
-}
+// 	data.line = get_next_line(0);
+// 	tokenizer(&data);
+// 	token =  data.token_head;
+// 	while (token)
+// 	{
+// 		printf("%sX, type: %d \n", token->content, token->type);
+// 		free(token->content);
+// 		temp = token;
+// 		token = token->next;
+// 		free(temp);
+// 	}
+// }
