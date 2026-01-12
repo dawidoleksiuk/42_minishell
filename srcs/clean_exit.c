@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 14:20:35 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:16:08 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	free_tokens(t_data *data)
 {
-	t_token *token;
+	t_token	*token;
 	t_token	*temp;
-	
+
 	token = data->token_head;
 	while (token)
 	{
@@ -33,16 +33,21 @@ void	free_tokens(t_data *data)
 }
 
 void	clean_exit(t_data *data, char *msg)
-{
+{	
+	if (msg)
+	{
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	if (data->error_msg)
+		free(data->error_msg);
+	rl_clear_history();
 	if (data->line)
 		free (data->line);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save))
 		perror("error in tcsetattr");
-	if(data->token_head)
+	if (data->token_head)
 		free_tokens(data);
-
 	//free cmds
-	if (msg)
-		ft_putstr_fd(msg, 2);
 	exit (0);
 }

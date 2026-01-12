@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 14:20:34 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 18:13:44 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_data
 	struct termios	termios_p_save;
 
 	char			*line;
+	char			*error_msg;
 	t_token			*token_head;
 	// t_cmd			*cmd_head;
 	t_fd			*f_info;
@@ -65,5 +66,9 @@ int	signals(void);
 
 // tokenizer.c
 void	tokenizer(t_data *data);
+
+//tokenizer_2.c
+void	assign_token_type(t_data *data);
+void	check_syntax(t_data *data);
 
 #endif

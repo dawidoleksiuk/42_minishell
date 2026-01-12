@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 14:21:46 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:19:40 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ void	prompt(t_data *data)
 {
 	data->line = readline("minishell$ ");
 	// data->line = get_next_line(0);
-
 	if (!data->line)
 	{
-		rl_clear_history();
 		write (1, "exit\n", 5);
 		clean_exit(data, NULL);
 	}
@@ -36,11 +34,9 @@ void	prompt(t_data *data)
 // sets variables to zero
 // turns off termios flag for signal output (^C, ^\ etc.) in terminal
 // sets signal handling
-
-
 int	init_signals(t_data *data)
 {
-	struct termios termios_p;
+	struct termios	termios_p;
 
 	rl_catch_signals = 0;
 	ft_bzero(data, sizeof(t_data));

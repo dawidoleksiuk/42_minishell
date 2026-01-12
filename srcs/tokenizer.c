@@ -6,22 +6,22 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 13:39:25 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:40:02 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_token *last_node(t_token *node)
-{
-	if (!node)
-		return (node);
-	while (node->next != NULL)
-		node = node->next;
-	return (node);
-}
+// t_token	*last_node(t_token *node)
+// {
+// 	if (!node)
+// 		return (node);
+// 	while (node->next != NULL)
+// 		node = node->next;
+// 	return (node);
+// }
 
-t_token *create_token_node(t_data *data, t_token **token)
+t_token	*create_token_node(t_data *data, t_token **token)
 {
 	t_token	*node;
 
@@ -49,7 +49,7 @@ void	get_next_word(char *line, int *i)
 	int	status;
 
 	status = DEFAULT;
-	while(line[*i])
+	while (line[*i])
 	{
 		if (status == DEFAULT && line[*i] == '\'')
 			status = IN_SINGLE;
@@ -70,35 +70,12 @@ void	get_next_word(char *line, int *i)
 	// }
 }
 
-
-void	assign_token_type(t_data *data)
-{
-	t_token	*token;
-
-	token = data->token_head;
-	while (token)
-	{
-		if (ft_strncmp(token->content, "|", 1) == 0)
-			token->type = PIPE;
-		else if (ft_strncmp(token->content, "<<", 2) == 0)
-			token->type = HEREDOC;
-		else if (ft_strncmp(token->content, ">>", 2) == 0)
-			token->type = APPEND;
-		else if (ft_strncmp(token->content, "<", 1) == 0)
-			token->type = REDIR_IN;
-		else if (ft_strncmp(token->content, ">", 1) == 0)
-			token->type = REDIR_OUT;
-		else
-			token->type = WORD;
-		token = token->next;
-	}
-}
-
 void	get_next_separator(char *line, int *start, int *i)
 {
 	if (line[*i] == '|')
 		*start = (*i);
-	else if (ft_strncmp(line + (*i), ">>", 2) == 0 || ft_strncmp(line + (*i), "<<", 2) == 0)
+	else if (ft_strncmp(line + (*i), ">>", 2) == 0
+		|| ft_strncmp(line + (*i), "<<", 2) == 0)
 	{
 		*start = (*i);
 		(*i)++;
@@ -108,7 +85,7 @@ void	get_next_separator(char *line, int *start, int *i)
 	(*i)++;
 }
 
-void tokenizer(t_data *data)
+void	tokenizer(t_data *data)
 {
 	int		i;
 	int		start;
@@ -117,7 +94,7 @@ void tokenizer(t_data *data)
 	i = 0;
 	data->token_head = NULL;
 	current_token = data->token_head;
-	while(data->line[i])
+	while (data->line[i])
 	{
 		while (data->line[i] == ' ')
 			i++;
@@ -132,6 +109,7 @@ void tokenizer(t_data *data)
 			current_token->content = ft_substr(data->line, start, i - start);
 		}
 		assign_token_type(data);
+		check_syntax(data);
 	}
 }
 

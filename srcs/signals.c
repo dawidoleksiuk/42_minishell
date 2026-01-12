@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:52 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/06 14:51:35 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:21:06 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,10 @@ void	sig_handler(int sig)
 	}
 }
 
-
 int	config_sigaction(struct sigaction *sa)
 {
 	bzero(sa, sizeof(*sa));
-	if ((sigaddset(&sa->sa_mask, SIGINT) == -1) 
+	if ((sigaddset(&sa->sa_mask, SIGINT) == -1)
 		|| (sigaddset(&sa->sa_mask, SIGQUIT) == -1))
 		return (1);
 	sa->sa_handler = &sig_handler;
@@ -40,6 +39,7 @@ int	config_sigaction(struct sigaction *sa)
 int	signals(void)
 {
 	struct sigaction	sa;
+
 	if (config_sigaction(&sa) == 1)
 		return (1);
 	if (sigaction(SIGINT, &sa, NULL) == -1)

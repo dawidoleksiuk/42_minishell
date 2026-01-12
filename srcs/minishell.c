@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/12 14:20:53 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:19:53 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(void)
 {
 	t_data	data;
-	t_token *token;
+	t_token	*token;
 
 	if (isatty(STDIN_FILENO))
 	{
