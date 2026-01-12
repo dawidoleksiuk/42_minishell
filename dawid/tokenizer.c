@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:54:58 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/11 13:37:15 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 10:13:24 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ void	get_next_word(char *line, int *i)
 			break ;
 		(*i)++;
 	}
-	if (status == IN_SINGLE || status == IN_DOUBLE)
-	{
-		printf("bad quotes");
-		exit (1);
-	}
+	// if (status == IN_SINGLE || status == IN_DOUBLE)
+	// {
+	// 	printf("bad quotes");
+	// 	exit (1);
+	// }
 }
 
 
@@ -87,15 +87,16 @@ void	get_next_word(char *line, int *i)
 
 void	get_next_separator(char *line, int *start, int *i)
 {
-
 	if (line[*i] == '|')
+		*start = (*i);
+	else if (ft_strncmp(line + (*i), ">>", 2) == 0 || ft_strncmp(line + (*i), "<<", 2) == 0)
 	{
-		*start = (*i) - 1;
+		*start = (*i);
+		(*i)++;
 	}
 	else if (line[*i] == '<' || line[*i] == '>')
-	{
-		*start = (*i) - 1;
-	}
+		*start = (*i);
+	(*i)++;
 }
 
 t_token	*tokenizer(t_data *data)
@@ -112,14 +113,15 @@ t_token	*tokenizer(t_data *data)
 		while (data->line[i] == ' ')
 			i++;
 		start = i;
-		if (!check_separator(data->line[i]))
-			get_next_word(data->line, &i);
-		else if (check_separator(data->line[i]))
-			get_next_separator(data->line, &start, &i);
-		current_token = create_token_node(data, &current_token);
-		current_token->content = ft_substr(data->line, start, i - start);
 		if (data->line[i])
-			i++;
+		{
+			if (!check_separator(data->line[i]))
+				get_next_word(data->line, &i);
+			else
+				get_next_separator(data->line, &start, &i);
+			current_token = create_token_node(data, &current_token);
+			current_token->content = ft_substr(data->line, start, i - start);
+		}
 	}
 }
 
@@ -127,7 +129,7 @@ int	main(void)
 {
 	t_data data;
 	t_token *token;
-	data.line = "2";
+	data.line = "jwkrep  '' oiw3h '''' ]>>><<";
 	tokenizer(&data);
 	token =  data.token_head;
 	while (token)
