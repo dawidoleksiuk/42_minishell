@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/12 17:19:53 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/12 21:32:26 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(void)
 			token = data.token_head;
 			while (token)
 			{
-				printf("%sX, type: %d \n", token->content, token->type);
+				// printf("%s, type: %d \n", token->content, token->type);
 				token = token->next;
 			}
 			if (data.token_head)
