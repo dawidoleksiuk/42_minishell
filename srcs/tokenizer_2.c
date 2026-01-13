@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 17:21:51 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/13 11:47:07 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:53:22 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,24 @@ void	check_syntax(t_data *data)
 	token = data->token_head;
 	while (token)
 	{
-		if ((token->type != WORD) && ((token->next && token->next->type != WORD)))
+		if ((token->type == PIPE && token->next && token->next->type == PIPE) 
+			|| ((token->type != WORD && token->type != PIPE) 
+			&& ((token->next && token->next->type != WORD))))
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 			data->error_msg = ft_strjoin(token->next->content, "'");
 			clean_exit(data, data->error_msg);
 		}
-		else if ((token->type = PIPE && token == data->token_head))
+		else if ((token->type == PIPE && token == data->token_head))
 		{
-			ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
+			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 			data->error_msg = ft_strjoin(token->content, "'");
 			clean_exit(data, data->error_msg);
 		}
 		else if (token->type != WORD && token->next == NULL)
 		{
-			clean_exit(data, "minishell: syntax error near unexpected token 'newline'");
+			clean_exit(data, "minishell: syntax error near unexpected token `newline'");
 		}
 		token = token->next;
 	}
-	return ;
 }

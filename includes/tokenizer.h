@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:22:09 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 13:37:42 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/13 18:25:28 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef enum	e_type
 	REDIR_IN, // < 2
 	REDIR_OUT, // > 3
 	HEREDOC, // << 4
-	APPEND // >> 5
+	APPEND, // >> 5
 } t_type;
 
 typedef struct s_token
