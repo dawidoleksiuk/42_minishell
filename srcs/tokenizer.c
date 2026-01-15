@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/13 18:52:40 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/15 15:25:28 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ t_token	*create_token_node(t_data *data, t_token **token)
 
 int	check_separator(char c)
 {
-	if (c == ' ' || c == '>' || c == '<' || c == '|')
+	if (c == ' ' || c == '>' || c == '<' || c == '|' || c == '\t')
 		return (1);
 	return (0);
 }
 
-void	get_next_word(char *line, int *i)
+void	get_next_word(t_data *data, char *line, int *i)
 {
 	int	status;
 
@@ -63,11 +63,8 @@ void	get_next_word(char *line, int *i)
 			break ;
 		(*i)++;
 	}
-	// if (status == IN_SINGLE || status == IN_DOUBLE)
-	// {
-	// 	printf("bad quotes");
-	// 	exit (1);
-	// }
+	if (status == IN_SINGLE || status == IN_DOUBLE)
+		clean_exit(data, "bad quotes");
 }
 
 void	get_next_separator(char *line, int *start, int *i)
@@ -102,7 +99,7 @@ void	tokenizer(t_data *data)
 		if (data->line[i])
 		{
 			if (!check_separator(data->line[i]))
-				get_next_word(data->line, &i);
+				get_next_word(data, data->line, &i);
 			else
 				get_next_separator(data->line, &start, &i);
 			current_token = create_token_node(data, &current_token);
