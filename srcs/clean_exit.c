@@ -6,11 +6,41 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 18:16:08 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/16 21:49:57 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	free_args(char	**args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+}
+
+void	free_cmd(t_data *data)
+{
+	t_cmd	*cmd;
+	t_cmd	*temp;
+
+	cmd = data->cmd_head;
+	while (cmd)
+	{
+		if (cmd->args)
+			free_args(cmd->args);
+		temp = cmd;
+		cmd = cmd->next;
+		free(temp);
+	}
+	data->cmd_head = NULL;
+}
 
 void	free_tokens(t_data *data)
 {

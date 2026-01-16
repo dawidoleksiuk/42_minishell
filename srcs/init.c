@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/15 15:26:53 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/15 22:21:31 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	init_signals(t_data *data)
 int	init(t_data *data)
 {
 	data->line = NULL;
+	data->token_head = NULL;
+	data->cmd_head = NULL;
 	if (init_signals(data))
 		return (1);
 	return (0);

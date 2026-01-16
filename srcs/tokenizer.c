@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/15 15:25:28 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/15 22:53:25 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ t_token	*create_token_node(t_data *data, t_token **token)
 	t_token	*node;
 
 	node = malloc(sizeof(t_token));
-	// if (!node)
-	// 	clean_exit(data);
+	if (!node)
+		clean_exit(data, "Malloc failed");
 	node->content = NULL;
 	node->next = NULL;
 	if (*token != NULL)
 		(*token)->next = node;
 	else
 		data->token_head = node;
+		(*token) = node;
 	return (node);
 }
 
@@ -67,7 +68,7 @@ void	get_next_word(t_data *data, char *line, int *i)
 		clean_exit(data, "bad quotes");
 }
 
-void	get_next_separator(char *line, int *start, int *i)
+void	get_next_operator(char *line, int *start, int *i)
 {
 	if (line[*i] == '|')
 		*start = (*i);
@@ -89,7 +90,6 @@ void	tokenizer(t_data *data)
 	t_token	*current_token;
 
 	i = 0;
-	data->token_head = NULL;
 	current_token = data->token_head;
 	while (data->line[i])
 	{
@@ -101,12 +101,12 @@ void	tokenizer(t_data *data)
 			if (!check_separator(data->line[i]))
 				get_next_word(data, data->line, &i);
 			else
-				get_next_separator(data->line, &start, &i);
+				get_next_operator(data->line, &start, &i);
 			current_token = create_token_node(data, &current_token);
 			current_token->content = ft_substr(data->line, start, i - start);
 		}
-		assign_token_type(data);
 	}
+	assign_token_type(data);
 	check_syntax(data);
 }
 

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/15 20:19:30 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/16 21:52:09 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "./tokenizer.h"
-# include "../dawid/parser.h"
+# include "./parser.h"
 # include "../adam/redirections.h"
 # include "../libft/libft.h"
 # include "../libft/gnl/get_next_line.h"
@@ -45,11 +44,12 @@ typedef struct s_data
 	char			*line;
 	char			*error_msg;
 	t_token			*token_head;
-	// t_cmd			*cmd_head;
+	t_cmd			*cmd_head;
 	t_fd			*f_info;
 } t_data;
 
 // clean_exit.c
+void	free_cmd(t_data *data);
 void	free_tokens(t_data *data);
 void	clean_exit(t_data *data, char *msg);
 
@@ -71,5 +71,8 @@ void	tokenizer(t_data *data);
 //tokenizer_2.c
 void	assign_token_type(t_data *data);
 void	check_syntax(t_data *data);
+
+// parser.c
+void	parser(t_data *data);
 
 #endif
