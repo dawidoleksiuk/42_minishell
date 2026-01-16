@@ -6,16 +6,17 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/15 20:22:41 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/16 12:43:01 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+
+
 t_fd	*give_birth(t_fd *f_info, t_cmd *cmd)
 {
-	if (cmd->redirs)
-		f_info->error = redirection(f_info, cmd->redirs, cmd->args[0]);
+	f_info = redir(f_info, cmd->redirs, cmd->args);
 	if (f_info->error || pipe(f_info->pipe_fd[0]) == -1)
 		return (f_info->error += f_info->error == 0, f_info);
 	f_info->pid = fork();
@@ -27,10 +28,11 @@ t_fd	*give_birth(t_fd *f_info, t_cmd *cmd)
 		close(f_info->in);
 		if (cmd->redirs == P_REDIR_OUT || cmd->redirs == P_APPEND)
 			dup2(f_info->out, );
-		dup2(f_info->pipe_fd[1], 1)
+		dup2(f_info->pipe_fd[1], 1);
 	}
-	else 
+	else
 	{
+		
 	}
 }
 
@@ -44,6 +46,8 @@ void	executor(t_cmd *start_cmd, t_fd *f_info, int *exit_code)
 	while (cmd)
 	{
 		f_info = give_birth(f_info, cmd);
+		if (f_info->error)
+			//kill()
 		if (f_info->pid == 0)
 			do_your_job();
 		cmd = cmd->next;
@@ -58,5 +62,5 @@ void	executor(t_cmd *start_cmd, t_fd *f_info, int *exit_code)
 		}
 		pid = waitpid(-1, &status, 0);
 	}
+	//kill()
 }
-

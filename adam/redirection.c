@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/15 20:19:15 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/16 12:05:38 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ Funtion takes type of redirection and returns 1 if executed correctly and
 assign file descriptor to correct value. If file was impossible to open function 
 will return 0, and if error ocurred function returns -1.
 */
-unsigned char	redirection(t_fd **fd, t_redir_type *type, char *path)
+static unsigned char	redirection(t_fd ***fd, t_redir_type *type, char *path)
 {
 	if (type == P_HEREDOC)
 	{
-		if (!pipe((*fd)->pipe_fd))
+		if (!pipe((**fd)->pipe_fd))
 		{
-			read_input((*fd)->pipe_fd[1], path);
-			(*fd)->in = (*fd)->pipe_fd[0];
+			read_input((**fd)->pipe_fd[1], path);
+			(**fd)->in = (**fd)->pipe_fd[0];
 		}
 		else
 			return (-1);
@@ -54,7 +54,16 @@ unsigned char	redirection(t_fd **fd, t_redir_type *type, char *path)
 		(*fd)->out = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (type == P_REDIR_OUT)
 		(*fd)->out = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if ((*fd)->in < 0 || (*fd)->out < 0)
+	if ((**fd)->in < 0 || (**fd)->out < 0)
 		return (0);
 	return (1);
+}
+
+unsigned char redir(t_fd **fd, t_redir *redir, char **args)
+{
+	while (redir)
+	{
+		redirection();
+		redir = redir->next;
+	}
 }
