@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/16 21:52:09 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/17 14:35:29 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	config_sigaction(struct sigaction *sa);
 int	signals(void);
 
 // redirections.c
-unsigned char	redirection(t_fd **fd, t_redir_type *type, char *path);
+// unsigned char	redirection(t_fd **fd, t_redir_type *type, char *path);
 
 // tokenizer.c
 void	tokenizer(t_data *data);

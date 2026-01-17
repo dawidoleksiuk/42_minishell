@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/16 21:49:21 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/17 16:20:11 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	main(void)
 {
 	t_data	data;
-	t_token	*token;
-	// t_cmd *cmd;
-	// int i;
+	// t_token	*token;
+	t_cmd *cmd;
+	int i;
 
-	// i = 0;
+	i = 0;
 	if (isatty(STDIN_FILENO))
 	{
 		if (init(&data) == 1)
@@ -34,24 +34,28 @@ int	main(void)
 				free(data.line);
 				data.line = NULL;
 			}
-			token = data.token_head;
+			// token = data.token_head;
 			// while (token)
 			// {
 			// 	printf("%s, type: %d \n", token->content, token->type);
 			// 	token = token->next;
 			// }
-			// cmd = data.cmd_head;
-			// while (cmd)
-			// {
-			// 	i = 0;
-			// 	while (cmd->args[i])
-			// 	{
-			// 		printf("%s \n", cmd->args[i]);
-			// 		i++;
-			// 	}
-			// 	printf("next cmd node\n");
-			// 	cmd = cmd->next;
-			// }
+			cmd = data.cmd_head;
+			while (cmd)
+			{
+				i = 0;
+				while (cmd->args && cmd->args[i])
+				{
+					printf("args %d: %s \n", i, cmd->args[i]);
+					i++;
+				}
+				while (cmd->redirs)
+				{
+					printf("file: %s, redir type: %d \n", cmd->redirs->filename, cmd->redirs->type);
+					cmd->redirs = cmd->redirs->next;
+				}
+				cmd = cmd->next;
+			}
 			if (data.token_head)
 				free_tokens(&data);
 			if (data.cmd_head)
