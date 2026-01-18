@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/18 14:14:17 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/18 20:20:58 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,50 +27,49 @@ char	*remove_quote(t_data *data, char *temp, char *arg, int len)
 	free(temp);
 	free(temp1);
 	return (temp2);
-
 }
 
-char	*expand_text(char *arg, t_data *data)
+char	*expand_text_loop(t_data *data, t_exp_data *ed, char	*arg, char *temp)
 {
-	int		i;
-	int		start;
-	int		status;
-	char	*temp;
-
-	i = 0;
-	start = 0;
-	status = DEFAULT;
-	temp = NULL;
-	while (arg[i])
+	if (ed->status == DEFAULT)
 	{
-		if (status == DEFAULT && arg[i] == '\'')
-		{
-			if (i > start)
-				temp = remove_quote(data, temp, arg + start, i - start);
-			status = IN_SINGLE;
-		}
-		else if (status == DEFAULT && arg[i] == '\"')
-		{
-			if (i > start)
-				temp = remove_quote(data, temp, arg + start, i - start);
-			status = IN_DOUBLE;
-		}
-		else if (status == IN_SINGLE && arg[i] == '\'')
-		{
-			temp = remove_quote(data, temp, arg + start, i - start);
-			status = DEFAULT;
-		}
-		else if (status == IN_DOUBLE && arg[i] == '\"')
-		{
-			temp = remove_quote(data, temp, arg + start, i - start);
-			status = DEFAULT;
-		}
-		if (((status == IN_DOUBLE || status == DEFAULT) && arg[i] == '\"') || 
-			((status == IN_SINGLE || status == DEFAULT) && arg[i] == '\''))
-			start = i + 1;
-		i++;
+		if (arg[ed->i] == '\'')
+			ed->status = IN_SINGLE;
+		else if (arg[ed->i] == '\"')
+			ed->status = IN_DOUBLE;
+		if ((ed->i > ed->start) && (arg[ed->i] == '\'' || arg[ed->i] == '\"'))
+			temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
 	}
-	temp = remove_quote(data, temp, arg + start, i - start);
+	else if (ed->status == IN_SINGLE && arg[ed->i] == '\'')
+	{
+		temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
+		ed->status = DEFAULT;
+	}
+	else if (ed->status == IN_DOUBLE && arg[ed->i] == '\"')
+	{
+		temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
+		ed->status = DEFAULT;
+	}
+	return (temp);
+}
+
+char	*expand_text(t_data *data, char *arg)
+{
+	char		*temp;
+	t_exp_data	*ed;
+
+	ed = data->exp_data;
+	temp = NULL;
+	while (arg[ed->i])
+	{
+		temp = expand_text_loop(data, ed, arg, temp);
+		if (((ed->status == IN_DOUBLE || ed->status == DEFAULT)
+				&& arg[ed->i] == '\"') || ((ed->status == IN_SINGLE
+					|| ed->status == DEFAULT) && arg[ed->i] == '\''))
+			ed->start = (ed->i) + 1;
+		(ed->i)++;
+	}
+	temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
 	if (temp)
 	{
 		free(arg);
@@ -88,7 +87,7 @@ void	expander(t_data *data)
 	i = 0;
 	while (args[i])
 	{
-		args[i] = expand_text(args[i], data);
+		args[i] = expand_text(data, args[i]);
 		i++;
 	}
 }

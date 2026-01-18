@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/18 13:26:59 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/18 20:07:12 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ typedef struct s_fd
 	pid_t			pid;
 } t_fd;
 
+typedef	struct s_exp_data
+{
+	int	i;
+	int	start;
+	int	status;
+} t_exp_data;
+
 typedef struct s_data
 {
 	char			**envp;
@@ -45,6 +52,7 @@ typedef struct s_data
 	char			*error_msg;
 	t_token			*token_head;
 	t_cmd			*cmd_head;
+	t_exp_data		*exp_data;
 	t_fd			*f_info;
 } t_data;
 
