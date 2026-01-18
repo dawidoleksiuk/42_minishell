@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/17 14:35:29 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:26:59 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,8 @@ void	check_syntax(t_data *data);
 
 // parser.c
 void	parser(t_data *data);
+
+// expander.c
+void	expander(t_data *data);
 
 #endif
