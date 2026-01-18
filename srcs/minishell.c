@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/17 16:20:11 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/18 13:26:45 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(void)
 			prompt(&data);
 			tokenizer(&data);
 			parser(&data);
+			expander(&data);
 			if (data.line)
 			{
 				free(data.line);
