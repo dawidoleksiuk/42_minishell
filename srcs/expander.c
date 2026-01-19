@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/19 17:28:53 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:37:03 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	expander(t_data *data)
 
 	args = data->cmd_head->args;
 	i = 0;
-	while (args[i])
+	while (args && args[i])
 	{
 		args[i] = expand_text(data, args[i]);
 		i++;
