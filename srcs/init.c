@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/18 20:20:35 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:22:23 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,9 @@ int	init(t_data *data)
 	data->line = NULL;
 	data->token_head = NULL;
 	data->cmd_head = NULL;
-	data->exp_data = malloc(sizeof(t_exp_data));
-	if (!data->exp_data)
-		clean_exit(data, "Malloc failed");
-	data->exp_data->i = 0;
-	data->exp_data->start = 0;
-	data->exp_data->status = DEFAULT;
+	data->exp_data.i = 0;
+	data->exp_data.start = 0;
+	data->exp_data.status = DEFAULT;
 	if (init_signals(data))
 		return (1);
 	return (0);
