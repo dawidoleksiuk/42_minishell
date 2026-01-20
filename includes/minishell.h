@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/19 17:22:32 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/20 08:30:42 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_data
 {
 	char			**envp;
 	struct termios	termios_p_save;
-
+	char			**catalogs;
 	char			*line;
 	char			*error_msg;
 	t_token			*token_head;
@@ -63,7 +63,7 @@ void	clean_exit(t_data *data, char *msg);
 
 // init.c
 void	prompt(t_data *data);
-int	init(t_data *data);
+int	init(t_data *data, char **envp);
 
 // signals.c 
 void	sig_handler(int sig);

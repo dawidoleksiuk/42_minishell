@@ -3,26 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/19 17:37:24 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/20 08:59:40 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	// t_token	*token;
 	t_cmd *cmd;
 	int i;
 
+	//do usuniecia
+	argc = 0;
+	argv[0] = NULL;
 	i = 0;
 	if (isatty(STDIN_FILENO))
 	{
-		if (init(&data) == 1)
+		if (init(&data, envp) == 1)
 			clean_exit(&data, NULL);
 		while (1)
 		{
