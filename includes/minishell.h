@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/20 08:30:42 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/20 09:54:24 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,18 @@
 # include <unistd.h>
 # include <termios.h>
 
-typedef struct s_fd
+typedef struct s_exec_info
 {
 	int				in;
 	int				pipe_fd[2];
 	int				out;
 	unsigned char	error;
+	char			*path;
+	char			*temp;
+	char			**catalogs;
+	char			**envp;
 	pid_t			pid;
-} t_fd;
+} t_exec_info;
 
 typedef	struct s_exp_data
 {
@@ -45,15 +49,13 @@ typedef	struct s_exp_data
 
 typedef struct s_data
 {
-	char			**envp;
 	struct termios	termios_p_save;
-	char			**catalogs;
 	char			*line;
 	char			*error_msg;
 	t_token			*token_head;
 	t_cmd			*cmd_head;
 	t_exp_data		exp_data;
-	t_fd			*f_info;
+	t_exec_info		*exec_info;
 } t_data;
 
 // clean_exit.c

@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/20 08:59:20 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/20 09:55:21 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ static int	get_envp(t_data *data, char **envp)
 	size_t	i;
 
 	i = 0;
-	data->envp = envp;
+	data->exec_info->envp = envp;
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
 		i++;
 	if (envp[i])
-		data->catalogs = ft_split(envp[i] + 5, ':');
+		data->exec_info->catalogs = ft_split(envp[i] + 5, ':');
 	else
-		return (data->catalogs = NULL, 1);
+		return (data->exec_info->catalogs = NULL, 1);
 	return (0);
 }
 
@@ -80,7 +80,8 @@ int	init(t_data *data, char **envp)
 	data->exp_data.i = 0;
 	data->exp_data.start = 0;
 	data->exp_data.status = DEFAULT;
-	if (init_signals(data) || get_envp(data, envp))
+	data->exec_info = malloc(sizeof(t_exec_info));
+	if (data->exec_info || init_signals(data) || get_envp(data, envp))
 		return (1);
 	return (0);
 }
