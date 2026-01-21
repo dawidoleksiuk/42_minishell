@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/20 09:55:21 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/21 11:35:36 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ int	init(t_data *data, char **envp)
 	data->exp_data.i = 0;
 	data->exp_data.start = 0;
 	data->exp_data.status = DEFAULT;
+	if (init_signals(data))
+		return (1);
 	data->exec_info = malloc(sizeof(t_exec_info));
-	if (data->exec_info || init_signals(data) || get_envp(data, envp))
+	if (!data->exec_info || get_envp(data, envp))
 		return (1);
 	return (0);
 }
