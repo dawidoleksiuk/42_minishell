@@ -6,37 +6,50 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/20 09:55:46 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/23 15:18:40 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	do_your_job(t_exec_info *exec_info, t_cmd *cmd)
+static char *check_path(t_exec_info *exec_info)
+{
+	char	*str;
+
+	if (exec_info->cmd->args[0][0] == '~' && exec_info->home_dir)
+	{
+		str = ft_strjoin(exec_info->home_dir, exec_info->cmd->args[0]);
+		if (!str)
+			kill_process(exec_info, 1, NULL);
+	}
+	if (access(str, F_OK) == 1)
+		return (free(str), NULL);
+	if (access(str, X_OK) == 1)
+		kill_process(exec_info, 126, str);
+	return (str);
+}
+
+static void	do_your_job(t_exec_info *exec_info)
 {
 	size_t	i;
 
 	i = 0;
-	if (cmd->args[0][0] == '.' || cmd->args[0][0] == '/' || cmd->args[0][0] == '~')
+	exec_info->path = check_path(exec_info);
+	if (!exec_info->path)
 	{
-		if (access(cmd->args[0], F_OK) == 1)
-			kill_process(exec_info, 127, NULL);
-		if (access(cmd->args[0], X_OK) == 1)
-			kill_proccess(exec_info, 126, NULL);
-		exec_info->path = cmd->args[0];
-	}
-	while (exec_info->catalogs && exec_info->catalogs[i] && !exec_info->path)
-	{
-		exec_info->temp = exec_info->catalogs[i++];
-		if (!exec_info->temp)
-			kill_proccess(exec_info, 3, NULL);
-		exec_info = check_for_path(exec_info, exec_info->temp, ft_strjoin("/", cmd->args[0]));
+		while (exec_info->catalogs && exec_info->catalogs[i] && !exec_info->path)
+		{
+			exec_info->temp = exec_info->catalogs[i++];
+			if (!exec_info->temp)
+				kill_proccess(exec_info, 3, NULL);
+			exec_info = check_catalogs(exec_info, exec_info->temp, ft_strjoin("/", exec_info->cmd->args[0]));
+		}  
 	}
 	if (!exec_info->path)
 		kill_proccess(exec_info, 127, NULL);
-	execve(exec_info->path, cmd->args[1], exec_info->envp);
+	execve(exec_info->path, exec_info->cmd->args[1], exec_info->envp);
 	perror("execve() failed\n");
-	kill_program(exec_info, 1, NULL);
+	kill_process(exec_info, 1, NULL);
 }
 
 t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
@@ -70,11 +83,12 @@ void	executor(t_cmd *cmd_head, t_exec_info *exec_info, int *exit_code)
 	cmd = cmd_head;
 	while (cmd)
 	{
+		exec_info->cmd = cmd;
 		exec_info = give_birth(exec_info, cmd->args);
 		if (exec_info->error)
 			break;
 		if (exec_info->pid == 0)
-			do_your_job(exec_info, cmd);
+			do_your_job(exec_info);
 		cmd = cmd->next;
 	}
 	pid = waitpid(-1, &status, 0);

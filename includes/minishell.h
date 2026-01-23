@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/21 10:44:52 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/23 15:18:47 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ typedef struct s_exec_info
 	unsigned char	error;
 	char			*path;
 	char			*temp;
+	char			*home_dir;
 	char			**catalogs;
 	char			**envp;
+	t_cmd			*cmd;
 	pid_t			pid;
 } t_exec_info;
 

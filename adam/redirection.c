@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/19 08:48:14 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/22 08:04:32 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,40 +42,40 @@ Funtion takes type of redirection and returns 0 if executed correctly and
 assign file descriptor to correct value. If file was impossible to open function
 will assign 1 to error code, or if error ocurred function assigns 2.
 */
-static t_fd	*redirection(t_fd *f_info, t_type *type, char *path)
+static t_exec_info	*redirection(t_exec_info *ex_info, t_type *type, char *path)
 {
 	if (type == HEREDOC)
 	{
-		if (!pipe(f_info->pipe_fd))
+		if (!pipe(ex_info->pipe_fd))
 		{
-			read_input(f_info->pipe_fd[1], path);
-			f_info->in = f_info->pipe_fd[0];
+			read_input(ex_info->pipe_fd[1], path);
+			ex_info->in = ex_info->pipe_fd[0];
 		}
 		else
-			return (f_info->error = 2, f_info);
+			return (ex_info->error = 2, ex_info);
 	}
 	else if (type == REDIR_IN)
-		f_info->in = open(path, O_RDONLY);
+		ex_info->in = open(path, O_RDONLY);
 	else if (type == APPEND)
-		f_info->out = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		ex_info->out = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (type == REDIR_OUT)
-		f_info->out = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (f_info->in < 0 || f_info->out < 0)
-		return (f_info->error = 1, f_info);
-	return (f_info);
+		ex_info->out = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (ex_info->in < 0 || ex_info->out < 0)
+		return (ex_info->error = 1, ex_info);
+	return (ex_info);
 }
 
 /*
 Function loops thru redir list and executes redir for each node.
 */
-t_fd *redir(t_fd *f_info, t_redir *redir)
+t_exec_info *redir(t_exec_info *ex_info, t_redir *redir)
 {
 	while (redir)
 	{
-		f_info = redirection(f_info, redir->type, redir->filename);
-		if (f_info->error)
-			return (perror("minishell"), f_info);
+		ex_info = redirection(ex_info, redir->type, redir->filename);
+		if (ex_info->error)
+			return (perror("minishell"), ex_info);
 		redir = redir->next;
 	}
-	return (f_info);
+	return (ex_info);
 }
