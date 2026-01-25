@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/25 13:30:05 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/24 18:22:26 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ char	*remove_quote(t_data *data, char *temp, char *arg, int len)
 	(void)data;
 	char	*temp1;
 	char	*temp2;
-	temp1 = NULL;
-	temp2 = NULL;
+
 	temp1 = ft_substr(arg, 0, len);
 	temp2 = ft_strjoin(temp, temp1);
 	free(temp);
@@ -31,7 +30,7 @@ char	*remove_quote(t_data *data, char *temp, char *arg, int len)
 	return (temp2);
 }
 
-char	*expand_text_loop(t_data *data, t_exp_data	*ed, char *arg, char *temp)
+char	*expand_text_loop(t_data *data, 	t_exp_data	*ed, char	*arg, char *temp)
 {
 	if (ed->status == DEFAULT)
 	{
@@ -61,9 +60,6 @@ char	*expand_text(t_data *data, char *arg)
 	t_exp_data	ed;
 
 	ed = data->exp_data;
-	ed.i = 0;
-	ed.status = DEFAULT;
-	ed.start = 0;
 	temp = NULL;
 	while (arg[ed.i])
 	{
@@ -80,17 +76,20 @@ char	*expand_text(t_data *data, char *arg)
 		free(arg);
 		arg = temp;
 	}
-	return (temp);
+	return (arg);
 }
 
 void	expander(t_data *data)
 {
-	t_token	*token;
+	char	**args;
+	int		i;
 
-	token = data->token_head;
-	while (token)
+	(void) data;
+	args = data->cmd_head->args;
+	i = 0;
+	while (args && args[i])
 	{
-		token->content = expand_text(data, token->content);
-		token = token->next;
+		args[i] = expand_text(data, args[i]);
+		i++;
 	}
 }

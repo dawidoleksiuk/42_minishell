@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/25 11:17:40 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/25 12:57:56 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,15 @@ int	init_signals(t_data *data)
 	return (0);
 }
 
-int	init(t_data *data)
+int	init(t_data *data, char **envp)
 {
+	(void) envp;
 	ft_bzero(data, sizeof(t_data));
+
 	if (init_signals(data))
 		return (1);
-	data->exec_info = malloc(sizeof(t_exec_info));
-	if (!data->exec_info || get_envp(data, envp))
-		return (1);
+	// data->exec_info = malloc(sizeof(t_exec_info));
+	// if (!data->exec_info || get_envp(data, envp))
+	// 	return (1);
 	return (0);
 }

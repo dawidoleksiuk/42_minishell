@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/25 11:18:08 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/25 13:27:18 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	// t_token	*token;
+	t_token	*token;
 	t_cmd *cmd;
 	int i;
 
 	//do usuniecia
-	argc = 0;
+	(void) argc;
 	argv[0] = NULL;
 	i = 0;
 	if (isatty(STDIN_FILENO))
@@ -31,19 +31,19 @@ int	main(int argc, char **argv, char **envp)
 		{
 			prompt(&data);
 			tokenizer(&data);
-			parser(&data);
 			expander(&data);
+			parser(&data);
 			if (data.line)
 			{
 				free(data.line);
 				data.line = NULL;
 			}
-			// token = data.token_head;
-			// while (token)
-			// {
-			// 	printf("%s, type: %d \n", token->content, token->type);
-			// 	token = token->next;
-			// }
+			token = data.token_head;
+			while (token)
+			{
+				printf("%s, type: %d \n", token->content, token->type);
+				token = token->next;
+			}
 			cmd = data.cmd_head;
 			while (cmd)
 			{
