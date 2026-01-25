@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/19 17:37:03 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/24 18:22:26 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 char	*remove_quote(t_data *data, char *temp, char *arg, int len)
 {
+	(void)data;
 	char	*temp1;
 	char	*temp2;
 
@@ -83,6 +84,7 @@ void	expander(t_data *data)
 	char	**args;
 	int		i;
 
+	(void) data;
 	args = data->cmd_head->args;
 	i = 0;
 	while (args && args[i])

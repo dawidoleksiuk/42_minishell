@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:38:03 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/17 16:11:57 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:45:56 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	copy_args(t_data *data, t_token *token, t_cmd *cmd)
 t_token	*add_cmd(t_data *data, t_token *token, t_cmd *cmd)
 {
 	(void) data;
-	t_token	*token_copy;
 	int		i;
 
 	i = copy_args(data, token, cmd);

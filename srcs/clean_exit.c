@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/16 21:49:57 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/24 16:49:00 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	clean_exit(t_data *data, char *msg)
 		perror("error in tcsetattr");
 	if (data->token_head)
 		free_tokens(data);
-	//free cmds
+	if (data->cmd_head)
+		free_cmd(data);
 	exit (0);
 }

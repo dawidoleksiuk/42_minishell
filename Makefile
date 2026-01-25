@@ -6,12 +6,12 @@
 #    By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/01/18 13:26:11 by doleksiu         ###   ########.fr        #
+#    Updated: 2026/01/19 17:44:47 by doleksiu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS =-g -I$(INCS_DIR) -I./libft
+CFLAGS =-g -Wall -Werror -Wextra -I$(INCS_DIR) -I./libft
 NAME = minishell
 
 SRC_DIR = ./srcs

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/15 22:53:25 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/19 17:45:33 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ t_token	*create_token_node(t_data *data, t_token **token)
 	if (*token != NULL)
 		(*token)->next = node;
 	else
+	{
 		data->token_head = node;
 		(*token) = node;
+	}
 	return (node);
 }
 
