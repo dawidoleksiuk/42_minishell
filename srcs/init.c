@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/26 20:05:45 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/26 21:09:46 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	init_signals(t_data *data)
 	struct termios	termios_p;
 
 	rl_catch_signals = 0;
+	ft_bzero(data, sizeof(t_data));
 	if (tcgetattr(STDIN_FILENO, &termios_p) < 0)
 	{
 		perror("error in tcgetattr");
@@ -56,15 +57,32 @@ int	init_signals(t_data *data)
 	return (0);
 }
 
+static int	get_envp(t_data *data, char **envp)
+{
+	char	*str;
+
+	ft_bzero(data->exec_info, sizeof(t_exec_info));
+	data->exec_info->envp = envp;
+	str = getenv("PATH");
+	if (str)
+		data->exec_info->catalogs = ft_split(str, ':');
+	free(str);
+	data->exec_info->home_dir = getenv("HOME");
+	return (0);
+}
+
 int	init(t_data *data, char **envp)
 {
-	(void) envp;
-	ft_bzero(data, sizeof(t_data));
+	data->line = NULL;
+	data->token_head = NULL;
+	data->cmd_head = NULL;
+	data->exp_data.i = 0;
+	data->exp_data.start = 0;
+	data->exp_data.status = DEFAULT;
 	if (init_signals(data))
 		return (1);
 	data->exec_info = malloc(sizeof(t_exec_info));
 	if (!data->exec_info || get_envp(data, envp))
 		return (1);
-	data->exec_info->data = data;
 	return (0);
 }
