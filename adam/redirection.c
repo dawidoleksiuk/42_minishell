@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/22 08:04:32 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/26 19:29:08 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,14 @@ Function loops thru redir list and executes redir for each node.
 */
 t_exec_info *redir(t_exec_info *ex_info, t_redir *redir)
 {
+	ex_info->redir_in = 0;
+	ex_info->redir_out = 0;
 	while (redir)
 	{
+		if (redir->type == REDIR_IN || redir->type == HEREDOC)
+			ex_info->redir_in = 1;
+		else if (redir->type == REDIR_OUT || redir->type == APPEND)
+			ex_info->redir_out = 1;
 		ex_info = redirection(ex_info, redir->type, redir->filename);
 		if (ex_info->error)
 			return (perror("minishell"), ex_info);

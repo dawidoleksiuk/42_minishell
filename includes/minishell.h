@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/25 11:29:21 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/26 19:55:01 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "./parser.h"
-# include "../adam/redirections.h"
 # include "../libft/libft.h"
 # include "../libft/gnl/get_next_line.h"
 # include "errno.h"
@@ -26,21 +25,6 @@
 // # include <sys/types.h>
 # include <unistd.h>
 # include <termios.h>
-
-typedef struct s_exec_info
-{
-	int				in;
-	int				pipe_fd[2];
-	int				out;
-	unsigned char	error;
-	char			*path;
-	char			*temp;
-	char			*home_dir;
-	char			**catalogs;
-	char			**envp;
-	t_cmd			*cmd;
-	pid_t			pid;
-} t_exec_info;
 
 typedef	struct s_exp_data
 {
@@ -57,8 +41,26 @@ typedef struct s_data
 	t_token			*token_head;
 	t_cmd			*cmd_head;
 	t_exp_data		exp_data;
-	t_exec_info		*exec_info;
+	struct t_exec_info		*exec_info;
 } t_data;
+
+typedef struct s_exec_info
+{
+	int				in;
+	int				pipe_fd[2];
+	int				out;
+	unsigned char	error;
+	char			redir_in;
+	char			redir_out;
+	char			*path;
+	char			*temp;
+	char			*home_dir;
+	char			**catalogs;
+	char			**envp;
+	t_cmd			*cmd;
+	pid_t			pid;
+	t_data			*data;
+} t_exec_info;
 
 // clean_exit.c
 void	free_cmd(t_data *data);

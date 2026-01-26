@@ -6,11 +6,19 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/23 15:18:40 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/26 20:05:46 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	kill_process(t_exec_info *exec_info, char exit_code, void *content)
+{
+	if (content)
+		free(content);
+	free(exec_info->path);
+	free(exec_info)
+}
 
 static char *check_path(t_exec_info *exec_info)
 {
@@ -34,6 +42,8 @@ static void	do_your_job(t_exec_info *exec_info)
 	size_t	i;
 
 	i = 0;
+	if (check_for_built_ins(exec_info->data, exec_info->cmd))
+		kill_process(exec_info, 1, NULL);
 	exec_info->path = check_path(exec_info);
 	if (!exec_info->path)
 	{
@@ -63,38 +73,62 @@ t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 	else if (exec_info->pid == 0)
 	{
 		dup2(exec_info->in, 0);
-		close(exec_info->in);
-		if (cmd->redirs->type == REDIR_OUT || cmd->redirs->type == APPEND)
-			dup2(exec_info->out, );
-		dup2(exec_info->pipe_fd[1], 1);
+		if (exec_info->redir_out)
+			dup2(exec_info->out, 1);
+		else
+			dup2(exec_info->pipe_fd[1], 1);
 	}
 	else
 	{
-		
+		close(exec_info->in);
+		exec_info->in = exec_info->pipe_fd[0];
 	}
+	return (exec_info);
 }
-
-void	executor(t_cmd *cmd_head, t_exec_info *exec_info, int *exit_code)
+int	check_for_built_ins(t_data *data, t_cmd *cmd)
+{
+	if (!strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
+		ft_cd();
+	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
+		ft_echo();
+	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
+		ft_env();
+	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
+		ft_exit();
+	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
+		ft_export();
+	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
+		ft_pwd();
+	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
+		ft_unset();
+	else
+		return (0);
+	return (1);
+	
+}
+void	executor(t_data *data, t_cmd *cmd_head, int *exit_code)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
 	int		status;
 
 	cmd = cmd_head;
+	if (!cmd->next && check_for_built_ins(data, cmd))
+		return ;
 	while (cmd)
 	{
-		exec_info->cmd = cmd;
-		exec_info = give_birth(exec_info, cmd->args);
-		if (exec_info->error)
+		data->exec_info->cmd = cmd;
+		data->exec_info = give_birth(data->exec_info, cmd->args);
+		if (data->exec_info->error)
 			break;
-		if (exec_info->pid == 0)
-			do_your_job(exec_info);
+		if (data->exec_info->pid == 0)
+			do_your_job(data->exec_info);
 		cmd = cmd->next;
 	}
 	pid = waitpid(-1, &status, 0);
 	while (pid > 0)
 	{
-		if (pid == exec_info->pid)
+		if (pid == data->exec_info->pid)
 		{
 			if (WIFEXITED(status))
 				exit_code = WEXITSTATUS(status);
