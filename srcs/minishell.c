@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/27 18:39:39 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/27 19:38:32 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void print_cmds(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
+	char	exit_code;
 
 	//do usuniecia
 	(void) argc;
@@ -74,6 +75,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 			// print_tokens(&data);
 			print_cmds(&data);
+			executor(&data, data.cmd_head, &exit_code);
 			free_tokens(&data);
 			free_cmd(&data);
 		}

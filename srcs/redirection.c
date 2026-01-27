@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/26 19:29:08 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/27 19:43:04 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ Funtion takes type of redirection and returns 0 if executed correctly and
 assign file descriptor to correct value. If file was impossible to open function
 will assign 1 to error code, or if error ocurred function assigns 2.
 */
-static t_exec_info	*redirection(t_exec_info *ex_info, t_type *type, char *path)
+static t_exec_info	*redirection(t_exec_info *ex_info, t_type type, char *path)
 {
 	if (type == HEREDOC)
 	{

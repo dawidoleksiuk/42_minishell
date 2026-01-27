@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/26 20:05:46 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/27 20:15:00 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	kill_process(t_exec_info *exec_info, char exit_code, void *content)
 	if (content)
 		free(content);
 	free(exec_info->path);
-	free(exec_info)
+	free(exec_info);
+	exit(exit_code);
 }
 
 static char *check_path(t_exec_info *exec_info)
@@ -37,13 +38,37 @@ static char *check_path(t_exec_info *exec_info)
 	return (str);
 }
 
+static t_exec_info	*check_catalogs(t_exec_info *exec_info, char *path, char *f_name)
+{
+	if (!f_name)
+		kill_process(exec_info, 1, NULL);
+	exec_info->path = ft_strjoin(path, f_name);
+	if (!exec_info->path)
+		kill_process(exec_info, 1, f_name);
+	if (access(exec_info->path, F_OK) == 0)
+	{
+		if (access(exec_info->path, X_OK) == 1)
+		{
+			free(exec_info->path);
+			exec_info->path = NULL;
+		}
+	}
+	else
+	{
+		free(exec_info->path);
+		exec_info->path = NULL;
+	}
+	free(f_name);
+	return (exec_info);
+}
+
 static void	do_your_job(t_exec_info *exec_info)
 {
 	size_t	i;
 
 	i = 0;
-	if (check_for_built_ins(exec_info->data, exec_info->cmd))
-		kill_process(exec_info, 1, NULL);
+	// if (check_for_built_ins(exec_info->data, exec_info->cmd))
+	// 	kill_process(exec_info, 1, NULL);
 	exec_info->path = check_path(exec_info);
 	if (!exec_info->path)
 	{
@@ -51,13 +76,13 @@ static void	do_your_job(t_exec_info *exec_info)
 		{
 			exec_info->temp = exec_info->catalogs[i++];
 			if (!exec_info->temp)
-				kill_proccess(exec_info, 3, NULL);
+				kill_process(exec_info, 3, NULL);
 			exec_info = check_catalogs(exec_info, exec_info->temp, ft_strjoin("/", exec_info->cmd->args[0]));
 		}  
 	}
 	if (!exec_info->path)
-		kill_proccess(exec_info, 127, NULL);
-	execve(exec_info->path, exec_info->cmd->args[1], exec_info->envp);
+		kill_process(exec_info, 127, NULL);
+	execve(exec_info->path, exec_info->cmd->args + 1, exec_info->envp);
 	perror("execve() failed\n");
 	kill_process(exec_info, 1, NULL);
 }
@@ -65,7 +90,7 @@ static void	do_your_job(t_exec_info *exec_info)
 t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 {
 	exec_info = redir(exec_info, cmd->redirs);
-	if (exec_info->error || pipe(exec_info->pipe_fd[0]) == -1)
+	if (exec_info->error || pipe(exec_info->pipe_fd) == -1)
 		return (exec_info->error += exec_info->error == 0, exec_info);
 	exec_info->pid = fork();
 	if (exec_info->pid == -1)
@@ -85,40 +110,40 @@ t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 	}
 	return (exec_info);
 }
-int	check_for_built_ins(t_data *data, t_cmd *cmd)
-{
-	if (!strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
-		ft_cd();
-	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
-		ft_echo();
-	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
-		ft_env();
-	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
-		ft_exit();
-	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
-		ft_export();
-	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
-		ft_pwd();
-	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
-		ft_unset();
-	else
-		return (0);
-	return (1);
+// int	check_for_built_ins(t_data *data, t_cmd *cmd)
+// {
+// 	if (!strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
+// 		ft_cd();
+// 	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
+// 		ft_echo();
+// 	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
+// 		ft_env();
+// 	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
+// 		ft_exit();
+// 	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
+// 		ft_export();
+// 	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
+// 		ft_pwd();
+// 	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
+// 		ft_unset();
+// 	else
+// 		return (0);
+// 	return (1);
 	
-}
-void	executor(t_data *data, t_cmd *cmd_head, int *exit_code)
+// }
+void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
 	int		status;
 
 	cmd = cmd_head;
-	if (!cmd->next && check_for_built_ins(data, cmd))
-		return ;
+	// if (!cmd->next && check_for_built_ins(data, cmd))
+	// 	return ;
 	while (cmd)
 	{
 		data->exec_info->cmd = cmd;
-		data->exec_info = give_birth(data->exec_info, cmd->args);
+		data->exec_info = give_birth(data->exec_info, cmd);
 		if (data->exec_info->error)
 			break;
 		if (data->exec_info->pid == 0)
@@ -131,7 +156,7 @@ void	executor(t_data *data, t_cmd *cmd_head, int *exit_code)
 		if (pid == data->exec_info->pid)
 		{
 			if (WIFEXITED(status))
-				exit_code = WEXITSTATUS(status);
+				*exit_code = WEXITSTATUS(status);
 		}
 		pid = waitpid(-1, &status, 0);
 	}

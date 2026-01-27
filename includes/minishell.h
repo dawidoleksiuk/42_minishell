@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/27 18:21:35 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/27 20:17:12 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 # include "./parser.h"
 # include "../libft/libft.h"
 # include "../libft/gnl/get_next_line.h"
-# include "errno.h"
+# include <errno.h>
+# include <sys/wait.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <strings.h>
@@ -53,7 +54,7 @@ typedef struct s_exec_info
 	char			*temp;
 	char			*home_dir;
 	char			**catalogs;
-	t_envp			*envp;
+	char			**envp;
 	t_cmd			*cmd;
 	pid_t			pid;
 	struct s_data	*data;
@@ -101,5 +102,11 @@ void	parser(t_data *data);
 
 // expander.c
 void	expander(t_data *data);
+
+// redirection.c
+t_exec_info *redir(t_exec_info *ex_info, t_redir *redir);
+
+// executor.c
+void	executor(t_data *data, t_cmd *cmd_head, char *exit_code);
 
 #endif
