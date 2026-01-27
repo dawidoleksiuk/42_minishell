@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/26 21:09:46 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/27 18:05:34 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ static int	get_envp(t_data *data, char **envp)
 	data->exec_info->envp = envp;
 	str = getenv("PATH");
 	if (str)
+	{
 		data->exec_info->catalogs = ft_split(str, ':');
-	free(str);
+	}
 	data->exec_info->home_dir = getenv("HOME");
 	return (0);
 }
