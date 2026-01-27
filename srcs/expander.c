@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/25 13:30:05 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:52:31 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,23 @@ char	*expand_text_loop(t_data *data, t_exp_data	*ed, char *arg, char *temp)
 			ed->status = IN_SINGLE;
 		else if (arg[ed->i] == '\"')
 			ed->status = IN_DOUBLE;
-		if ((ed->i > ed->start) && (arg[ed->i] == '\'' || arg[ed->i] == '\"'))
-			temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
+		// if ((ed->i > ed->start) && (arg[ed->i] == '\'' || arg[ed->i] == '\"'))
+		// 	temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
 	}
 	else if (ed->status == IN_SINGLE && arg[ed->i] == '\'')
 	{
-		temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
+		// temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
 		ed->status = DEFAULT;
 	}
 	else if (ed->status == IN_DOUBLE && arg[ed->i] == '\"')
 	{
-		temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
+		// temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
 		ed->status = DEFAULT;
 	}
+	if ((ed->status == DEFAULT && (arg[ed->i] == '\'' || arg[ed->i] == '\"'))
+		|| (ed->status == IN_SINGLE && arg[ed->i] == '\'')
+		|| (ed->status == IN_DOUBLE && arg[ed->i] == '\"'))
+		temp = remove_quote(data, temp, arg + ed->start, ed->i - ed->start);
 	return (temp);
 }
 

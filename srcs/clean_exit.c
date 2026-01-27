@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/25 12:47:39 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:39:23 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,19 @@ void	free_cmd(t_data *data)
 	t_cmd	*cmd;
 	t_cmd	*temp;
 
-	cmd = data->cmd_head;
-	while (cmd)
+	if (data->cmd_head)
 	{
-		if (cmd->args)
-			free_args(cmd->args);
-		temp = cmd;
-		cmd = cmd->next;
-		free(temp);
+		cmd = data->cmd_head;
+		while (cmd)
+		{
+			if (cmd->args)
+				free_args(cmd->args);
+			temp = cmd;
+			cmd = cmd->next;
+			free(temp);
+		}
+		data->cmd_head = NULL;
 	}
-	data->cmd_head = NULL;
 }
 
 void	free_tokens(t_data *data)
@@ -47,19 +50,22 @@ void	free_tokens(t_data *data)
 	t_token	*token;
 	t_token	*temp;
 
-	token = data->token_head;
-	while (token)
+	if (data->token_head)
 	{
-		if (token->content)
+		token = data->token_head;
+		while (token)
 		{
-			free(token->content);
-			token->content = NULL;
+			if (token->content)
+			{
+				free(token->content);
+				token->content = NULL;
+			}
+			temp = token;
+			token = token->next;
+			free(temp);
 		}
-		temp = token;
-		token = token->next;
-		free(temp);
+		data->token_head = NULL;
 	}
-	data->token_head = NULL;
 }
 
 void	clean_exit(t_data *data, char *msg)
@@ -76,9 +82,7 @@ void	clean_exit(t_data *data, char *msg)
 		free (data->line);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save))
 		perror("error in tcsetattr");
-	if (data->token_head)
-		free_tokens(data);
-	if (data->cmd_head)
-		free_cmd(data);
+	free_tokens(data);
+	free_cmd(data);
 	exit (0);
 }

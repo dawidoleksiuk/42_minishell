@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 13:54:58 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/12 12:23:35 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/01/27 18:36:51 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,21 +135,21 @@ t_token	*tokenizer(t_data *data)
 	}
 }
 
-int	main(void)
-{
-	t_data data;
-	t_token *token;
-	t_token *temp;
+// int	main(void)
+// {
+// 	t_data data;
+// 	t_token *token;
+// 	t_token *temp;
 
-	data.line = get_next_line(0);
-	tokenizer(&data);
-	token =  data.token_head;
-	while (token)
-	{
-		printf("%sX, type: %d \n", token->content, token->type);
-		free(token->content);
-		temp = token;
-		token = token->next;
-		free(temp);
-	}
-}
+// 	data.line = get_next_line(0);
+// 	tokenizer(&data);
+// 	token =  data.token_head;
+// 	while (token)
+// 	{
+// 		printf("%sX, type: %d \n", token->content, token->type);
+// 		free(token->content);
+// 		temp = token;
+// 		token = token->next;
+// 		free(temp);
+// 	}
+// }
