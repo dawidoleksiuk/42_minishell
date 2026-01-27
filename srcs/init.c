@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/27 18:05:34 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/27 18:53:11 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,57 @@ int	init_signals(t_data *data)
 	return (0);
 }
 
+static int	check_for_important(t_data *data, char *envp)
+{
+	if (!ft_strncmp(envp, "PATH=", 5))
+	{
+		data->exec_info->catalogs = ft_split(envp + 5, ':');
+		return (1);
+	}
+	else if (!ft_strncmp(envp, "HOME=", 5))
+	{
+		data->exec_info->home_dir = envp + 5;
+		return (1);
+	}
+	else
+		return (0);
+}
+
 static int	get_envp(t_data *data, char **envp)
 {
-	char	*str;
+	size_t	i;
+	t_envp	*node;
 
 	ft_bzero(data->exec_info, sizeof(t_exec_info));
-	data->exec_info->envp = envp;
-	str = getenv("PATH");
-	if (str)
+	i = 0;
+	data->exec_info->envp = malloc(sizeof(t_envp));;
+	node = data->exec_info->envp;
+	while (envp[i])
 	{
-		data->exec_info->catalogs = ft_split(str, ':');
+		if (!node)
+			return (1);
+		while (check_for_important(data, envp[i]))
+			i++;
+		{
+			node->name = envp[i];
+			node->content = ft_strchr(envp[i++], '=');
+			node->content[0] = 0;
+			node->content++;
+		}
+		if (envp[i])
+		{
+			node->next = malloc(sizeof(t_envp));
+			node = node->next;
+		}
+		else
+			node->next = NULL;
 	}
-	data->exec_info->home_dir = getenv("HOME");
+	while (data->exec_info->envp)
+	{
+		ft_printf("%s\n%s\n\n", data->exec_info->envp->name, data->exec_info->envp->content);
+		data->exec_info->envp = data->exec_info->envp->next;
+	}
+	ft_printf("%s\n", data->exec_info->home_dir);
 	return (0);
 }
 
