@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/27 19:38:32 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/27 20:53:05 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	main(int argc, char **argv, char **envp)
 				data.line = NULL;
 			}
 			// print_tokens(&data);
-			print_cmds(&data);
+			//print_cmds(&data);
 			executor(&data, data.cmd_head, &exit_code);
 			free_tokens(&data);
 			free_cmd(&data);

@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/27 20:15:00 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/27 22:06:35 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	do_your_job(t_exec_info *exec_info)
 	}
 	if (!exec_info->path)
 		kill_process(exec_info, 127, NULL);
-	execve(exec_info->path, exec_info->cmd->args + 1, exec_info->envp);
+	execve(exec_info->path, exec_info->cmd->args, exec_info->envp);
 	perror("execve() failed\n");
 	kill_process(exec_info, 1, NULL);
 }
@@ -102,10 +102,12 @@ t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 			dup2(exec_info->out, 1);
 		else
 			dup2(exec_info->pipe_fd[1], 1);
+		close(exec_info->pipe_fd[0]);
 	}
 	else
 	{
-		close(exec_info->in);
+		if (exec_info->in)
+			close(exec_info->in);
 		exec_info->in = exec_info->pipe_fd[0];
 	}
 	return (exec_info);

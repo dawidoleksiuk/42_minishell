@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/27 19:43:04 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/27 21:35:06 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ static void read_input(int out, char *delimiter)
 
 	len = ft_strlen(delimiter);
 	str = get_next_line(0);
-	while (str || (len == ft_strlen(str) && !ft_strncmp(delimiter, str, len)))
+	while (str && (len != ft_strlen(str) - 1 || ft_strncmp(delimiter, str, len)))
 	{
 		ft_putstr_fd(str, out);
 		free(str);
 		str = get_next_line(0);
 	}
+	close(out);
 }
 
 /*
