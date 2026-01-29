@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/27 20:17:12 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/29 18:43:26 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_exec_info
 	int				pipe_fd[2];
 	int				out;
 	unsigned char	error;
+	char			is_first;
 	char			redir_in;
 	char			redir_out;
 	char			*path;
