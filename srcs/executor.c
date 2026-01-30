@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   eexecutor.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/29 21:22:15 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/30 19:33:11 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 		return (exec_info->error = 1, exec_info);
 	else if (exec_info->pid == 0)
 	{
-		dup2(exec_info->in, STDIN_FILENO);
-		if (exec_info->redir_out || !cmd->next)
-			dup2(exec_info->out, STDOUT_FILENO);
+		dup2(exec_info->in, 0);
+		if (exec_info->redir_out)
+			dup2(exec_info->out, 1);
 		else
-			dup2(exec_info->pipe_fd[1], STDOUT_FILENO);
+			dup2(exec_info->pipe_fd[1], 1);
 		close(exec_info->pipe_fd[0]);
 	}
 	else
@@ -141,21 +141,18 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 	int		status;
 
 	cmd = cmd_head;
-	data->exec_info->is_first = 1;
 	// if (!cmd->next && check_for_built_ins(data, cmd))
 	// 	return ;
 	while (cmd)
 	{
 		data->exec_info->cmd = cmd;
 		data->exec_info = give_birth(data->exec_info, cmd);
-		if (data->exec_info->error != ENOENT && data->exec_info->error != EACCES)
+		if (data->exec_info->error)
 			break;
 		if (data->exec_info->pid == 0)
 			do_your_job(data->exec_info);
 		cmd = cmd->next;
 	}
-	if (data->exec_info->in > 2)
-		close(data->exec_info->in);
 	pid = waitpid(-1, &status, 0);
 	while (pid > 0)
 	{
@@ -168,6 +165,5 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 	}
 	if (data->exec_info->pipe_fd[1])
 		close(data->exec_info->pipe_fd[1]);
-	data->exec_info->in = 0;
 	//kill()
 }

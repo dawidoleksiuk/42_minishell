@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/29 21:18:44 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/30 19:11:29 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,23 @@ static t_exec_info	*redirection(t_exec_info *ex_info, t_type type, char *path)
 /*
 Function loops thru redir list and executes redir for each node.
 */
+// t_exec_info *redir(t_exec_info *ex_info, t_redir *redir)
+// {
+// 	ex_info->redir_in = 0;
+// 	ex_info->redir_out = 0;
+// 	while (redir)
+// 	{
+// 		if (redir->type == REDIR_IN || redir->type == HEREDOC)
+// 			ex_info->redir_in = 1;
+// 		else if (redir->type == REDIR_OUT || redir->type == APPEND)
+// 			ex_info->redir_out = 1;
+// 		ex_info = redirection(ex_info, redir->type, redir->filename);
+// 		if (ex_info->error)
+// 			return (perror("minishell"), ex_info);
+// 		redir = redir->next;
+// 	}
+// 	return (ex_info);
+//}
 t_exec_info *redir(t_exec_info *ex_info, t_redir *redir)
 {
 	ex_info->redir_in = 0;
@@ -78,13 +95,13 @@ t_exec_info *redir(t_exec_info *ex_info, t_redir *redir)
 	{
 		if (redir->type == REDIR_IN || redir->type == HEREDOC)
 		{
-			if (ex_info->in)
+			if (ex_info->in && ex_info->redir_in)
 				close(ex_info->in);
 			ex_info->redir_in = 1;
 		}
 		else if (redir->type == REDIR_OUT || redir->type == APPEND)
 		{
-			if (ex_info->out)
+			if (ex_info->out && ex_info->redir_out)
 				close(ex_info->out);
 			ex_info->redir_out = 1;
 		}
