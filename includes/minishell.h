@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/29 18:43:26 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/30 20:35:15 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,13 @@ typedef struct s_envp
 	struct s_envp	*next;
 } t_envp;
 
-
 typedef struct s_exec_info
 {
 	int				in;
-	int				pipe_fd[2];
+	int				*pipe_fd;
 	int				out;
 	unsigned char	error;
-	char			is_first;
+	char			is_start;
 	char			redir_in;
 	char			redir_out;
 	char			*path;

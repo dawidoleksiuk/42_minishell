@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   eexecutor.c                                        :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/30 19:33:11 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/01/30 20:52:10 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,17 @@ static char *check_path(t_exec_info *exec_info)
 {
 	char	*str;
 
+	str =  NULL;
 	if (exec_info->cmd->args[0][0] == '~' && exec_info->home_dir)
 	{
 		str = ft_strjoin(exec_info->home_dir, exec_info->cmd->args[0]);
 		if (!str)
 			kill_process(exec_info, 1, NULL);
+		if (access(str, F_OK) == 1)
+			return (free(str), NULL);
+		if (access(str, X_OK) == 1)
+			kill_process(exec_info, 126, str);
 	}
-	if (access(str, F_OK) == 1)
-		return (free(str), NULL);
-	if (access(str, X_OK) == 1)
-		kill_process(exec_info, 126, str);
 	return (str);
 }
 
@@ -89,7 +90,6 @@ static void	do_your_job(t_exec_info *exec_info)
 
 t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 {
-	exec_info = redir(exec_info, cmd->redirs);
 	if (exec_info->error || pipe(exec_info->pipe_fd) == -1)
 		return (exec_info->error += exec_info->error == 0, exec_info);
 	exec_info->pid = fork();
@@ -97,6 +97,7 @@ t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 		return (exec_info->error = 1, exec_info);
 	else if (exec_info->pid == 0)
 	{
+		exec_info = redir(exec_info, cmd->redirs);
 		dup2(exec_info->in, 0);
 		if (exec_info->redir_out)
 			dup2(exec_info->out, 1);
@@ -147,8 +148,6 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 	{
 		data->exec_info->cmd = cmd;
 		data->exec_info = give_birth(data->exec_info, cmd);
-		if (data->exec_info->error)
-			break;
 		if (data->exec_info->pid == 0)
 			do_your_job(data->exec_info);
 		cmd = cmd->next;
@@ -167,3 +166,4 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 		close(data->exec_info->pipe_fd[1]);
 	//kill()
 }
+
