@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/30 20:35:15 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/12 13:04:53 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ typedef	struct s_exp_data
 	int	status;
 } t_exp_data;
 
-typedef struct s_envp
+typedef struct s_envar
 {
-	char			*name;
-	char			*content;
-	struct s_envp	*next;
-} t_envp;
+	char			*curr_dir;
+	char			*home_dir;
+	char			**catalogs;
+	char			**envp;
+} t_envar;
 
 typedef struct s_exec_info
 {
@@ -52,9 +53,7 @@ typedef struct s_exec_info
 	char			redir_out;
 	char			*path;
 	char			*temp;
-	char			*home_dir;
-	char			**catalogs;
-	char			**envp;
+	t_envar			*envars;
 	t_cmd			*cmd;
 	pid_t			pid;
 	struct s_data	*data;
@@ -109,4 +108,7 @@ t_exec_info *redir(t_exec_info *ex_info, t_redir *redir);
 // executor.c
 void	executor(t_data *data, t_cmd *cmd_head, char *exit_code);
 
+//built-ins
+int		ft_pwd(t_envar **envar);
+int		ft_cd(t_envar **envar, char *path);
 #endif

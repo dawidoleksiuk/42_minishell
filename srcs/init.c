@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/30 20:47:48 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/12 13:09:44 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,18 @@ static int	get_envp(t_data *data, char **envp)
 {
 	char	*str;
 
-	data->exec_info->envp = envp;
+	data->exec_info->envars = ft_calloc(1, sizeof(t_envar));
+	if (!data->exec_info->envars)
+		return (1);
+	data->exec_info->envars->envp = envp;
 	str = getenv("PATH");
 	if (str)
-		data->exec_info->catalogs = ft_split(str, ':');
-	data->exec_info->home_dir = getenv("HOME");
+		data->exec_info->envars->catalogs = ft_split(str, ':');
+	data->exec_info->envars->home_dir = getenv("HOME");
+	str = getenv("PWD");
+	data->exec_info->envars->curr_dir = ft_strdup(str);
+	if (!data->exec_info->envars->curr_dir)
+		return (1);
 	return (0);
 }
 

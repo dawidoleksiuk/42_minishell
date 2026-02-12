@@ -6,7 +6,7 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/01/27 19:39:58 by alusnia          ###   ########.fr        #
+#    Updated: 2026/02/12 12:51:42 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS_DIR = ./objs
 INCS_DIR = ./includes
 LIBFT = ./libft/libft.a
 SRCS = minishell.c clean_exit.c init.c signals.c tokenizer.c tokenizer_2.c \
-		parser.c expander.c redirection.c executor.c
+		parser.c expander.c redirection.c executor.c builtins_1.c
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
 INCS = $(INCS_DIR)/minishell.h $(INCS_DIR)/parser.h
 
