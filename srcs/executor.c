@@ -6,20 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/12 13:06:34 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/13 15:05:52 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	kill_process(t_exec_info *exec_info, char exit_code, void *content)
-{
-	if (content)
-		free(content);
-	free(exec_info->path);
-	free(exec_info);
-	exit(exit_code);
-}
 
 static char *check_path(t_exec_info *exec_info)
 {
@@ -30,11 +21,11 @@ static char *check_path(t_exec_info *exec_info)
 	{
 		str = ft_strjoin(exec_info->envars->home_dir, exec_info->cmd->args[0]);
 		if (!str)
-			kill_process(exec_info, 1, NULL);
+			clean_exec(exec_info, "malloc failed\n", 1, NULL);
 		if (access(str, F_OK) == 1)
 			return (free(str), NULL);
 		if (access(str, X_OK) == 1)
-			kill_process(exec_info, 126, str);
+			clean_exec(exec_info, "access denied\n", 126, str);
 	}
 	return (str);
 }
@@ -42,10 +33,10 @@ static char *check_path(t_exec_info *exec_info)
 static t_exec_info	*check_catalogs(t_exec_info *exec_info, char *path, char *f_name)
 {
 	if (!f_name)
-		kill_process(exec_info, 1, NULL);
+		clean_exec(exec_info, "malloc failed\n", 1, NULL);
 	exec_info->path = ft_strjoin(path, f_name);
 	if (!exec_info->path)
-		kill_process(exec_info, 1, f_name);
+		clean_exec(exec_info, "malloc failed\n", 1, f_name);
 	if (access(exec_info->path, F_OK) == 0)
 	{
 		if (access(exec_info->path, X_OK) == 1)
@@ -77,15 +68,14 @@ static void	do_your_job(t_exec_info *exec_info)
 		{
 			exec_info->temp = exec_info->envars->catalogs[i++];
 			if (!exec_info->temp)
-				kill_process(exec_info, 3, NULL);
+				clean_exec(exec_info, "no catalogs were found\n", 1, NULL);
 			exec_info = check_catalogs(exec_info, exec_info->temp, ft_strjoin("/", exec_info->cmd->args[0]));
 		}  
 	}
 	if (!exec_info->path)
-		kill_process(exec_info, 127, NULL);
+		clean_exec(exec_info, "command not found\n",127, NULL);
 	execve(exec_info->path, exec_info->cmd->args, exec_info->envars->envp);
-	perror("execve() failed\n");
-	kill_process(exec_info, 1, NULL);
+	clean_exec(exec_info, "execve() failed\n", 1, NULL);
 }
 
 t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
@@ -142,6 +132,9 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 	pid_t	pid;
 	int		status;
 
+	data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
+	if (!data->exec_info->pipe_fd)
+		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL), clean_exit(data, "Malloc failed\n", 0));
 	cmd = cmd_head;
 	if (!cmd->next && check_for_built_ins(data, cmd))
 		return ;
@@ -165,6 +158,6 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 	}
 	if (data->exec_info->pipe_fd[1])
 		close(data->exec_info->pipe_fd[1]);
-	//kill()
+	clean_exec(data->exec_info, NULL, 0, NULL);
 }
 

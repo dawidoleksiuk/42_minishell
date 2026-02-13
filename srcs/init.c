@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/12 13:09:44 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/13 17:05:09 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	prompt(t_data *data)
 	if (!data->line)
 	{
 		write (1, "exit\n", 5);
-		clean_exit(data, NULL);
+		clean_exit(data, NULL, 0);
 	}
 	if (data->line[0] != '\0')
 		add_history(data->line);
@@ -43,14 +43,14 @@ int	init_signals(t_data *data)
 	if (tcgetattr(STDIN_FILENO, &termios_p) < 0)
 	{
 		perror("error in tcgetattr");
-		clean_exit(data, NULL);
+		clean_exit(data, NULL, 0);
 	}
 	data->termios_p_save = termios_p;
 	termios_p.c_lflag &= ~ECHOCTL;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &termios_p) < 0)
 	{
 		perror("error in tcsetattr");
-		clean_exit(data, NULL);
+		clean_exit(data, NULL, 0);
 	}
 	if (signals() == 1)
 		return (1);
@@ -84,13 +84,12 @@ int	init(t_data *data, char **envp)
 	data->exp_data.i = 0;
 	data->exp_data.start = 0;
 	data->exp_data.status = DEFAULT;
+	data->error_msg = NULL;
 	if (init_signals(data))
 		return (1);
 	data->exec_info = ft_calloc(1, sizeof(t_exec_info));
 	if (!data->exec_info || get_envp(data, envp))
 		return (1);
-	data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
-	if (!data->exec_info->pipe_fd)
-		return (1);
+	data->exec_info->data = data;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/12 13:04:53 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/13 14:21:17 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_envar
 	char			*home_dir;
 	char			**catalogs;
 	char			**envp;
+	char			**custom_envp;
 } t_envar;
 
 typedef struct s_exec_info
@@ -75,7 +76,8 @@ typedef struct s_data
 // clean_exit.c
 void	free_cmd(t_data *data);
 void	free_tokens(t_data *data);
-void	clean_exit(t_data *data, char *msg);
+void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus);
+void	clean_exit(t_data *data, char *msg, int exit_code);
 
 // init.c
 void	prompt(t_data *data);
@@ -85,9 +87,6 @@ int	init(t_data *data, char **envp);
 void	sig_handler(int sig);
 int	config_sigaction(struct sigaction *sa);
 int	signals(void);
-
-// redirections.c
-// unsigned char	redirection(t_fd **fd, t_redir_type *type, char *path);
 
 // tokenizer.c
 void	tokenizer(t_data *data);

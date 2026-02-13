@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/27 18:39:23 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/02/13 17:13:29 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,21 +68,78 @@ void	free_tokens(t_data *data)
 	}
 }
 
-void	clean_exit(t_data *data, char *msg)
-{	
-	if (msg)
+void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus)
+{
+	if (bonus)
+		free(bonus);
+	if (exec_info->pipe_fd)
+		free(exec_info->pipe_fd);
+	if (exec_info->path)
+		free(exec_info->path);
+	exec_info->pipe_fd = NULL;
+	exec_info->path = NULL;
+	exec_info->temp = NULL;
+	if (exit_code)
 	{
-		ft_putstr_fd(msg, 2);
-		ft_putstr_fd("\n", 2);
+		if (msg)
+		{
+			ft_putstr_fd(exec_info->cmd->args[0], 2);
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(msg, 2);
+		}
+		clean_exit(exec_info->data, NULL, exit_code);
 	}
-	if (data->error_msg)
-		free(data->error_msg);
-	rl_clear_history();
-	if (data->line)
-		free (data->line);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save))
-		perror("error in tcsetattr");
-	free_tokens(data);
-	free_cmd(data);
-	exit (0);
+}
+
+void	clean_envars(t_envar *envars)
+{
+	size_t	i;
+
+	if (envars->curr_dir)
+		free(envars->curr_dir);
+	if (envars->catalogs)
+	{
+		i = 0;
+		while (envars->catalogs[i])
+			free(envars->catalogs[i++]);
+		free(envars->catalogs);
+		envars->catalogs = NULL;
+	}
+	if (envars->custom_envp)
+	{
+		i = 0;
+		while (envars->custom_envp[i])
+			free(envars->envp[i++]);
+		free(envars->custom_envp);
+		envars->envp = NULL;
+	}
+	free(envars);
+}
+
+void	clean_exit(t_data *data, char *msg, int exit_code)
+{	
+	if (data)
+	{
+		if (msg)
+		{
+			ft_putstr_fd(msg, 2);
+			ft_putstr_fd("\n", 2);
+		}
+		if (data->error_msg)
+			free(data->error_msg);
+		rl_clear_history();
+		if (data->line)
+			free (data->line);
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save))
+			perror("error in tcsetattr");
+		free_tokens(data);
+		free_cmd(data);
+		if (data->exec_info && data->exec_info->envars)
+			clean_envars(data->exec_info->envars);
+		if (data->exec_info && data->exec_info->pipe_fd)
+			free(data->exec_info->pipe_fd);
+		if (data->exec_info)
+			free(data->exec_info);
+	}
+	exit (exit_code);
 }

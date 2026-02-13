@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/01/29 19:29:42 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/13 12:59:48 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void print_cmds(t_data *data)
 	}
 }
 
+//valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -61,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 	if (isatty(STDIN_FILENO))
 	{
 		if (init(&data, envp) == 1)
-			clean_exit(&data, NULL);
+			clean_exit(&data, NULL, 0);
 		while (1)
 		{
 			prompt(&data);
@@ -81,6 +82,6 @@ int	main(int argc, char **argv, char **envp)
 			free_cmd(&data);
 		}
 	}
-	clean_exit(&data, NULL);
+	clean_exit(&data, NULL, 0);
 	return (0);
 }

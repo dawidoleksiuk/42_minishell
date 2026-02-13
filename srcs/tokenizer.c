@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/19 17:45:33 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:58:15 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token	*create_token_node(t_data *data, t_token **token)
 
 	node = malloc(sizeof(t_token));
 	if (!node)
-		clean_exit(data, "Malloc failed");
+		clean_exit(data, "Malloc failed", 0);
 	node->content = NULL;
 	node->next = NULL;
 	if (*token != NULL)
@@ -67,7 +67,7 @@ void	get_next_word(t_data *data, char *line, int *i)
 		(*i)++;
 	}
 	if (status == IN_SINGLE || status == IN_DOUBLE)
-		clean_exit(data, "bad quotes");
+		clean_exit(data, "bad quotes", 0);
 }
 
 void	get_next_operator(char *line, int *start, int *i)

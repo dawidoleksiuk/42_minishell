@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/12 13:12:51 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/13 17:26:19 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ int	ft_cd(t_envar **envar, char *path)
 {
 	char	*temp;
 
-	temp = ft_strjoin("/", path);
+	if (path[0] == '~' && (*envar)->home_dir)
+		temp = ft_strjoin((*envar)->home_dir, path + 1);
+	else
+	{
+		temp = ft_strjoin("/", path);
+		if (!temp)
+			return (1);
+		path = temp;
+		temp = ft_strjoin((*envar)->curr_dir, path);
+	}
 	if (!temp)
-		return (1);
-	path = temp;
-	temp = ft_strjoin((*envar)->curr_dir, path);
-	if (!temp)
-		return (1);
+			return (1);
 	if (chdir(temp) == -1)
 		perror("cd");
 	else

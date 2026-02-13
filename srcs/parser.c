@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:38:03 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/01/19 17:45:56 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:59:34 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_cmd	*new_cmd_node(t_data *data, t_cmd *cmd)
 
 	node = malloc(sizeof(t_cmd));
 	if (!node)
-		clean_exit(data, "Malloc failed");
+		clean_exit(data, "Malloc failed", 0);
 	node->args = NULL;
 	node->redirs = NULL;
 	node->next = NULL;
@@ -46,7 +46,7 @@ int	copy_args(t_data *data, t_token *token, t_cmd *cmd)
 	}
 	cmd->args = malloc(sizeof(char *) * (i + 1));
 	if (!cmd->args)
-		clean_exit(data, "Malloc failed");
+		clean_exit(data, "Malloc failed", 0);
 	i = 0;
 	while (args && args[i])
 	{
@@ -84,7 +84,7 @@ t_redir	*new_redir_node(t_data *data, t_cmd *cmd)
 		redir = redir->next;
 	node = malloc(sizeof(t_redir));
 	if (!node)
-		clean_exit(data, "Malloc failed");
+		clean_exit(data, "Malloc failed", 0);
 	node->next = NULL;
 	node->filename = NULL;
 	node->type = 0;
