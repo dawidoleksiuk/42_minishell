@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/13 14:21:17 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/13 17:58:11 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,5 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code);
 //built-ins
 int		ft_pwd(t_envar **envar);
 int		ft_cd(t_envar **envar, char *path);
+void	ft_echo(int	fd, char **args);
 #endif

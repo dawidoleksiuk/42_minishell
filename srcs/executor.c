@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/13 15:05:52 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/13 18:01:49 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,8 @@ int	check_for_built_ins(t_data *data, t_cmd *cmd)
 {
 	if (!strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
 		ft_cd(&data->exec_info->envars, cmd->args[1]);
-// 	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
-// 		ft_echo();
+ 	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
+		ft_echo(data->exec_info->out, cmd->args + 1);
 // 	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
 // 		ft_env();
 // 	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
@@ -136,7 +136,7 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 	if (!data->exec_info->pipe_fd)
 		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL), clean_exit(data, "Malloc failed\n", 0));
 	cmd = cmd_head;
-	if (!cmd->next && check_for_built_ins(data, cmd))
+	if (!cmd->next && check_for_built_ins(data, cmd) && !cmd->redirs)
 		return ;
 	while (cmd)
 	{
