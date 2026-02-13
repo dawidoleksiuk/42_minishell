@@ -1,0 +1,16 @@
+{
+   ignore_readline_function
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:readline
+   ...
+}
+{
+   ignore_add_history_function
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   fun:add_history
+   ...
+}
