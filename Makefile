@@ -6,7 +6,7 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/02/16 13:03:16 by alusnia          ###   ########.fr        #
+#    Updated: 2026/02/16 18:04:01 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,10 @@ $(LIB):
 	@$(MAKE) -C $(LIB_DIR)
 
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(INCS) | $(OBJS_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)
 
 clean: 
 	@rm -rf $(OBJS_DIR)
@@ -48,6 +48,8 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIB_DIR) fclean
+
+re: del_lib fclean all
 
 del_lib:
 	@echo $(SEP)

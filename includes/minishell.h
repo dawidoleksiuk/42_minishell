@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/16 15:10:13 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/16 19:22:05 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 
 typedef struct s_list
 {
-	char			*content;
+	char			*key;
+	char			*value;
 	struct s_list	*next;
 } t_list;
 
@@ -45,8 +46,8 @@ typedef struct s_envar
 	char			*curr_dir;
 	char			*home_dir;
 	char			**catalogs;
-	/*t_list			**envp;*/
 	char			**envp;
+	t_list			**table;
 	char			**custom_envp;
 } t_envar;
 
