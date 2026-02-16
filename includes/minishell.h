@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/13 17:58:11 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/16 15:05:31 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@
 # include <unistd.h>
 # include <termios.h>
 
+typedef struct s_list
+{
+	char			*content;
+	struct s_list	*next;
+} t_list;
+
+
 typedef	struct s_exp_data
 {
 	int	i;
@@ -39,7 +46,7 @@ typedef struct s_envar
 	char			*curr_dir;
 	char			*home_dir;
 	char			**catalogs;
-	char			**envp;
+	t_list			**envp;
 	char			**custom_envp;
 } t_envar;
 
