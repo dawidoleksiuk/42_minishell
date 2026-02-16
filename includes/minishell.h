@@ -6,15 +6,14 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/16 15:05:31 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/16 15:10:13 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "./parser.h"
-# include "../libft/libft.h"
-# include "../libft/gnl/get_next_line.h"
+# include "libftplus.h"
 # include <errno.h>
 # include <sys/wait.h>
 # include <stdio.h>
@@ -46,7 +45,8 @@ typedef struct s_envar
 	char			*curr_dir;
 	char			*home_dir;
 	char			**catalogs;
-	t_list			**envp;
+	/*t_list			**envp;*/
+	char			**envp;
 	char			**custom_envp;
 } t_envar;
 
