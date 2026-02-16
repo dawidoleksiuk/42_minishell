@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/13 17:13:29 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/16 10:54:42 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus)
 	exec_info->pipe_fd = NULL;
 	exec_info->path = NULL;
 	exec_info->temp = NULL;
+	exec_info->in = 0;
+	exec_info->out = 0;
 	if (exit_code)
 	{
 		if (msg)

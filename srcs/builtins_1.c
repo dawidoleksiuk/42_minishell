@@ -6,11 +6,19 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/13 18:03:10 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/14 12:24:06 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_exit();
+
+void	ft_env();
+
+void	ft_unset();
+
+void	ft_export();
 
 void	ft_echo(int	fd, char **args)
 {
