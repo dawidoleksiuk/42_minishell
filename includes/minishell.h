@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/16 19:22:05 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/20 11:47:28 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_list
 	char			*value;
 	struct s_list	*next;
 } t_list;
-
 
 typedef	struct s_exp_data
 {
@@ -114,6 +113,20 @@ t_exec_info *redir(t_exec_info *ex_info, t_redir *redir);
 
 // executor.c
 void	executor(t_data *data, t_cmd *cmd_head, char *exit_code);
+
+//table.c
+t_list	**init_table(char **envp);
+int		table_mod(t_list **ptr, char *key, char *value);
+int		table_add(t_list **node, char *key, char *value);
+t_list	*table_del(t_list *ptr, char *key);
+void	table_clear(t_list **table);
+
+//table_utils.c
+ssize_t	table_get_i(char c);
+void	clear_node(t_list *node);
+t_list	*table_new_node(t_list *node);
+int		table_sep_string(char *str, char **key, char **value);
+char	*table_find_value(t_list **table, char *key);
 
 //built-ins
 int		ft_pwd(t_envar **envar);

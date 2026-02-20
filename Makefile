@@ -6,7 +6,7 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/02/16 18:04:01 by alusnia          ###   ########.fr        #
+#    Updated: 2026/02/18 15:13:30 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRC_DIR = ./srcs
 OBJS_DIR = ./objs
 INCS_DIR = ./includes
 SRCS = minishell.c clean_exit.c init.c signals.c tokenizer.c tokenizer_2.c \
-		parser.c expander.c redirection.c executor.c builtins_1.c
+		parser.c expander.c redirection.c executor.c builtins_1.c table.c \
+		table_utils.c
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
 INCS = $(INCS_DIR)/minishell.h $(INCS_DIR)/parser.h
 

@@ -6,43 +6,105 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 15:58:13 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/16 19:29:15 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/20 12:00:53 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	table_get_i(char c)
+t_list	**init_table(char **envp)
 {
-	if (ft_isdigit(c))
-		return (c - '0');
-	else if (ft_isupper(c))
-		return(c - 'A' + 10);
-	else if (ft_islower(c))
-		return (c - 'a' + 37);
-	else if (c == '_')
-		return (36);
+	t_list	**table;
+	ssize_t	i;
+	char	*key;
+	char	*value;
+
+	table = ft_calloc(63, sizeof(t_list*));
+	while (envp && *envp)
+	{
+		key = *envp;
+		value = NULL;
+		i = table_get_i(*key);
+		if (i < 0)
+			table_clear(table);
+		if (table_sep_string(key, &key, &value))
+			return (table_clear(table), NULL);
+		if (table_mod(&table[i], key, value))
+			return (table_clear(table), NULL);
+		envp++;
+	}
+	return (table);
 }
 
-int	table_add(t_list *ptr, char str)
+int	table_mod(t_list **ptr, char *key, char *value)
 {
-	char	*sep;
-	size_t	len;
+	t_list	*node;
+	t_list	*prev;
 
-	if (!str)
-		return (1);
-	sep = ft_strchr(str, '=');
-	ptr->key = ft_substr(str, 0, sep - str);
-	if (!ptr->key)
-		return (1);
-	len = ft_strlen(sep);
-	if (len)
+	node = *ptr;
+	if (!node)
+		return (table_add(ptr, key, value));
+	while (node && ft_strncmp(node->key, key, ft_strlen(key) + 1))
 	{
-		ptr->value = ft_substr(sep, 1, len);
-		if (!ptr->value)
-			return (1);
+		prev = node;
+		node = node->next;
 	}
+	if (!node)
+		return (table_add(&prev->next, key, value));
 	else
-		ptr->value = NULL;
+	{
+		free(node->value);
+		node->value = value;
+	}
 	return (0);
+}
+
+int	table_add(t_list **node, char *key, char *value)
+{
+	*node = table_new_node(*node);
+	if (!node)
+		return (1);
+	(*node)->key = key;
+	(*node)->value = value;
+	return (0);
+}
+
+t_list	*table_del(t_list *ptr, char *key)
+{
+	t_list	*node;
+	t_list	*prev;
+
+	prev = NULL;
+	node = ptr;
+	while (node && ft_strncmp(node->key, key, ft_strlen(key) + 1))
+	{
+		prev = node;
+		node = node->next;
+	}
+	if (!node)
+		return (ptr);
+	if (prev)
+	{
+		prev->next = node->next;
+		clear_node(node);
+		return (ptr);
+	}
+	prev = node->next;
+	clear_node(node);
+	return (prev);
+}
+
+void	table_clear(t_list **table)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < 63)
+	{
+		if (table[i])
+			table[i] = table_del(table[i], table[i]->key);
+		else
+			i++;
+	}
+	free(table);
 }

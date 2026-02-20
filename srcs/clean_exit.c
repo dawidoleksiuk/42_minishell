@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/16 10:54:42 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/20 12:52:32 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 			perror("error in tcsetattr");
 		free_tokens(data);
 		free_cmd(data);
+		if (data->exec_info->envars->table)
+			table_clear(data->exec_info->envars->table);
 		if (data->exec_info && data->exec_info->envars)
 			clean_envars(data->exec_info->envars);
 		if (data->exec_info && data->exec_info->pipe_fd)

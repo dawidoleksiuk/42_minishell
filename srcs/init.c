@@ -6,26 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/16 18:39:01 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/18 15:02:03 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-t_list	**init_table(char **envp)
-{
-	t_list	*table[63];
-	char	n;
-
-	bzero(table, 63 * sizeof(t_list*));
-	while (envp)
-	{
-		n = table_get_i(**envp);
-		if (table_add(table[n], ft_strdup(envp++)))
-			return (NULL);
-	}
-	return (table);
-}
 
 //prompting for an input, 
 //when CTRL+D clears rl history and closes program
@@ -80,7 +65,7 @@ static int	get_envp(t_data *data, char **envp)
 	if (!data->exec_info->envars)
 		return (1);
 	data->exec_info->envars->envp = envp;
-	data->exec_info->envars->envp = init_table(envp);
+	data->exec_info->envars->table = init_table(envp);
 	str = getenv("PATH");
 	if (str)
 		data->exec_info->envars->catalogs = ft_split(str, ':');
