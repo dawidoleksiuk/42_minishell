@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/16 10:00:47 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/21 14:53:22 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,16 @@ static t_exec_info	*check_catalogs(t_exec_info *exec_info, char *path, char *f_n
 	return (exec_info);
 }
 
-static void	do_your_job(t_exec_info *exec_info)
+static void	do_your_job(t_data *data, t_exec_info *exec_info)
 {
 	size_t	i;
 
 	i = 0;
 	// if (check_for_built_ins(exec_info->data, exec_info->cmd))
 	// 	kill_process(exec_info, 1, NULL);
+	init_termios(data, 1);
+	if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
+		return ;
 	exec_info->path = check_path(exec_info);
 	if (!exec_info->path)
 	{
@@ -75,11 +78,15 @@ static void	do_your_job(t_exec_info *exec_info)
 	if (!exec_info->path)
 		clean_exec(exec_info, "command not found\n",127, NULL);
 	execve(exec_info->path, exec_info->cmd->args, exec_info->envars->envp);
+	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+		return ;
 	clean_exec(exec_info, "execve() failed\n", 1, NULL);
 }
 
 t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 {
+	if (signal_action(SIGINT, SIG_IGN) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+		return (exec_info);
 	exec_info = redir(exec_info, cmd->redirs);
 	if (exec_info->error || pipe(exec_info->pipe_fd) == -1)
 		return (exec_info->error += exec_info->error == 0, exec_info);
@@ -131,6 +138,7 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 	t_cmd	*cmd;
 	pid_t	pid;
 	int		status;
+	int		sig;
 
 	data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
 	if (!data->exec_info->pipe_fd)
@@ -143,16 +151,24 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 		data->exec_info->cmd = cmd;
 		data->exec_info = give_birth(data->exec_info, cmd);
 		if (data->exec_info->pid == 0)
-			do_your_job(data->exec_info);
+			do_your_job(data, data->exec_info);
 		cmd = cmd->next;
 	}
 	pid = waitpid(-1, &status, 0);
+	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+		return ;
 	while (pid > 0)
 	{
 		if (pid == data->exec_info->pid)
 		{
 			if (WIFEXITED(status))
 				*exit_code = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+			{
+				sig = WTERMSIG(status);
+				if (sig == SIGINT)
+					write(1, "\n", 1);
+			}
 		}
 		pid = waitpid(-1, &status, 0);
 	}
