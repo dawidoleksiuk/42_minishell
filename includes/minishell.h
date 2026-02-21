@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/02/20 12:58:25 by alusnia          ###   ########.fr       */
+=======
+/*   Updated: 2026/02/21 14:23:08 by doleksiu         ###   ########.fr       */
+>>>>>>> 1ae021e122d5a647be8a653a34a27d20cb60ae42
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +92,13 @@ void	clean_exit(t_data *data, char *msg, int exit_code);
 // init.c
 void	prompt(t_data *data);
 int	init(t_data *data, char **envp);
+void	init_termios (t_data *data, int c_on);
 
 // signals.c 
 void	sig_handler(int sig);
 int	config_sigaction(struct sigaction *sa);
 int	signals(void);
+int	signal_action(int sig, void *handler);
 
 // tokenizer.c
 void	tokenizer(t_data *data);
