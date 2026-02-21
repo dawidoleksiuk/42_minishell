@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/18 17:25:38 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/21 17:43:03 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	char	exit_code;
-	size_t	i = 0;
-	t_list	*node;
-	t_list	**table;
 
 	//do usuniecia
 	(void) argc;
@@ -80,18 +77,6 @@ int	main(int argc, char **argv, char **envp)
 			// print_tokens(&data);
 			//print_cmds(&data);
 			//make_connections(&data);
-			table = data.exec_info->envars->table;
-			while (i < 63)
-			{
-				node = *table;
-				while (node)
-				{
-					ft_printf("%s%s\n", node->key, node->value);
-					node = node->next;
-				}
-				table++;
-				i++;
-			}
 			executor(&data, data.cmd_head, &exit_code);
 			free_tokens(&data);
 			free_cmd(&data);
