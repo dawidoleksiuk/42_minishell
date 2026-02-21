@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/20 12:52:32 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/20 12:58:47 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,6 @@ void	clean_envars(t_envar *envars)
 			free(envars->catalogs[i++]);
 		free(envars->catalogs);
 		envars->catalogs = NULL;
-	}
-	if (envars->custom_envp)
-	{
-		i = 0;
-		while (envars->custom_envp[i])
-			free(envars->envp[i++]);
-		free(envars->custom_envp);
-		envars->envp = NULL;
 	}
 	free(envars);
 }

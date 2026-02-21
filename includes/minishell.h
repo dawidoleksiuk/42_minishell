@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/20 11:47:28 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/20 12:58:25 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_envar
 	char			**catalogs;
 	char			**envp;
 	t_list			**table;
-	char			**custom_envp;
 } t_envar;
 
 typedef struct s_exec_info
