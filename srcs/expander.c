@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/22 18:31:07 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/02/22 19:39:41 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,61 @@
 
 void dolar_insert(char *variable, int *i, char **arg, int dolar_len)
 {
-	char	*temp1;
-	char	*temp2;
-	char	*temp3;
+	char	*before_dolar;
+	char	*after_dolar;
+	char	*temp;
+	char	*str;
 	
-	temp1 = NULL;
-	temp2 = NULL;
-	temp3 = NULL;
-	temp1 = ft_substr(*arg, 0, *i);
+	before_dolar = NULL;
+	after_dolar = NULL;
+	temp = NULL;
+	str = NULL;
+	before_dolar = ft_substr(*arg, 0, *i);
 	if (ft_strlen(*arg) > (size_t)(*i + dolar_len))
-		temp2 = ft_substr(*arg, *i + dolar_len, ft_strlen(*arg) - (*i + dolar_len));
-	*i = *i + ft_strlen(variable);
-	temp3 = ft_strjoin(temp1, variable);
-	free (temp1);
-	if (temp2)
+		after_dolar = ft_substr(*arg, *i + dolar_len, ft_strlen(*arg) - (*i + dolar_len));
+	str = ft_strjoin(before_dolar, variable);
+	free(before_dolar);
+	if (after_dolar)
 	{
-		temp1 = ft_strjoin(temp3, temp2);
-		free (temp2);
-		free (temp3);
-		temp3 = temp1;
+		temp = ft_strjoin(str, after_dolar);
+		free (str);
+		free (after_dolar);
+		str = temp;
 	}
+	*i = *i + ft_strlen(variable);
 	free (*arg);
-	*arg = temp3;
+	*arg = str;
 }
 
 
 void	dolar_handler(t_data *data, int *i, char **arg)
 {
-	char *temp1;
-	char *temp2;
+	char *key;
+	char *value;
 	int	j;
 
-	temp1 = NULL;
-	temp2 = NULL;
-	j = *i;
+	key = NULL;
+	value = NULL;
+	j = *i + 1;
 	if ((*arg)[*i + 1] == '?')
 	{
-		temp1 = ft_itoa(data->exit_code);
-		dolar_insert(temp1, i, arg, 2);
+		value = ft_itoa(data->exit_code);
+		dolar_insert(value, i, arg, 2);
 	}
 	else
 	{
-		while ((*arg)[j] != ' ')
+		while ((*arg)[j] && (ft_isalnum((*arg)[j]) || (*arg)[j] == '_'))
 			j++;
-		temp1 = ft_substr(*arg, *i + 1, j - *i);
-		temp2 = ft_strdup(table_find_value(data->exec_info->envars->table, temp1));
-		dolar_insert(temp2, i, arg, j - *i);
+		key = ft_substr(*arg, *i + 1, j - (*i + 1));
+		value = table_find_value(data->exec_info->envars->table, key);
+		if (value)
+			value = ft_strdup(value);
+		else
+			value =ft_strdup("");
+		dolar_insert(value, i, arg, j - *i);
 	}
-	free(temp1);
-	free(temp2);
+	free (key);
+	free (value);
 }
 
 char	*remove_quote(t_data *data, char *temp, char *arg, int len)
@@ -128,12 +134,13 @@ char	*expand_text(t_data *data, char **arg)
 				&& (*arg)[ed.i] == '\"') || ((ed.status == IN_SINGLE
 					|| ed.status == DEFAULT) && (*arg)[ed.i] == '\''))
 			ed.start = (ed.i) + 1;
-		(ed.i)++;
+		if ((*arg)[ed.i] != '\0')
+			(ed.i)++;
 	}
 	temp = remove_quote(data, temp, *arg + ed.start, ed.i - ed.start);
 	if (temp)
 	{
-		// free(*arg);
+		free(*arg);
 		*arg = temp;
 	}
 	return (temp);
