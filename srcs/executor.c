@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/21 14:53:22 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/02/22 15:43:35 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,8 @@ int	check_for_built_ins(t_data *data, t_cmd *cmd)
 	return (1);
 	
 }
-void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
+
+void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
@@ -167,7 +168,15 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 			{
 				sig = WTERMSIG(status);
 				if (sig == SIGINT)
+				{
+					g_signum = sig;
 					write(1, "\n", 1);
+				}
+				if (sig == SIGQUIT)
+				{
+					g_signum = sig;
+					write(1, "Quit (core dumped)\n", 20);
+				}
 			}
 		}
 		pid = waitpid(-1, &status, 0);
@@ -176,4 +185,3 @@ void	executor(t_data *data, t_cmd *cmd_head, char *exit_code)
 		close(data->exec_info->pipe_fd[1]);
 	clean_exec(data->exec_info, NULL, 0, NULL);
 }
-

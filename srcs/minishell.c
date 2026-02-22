@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/21 17:43:03 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/22 17:04:32 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void print_cmds(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	char	exit_code;
 
 	//do usuniecia
 	(void) argc;
@@ -66,6 +65,11 @@ int	main(int argc, char **argv, char **envp)
 		while (1)
 		{
 			prompt(&data);
+			if (g_signum != 0)
+			{
+				data.exit_code = 128 + g_signum;
+				g_signum = 0;
+			}
 			tokenizer(&data);
 			expander(&data);
 			parser(&data);
@@ -75,9 +79,9 @@ int	main(int argc, char **argv, char **envp)
 				data.line = NULL;
 			}
 			// print_tokens(&data);
-			//print_cmds(&data);
+			// print_cmds(&data);
 			//make_connections(&data);
-			executor(&data, data.cmd_head, &exit_code);
+			executor(&data, data.cmd_head, &data.exit_code);
 			free_tokens(&data);
 			free_cmd(&data);
 		}

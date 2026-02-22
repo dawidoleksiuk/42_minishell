@@ -6,11 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/02/20 12:58:25 by alusnia          ###   ########.fr       */
-=======
-/*   Updated: 2026/02/21 14:23:08 by doleksiu         ###   ########.fr       */
->>>>>>> 1ae021e122d5a647be8a653a34a27d20cb60ae42
+/*   Updated: 2026/02/22 12:51:04 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +71,14 @@ typedef struct s_data
 	struct termios	termios_p_save;
 	char			*line;
 	char			*error_msg;
+	unsigned char	exit_code;
 	t_exec_info		*exec_info;
 	t_token			*token_head;
 	t_cmd			*cmd_head;
 	t_exp_data		exp_data;
 } t_data;
 
-
+extern volatile sig_atomic_t	g_signum;
 
 // clean_exit.c
 void	free_cmd(t_data *data);
@@ -117,7 +114,7 @@ void	expander(t_data *data);
 t_exec_info *redir(t_exec_info *ex_info, t_redir *redir);
 
 // executor.c
-void	executor(t_data *data, t_cmd *cmd_head, char *exit_code);
+void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code);
 
 //table.c
 t_list	**init_table(char **envp);
