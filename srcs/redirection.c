@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/12 09:42:36 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/23 20:04:53 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void read_input(int out, char *delimiter)
 		free(str);
 		str = get_next_line(0);
 	}
+	if (str)
+		free(str);
 	close(out);
 }
 

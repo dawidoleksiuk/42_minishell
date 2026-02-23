@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/22 15:43:35 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/02/23 18:09:54 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,34 @@ static t_exec_info	*check_catalogs(t_exec_info *exec_info, char *path, char *f_n
 	return (exec_info);
 }
 
-static void	do_your_job(t_data *data, t_exec_info *exec_info)
+int	check_for_built_ins(t_data *data, t_cmd *cmd)
+{
+	if (!strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
+		ft_cd(&data->exec_info->envars, cmd->args[1]);
+ 	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
+		ft_echo(data->exec_info->out, cmd->args + 1);
+// 	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
+// 		ft_env();
+// 	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
+// 		ft_exit();
+// 	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
+// 		ft_export();
+	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
+		ft_pwd(&data->exec_info->envars);
+// 	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
+// 		ft_unset();
+	else
+		return (0);
+	return (1);
+}
+
+static void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 {
 	size_t	i;
 
 	i = 0;
-	// if (check_for_built_ins(exec_info->data, exec_info->cmd))
-	// 	kill_process(exec_info, 1, NULL);
+	if (check_for_built_ins(data, cmd))
+		return (clean_exec(data->exec_info, NULL, 0, NULL), clean_exit(data, NULL, 0));
 	init_termios(data, 1);
 	if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
 		return ;
@@ -112,28 +133,6 @@ t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 	return (exec_info);
 }
 
-int	check_for_built_ins(t_data *data, t_cmd *cmd)
-{
-	if (!strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
-		ft_cd(&data->exec_info->envars, cmd->args[1]);
- 	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
-		ft_echo(data->exec_info->out, cmd->args + 1);
-// 	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
-// 		ft_env();
-// 	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
-// 		ft_exit();
-// 	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
-// 		ft_export();
-	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
-		ft_pwd(&data->exec_info->envars);
-// 	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
-// 		ft_unset();
-	else
-		return (0);
-	return (1);
-	
-}
-
 void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 {
 	t_cmd	*cmd;
@@ -146,13 +145,13 @@ void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL), clean_exit(data, "Malloc failed\n", 0));
 	cmd = cmd_head;
 	if (!cmd->next && check_for_built_ins(data, cmd) && !cmd->redirs)
-		return ;
+		return (clean_exec(data->exec_info, NULL, 0, NULL));
 	while (cmd)
 	{
 		data->exec_info->cmd = cmd;
 		data->exec_info = give_birth(data->exec_info, cmd);
 		if (data->exec_info->pid == 0)
-			do_your_job(data, data->exec_info);
+			do_your_job(data, data->exec_info, cmd);
 		cmd = cmd->next;
 	}
 	pid = waitpid(-1, &status, 0);
