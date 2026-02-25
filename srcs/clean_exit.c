@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/23 18:05:59 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/25 18:08:10 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,14 @@ void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus)
 	exec_info->temp = NULL;
 	exec_info->in = 0;
 	exec_info->out = 0;
-	if (exit_code)
+	if (msg)
 	{
-		if (msg)
-		{
-			ft_putstr_fd(exec_info->cmd->args[0], 2);
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(msg, 2);
-		}
+		ft_putstr_fd(exec_info->cmd->args[0], 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(msg, 2);
 		clean_exit(exec_info->data, NULL, exit_code);
 	}
+	exit(exit_code);
 }
 
 void	clean_envars(t_envar *envars)
