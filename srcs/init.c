@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/21 14:27:32 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/02/25 17:00:14 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,16 @@ void	init_termios (t_data *data, int c_on)
 {
 	struct termios	termios_p;
 
-	if (tcgetattr(STDIN_FILENO, &termios_p) < 0)
+	if (tcgetattr(STDIN_FILENO, &termios_p) == 0)
 	{
-		perror("error in tcgetattr");
-		clean_exit(data, NULL, 0);
-	}
-	if (!c_on)
-	{
-		data->termios_p_save = termios_p;
-		termios_p.c_lflag &= ~ECHOCTL;
-	}
-	if (c_on)
-		termios_p.c_lflag |= ECHOCTL;	
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &termios_p) < 0)
-	{
-		perror("error in tcsetattr");
-		clean_exit(data, NULL, 0);
+		if (!c_on)
+		{
+			data->termios_p_save = termios_p;
+			termios_p.c_lflag &= ~ECHOCTL;
+		}
+		if (c_on)
+			termios_p.c_lflag |= ECHOCTL;	
+		tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	}
 }
 
