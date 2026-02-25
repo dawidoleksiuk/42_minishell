@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/23 17:54:46 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/25 17:32:41 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	clean_exit(t_data *data, char *msg, int exit_code);
 // init.c
 void	prompt(t_data *data);
 int	init(t_data *data, char **envp);
-void	init_termios (t_data *data, int c_on);
+struct termios	init_termios (int c_on);
 
 // signals.c 
 void	sig_handler(int sig);

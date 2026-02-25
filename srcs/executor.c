@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/25 18:08:10 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/25 18:09:28 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 	i = 0;
 	if (check_for_built_ins(data, cmd))
 		return (clean_exec(data->exec_info, NULL, 0, NULL), clean_exit(data, NULL, 0));
-	init_termios(data, 1);
+	init_termios(1);
 	if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
 		return ;
 	exec_info->path = check_path(exec_info);
@@ -180,6 +180,7 @@ void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 		}
 		pid = waitpid(-1, &status, 0);
 	}
+	init_termios(0);
 	if (data->exec_info->pipe_fd[1])
 		close(data->exec_info->pipe_fd[1]);
 	clean_exec(data->exec_info, NULL, 0, NULL);

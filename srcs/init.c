@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/25 18:07:56 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/25 18:09:27 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,29 @@ void	prompt(t_data *data)
 // turns off termios flag for signal output (^C, ^\ etc.) in terminal
 // sets signal handling
 
-void	init_termios (t_data *data, int c_on)
+struct termios	init_termios (int c_on)
 {
 	struct termios	termios_p;
+	struct termios	termios_p_copy;
 
-	if (tcgetattr(STDIN_FILENO, &termios_p) < 0)
+	ft_bzero(&termios_p_copy, sizeof(struct termios));
+	if (tcgetattr(STDIN_FILENO, &termios_p) == 0)
 	{
-		perror("error in tcgetattr");
-		clean_exit(data, NULL, 0);
+		termios_p_copy = termios_p;
+		if (!c_on)
+			termios_p.c_lflag &= ~ECHOCTL;
+		if (c_on)
+			termios_p.c_lflag |= ECHOCTL;
+		tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	}
-	if (!c_on)
-	{
-		data->termios_p_save = termios_p;
-		termios_p.c_lflag &= ~ECHOCTL;
-	}
-	if (c_on)
-		termios_p.c_lflag |= ECHOCTL;	
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &termios_p) < 0)
-	{
-		perror("error in tcsetattr");
-		clean_exit(data, NULL, 0);
-	}
+	return (termios_p_copy);
 }
 
 int	init_signals(t_data *data)
 {
 	rl_catch_signals = 0;
 	ft_bzero(data, sizeof(t_data));
-	init_termios(data, 0);
+	data->termios_p_save = init_termios(0);
 	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
 		return (1);
 	return (0);
