@@ -6,13 +6,32 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/23 17:37:15 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/26 22:18:22 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_exit();
+void	ft_exit(t_data *data, char **args)
+{
+	long long	exit_code;
+
+	if (isatty(STDIN_FILENO))
+		ft_printf("exit\n");
+	if (!args[1])
+		clean_exit(data, NULL, 0);
+	if (!ft_aisll(args[1], &exit_code))
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		clean_exit(data, NULL, 255);
+	}
+	if (args[2])
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+	else
+		clean_exit(data, NULL, (unsigned char)exit_code);
+}
 
 void	ft_env();
 

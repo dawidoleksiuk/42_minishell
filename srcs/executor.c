@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/25 18:09:28 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/26 23:00:19 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int	check_for_built_ins(t_data *data, t_cmd *cmd)
 		ft_echo(data->exec_info->out, cmd->args + 1);
 // 	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
 // 		ft_env();
-// 	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
-// 		ft_exit();
+	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
+		ft_exit(data, cmd->args);
 // 	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
 // 		ft_export();
 	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
@@ -81,10 +81,10 @@ static void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 
 	i = 0;
 	if (check_for_built_ins(data, cmd))
-		return (clean_exec(data->exec_info, NULL, 0, NULL), clean_exit(data, NULL, 0));
+		return (clean_exec(data->exec_info, NULL, 1, NULL));
 	init_termios(1);
 	if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
-		return ;
+		return (clean_exec(exec_info, "", 1, NULL));
 	exec_info->path = check_path(exec_info);
 	if (!exec_info->path)
 	{
@@ -100,7 +100,7 @@ static void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 		clean_exec(exec_info, "command not found\n",127, NULL);
 	execve(exec_info->path, exec_info->cmd->args, exec_info->envars->envp);
 	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
-		return ;
+		return (clean_exec(exec_info, "", 1, NULL));
 	clean_exec(exec_info, "execve() failed\n", 1, NULL);
 }
 
@@ -142,7 +142,7 @@ void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 
 	data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
 	if (!data->exec_info->pipe_fd)
-		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL), clean_exit(data, "Malloc failed\n", 0));
+		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL));
 	cmd = cmd_head;
 	if (!cmd->next && check_for_built_ins(data, cmd) && !cmd->redirs)
 		return (clean_exec(data->exec_info, NULL, 0, NULL));

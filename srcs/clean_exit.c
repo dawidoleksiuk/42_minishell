@@ -6,23 +6,33 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/25 18:09:29 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/26 20:25:22 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_args(char	**args)
+void	free_args_node(t_cmd *node)
 {
-	int	i;
+	size_t	i;
+	t_redir	*redir;
 
 	i = 0;
-	while (args[i])
+	while (node->args[i])
 	{
-		free(args[i]);
+		free(node->args[i]);
 		i++;
 	}
-	free(args);
+	free(node->args);
+	redir = node->redirs;
+	while (redir)
+	{
+		node->redirs = redir->next;
+		free(redir->filename);
+		free(redir);
+		redir = node->redirs;
+	}
+	free(node);
 }
 
 void	free_cmd(t_data *data)
@@ -35,11 +45,10 @@ void	free_cmd(t_data *data)
 		cmd = data->cmd_head;
 		while (cmd)
 		{
-			if (cmd->args)
-				free_args(cmd->args);
+
 			temp = cmd;
 			cmd = cmd->next;
-			free(temp);
+			free_args_node(temp);
 		}
 		data->cmd_head = NULL;
 	}
@@ -81,14 +90,15 @@ void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus)
 	exec_info->temp = NULL;
 	exec_info->in = 0;
 	exec_info->out = 0;
-	if (msg)
+	if (msg && ft_strlen(msg))
 	{
 		ft_putstr_fd(exec_info->cmd->args[0], 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(msg, 2);
 		clean_exit(exec_info->data, NULL, exit_code);
 	}
-	exit(exit_code);
+	if (msg || exit_code)
+		clean_exit(exec_info->data, NULL, 0);
 }
 
 void	clean_envars(t_envar *envars)
@@ -122,7 +132,7 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 		rl_clear_history();
 		if (data->line)
 			free (data->line);
-		if (tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save))
+		if (isatty(STDIN_FILENO) && tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) < 0)
 			perror("error in tcsetattr");
 		free_tokens(data);
 		free_cmd(data);

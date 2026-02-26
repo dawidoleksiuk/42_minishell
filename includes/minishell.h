@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/25 17:32:41 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/02/26 21:45:44 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,5 @@ char	*table_find_value(t_list **table, char *key);
 int		ft_pwd(t_envar **envar);
 int		ft_cd(t_envar **envar, char *path);
 void	ft_echo(int	fd, char **args);
+void	ft_exit(t_data *data, char **args);
 #endif
