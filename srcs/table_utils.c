@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:36:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/18 15:17:01 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/27 15:46:08 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,42 @@ int	table_sep_string(char *str, char **key, char **value)
 	if (sep)
 	{
 		*key = ft_substr(str, 0, sep - str);
+		if (!(*key))
+			return (1);
 		*value = ft_strdup(sep);
-		if (!(*key) || !(*value))
+		if (!(*value))
 			return (1);
 		return (0);
 	}
 	*key = ft_strdup(str);
+	if (!(*key))
+		return (1);
 	*value = ft_calloc(1, sizeof(char));
-	if (!(*key) || !(*value))
+	if (!(*value))
 		return (1);
 	return (0);
 }
 
-char	*table_find_value(t_list **table, char *key)
+t_list *table_find_node(t_list **table, char *key)
 {
-	size_t	i;
+	ssize_t	i;
 	t_list	*node;
 
 	i = table_get_i(key[0]);
+	if (i < 0)
+		return (NULL);
 	node = table[i];
 	while(node && ft_strncmp(node->key, key, ft_strlen(key) + 1))
 		node = node->next;
+	return (node);
+}
+
+char	*table_find_value(t_list **table, char *key)
+{
+	t_list	*node;
+
+	node = table_find_node(table, key);
 	if (!node)
 		return (NULL);
 	return (node->value);
 }
-

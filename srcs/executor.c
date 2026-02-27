@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/26 23:00:19 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/27 15:53:05 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,16 @@ int	check_for_built_ins(t_data *data, t_cmd *cmd)
 		ft_cd(&data->exec_info->envars, cmd->args[1]);
  	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
 		ft_echo(data->exec_info->out, cmd->args + 1);
-// 	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
-// 		ft_env();
+	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
+		ft_env(data->exec_info->envars->table);
 	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
 		ft_exit(data, cmd->args);
-// 	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
-// 		ft_export();
+	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
+		ft_export(data->exec_info, data->exec_info->envars->table, cmd->args);
 	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
 		ft_pwd(&data->exec_info->envars);
-// 	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
-// 		ft_unset();
+	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
+		ft_unset(data->exec_info->envars->table, cmd->args);
 	else
 		return (0);
 	return (1);

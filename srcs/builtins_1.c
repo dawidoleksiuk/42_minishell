@@ -6,11 +6,68 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/26 22:18:22 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/27 21:59:22 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	display_sorted(t_list *node, char *prefix, char null_values)
+{
+	t_list	*temp;
+	t_list	*curr;
+	t_list	*prev;
+	int		diff;
+
+	prev = NULL;
+	curr = node;
+	if (curr)
+		temp = curr->next;
+	while (curr)
+	{
+		while (temp)
+		{
+			diff = ft_strncmp(curr->key, temp->key, ft_strlen(curr->key) + 1);
+			if (diff > 0 || (prev && ft_strncmp(temp->key, prev->key, ft_strlen(curr->key) + 1)))
+				curr = temp;
+			temp = temp->next;
+		}
+		if (!curr->value && null_values)
+			ft_printf("%s%s\n", prefix, curr->key);
+		else
+			ft_printf("%s%s=%s\n", prefix, curr->key, curr->value);
+		if (diff )
+			return ;
+		prev = curr;
+		curr = node;
+		temp = curr->next;
+	}
+}
+
+void	display_table(t_list **table, char *prefix, char null_values, char sorted)
+{
+	size_t	i;
+	t_list	*node;
+
+	i = 0;
+	while (i < 63)
+	{
+		node = table[i++];
+		while (node)
+		{
+			if (sorted)
+			{
+				display_sorted(node, prefix, null_values);
+				break ;
+			}
+			if (!node->value && null_values)
+				ft_printf("%s%s\n", prefix, node->key);
+			else
+				ft_printf("%s%s=%s\n", prefix, node->key, node->value);
+			node = node->next;
+		}
+	}
+}
 
 void	ft_exit(t_data *data, char **args)
 {
@@ -33,11 +90,54 @@ void	ft_exit(t_data *data, char **args)
 		clean_exit(data, NULL, (unsigned char)exit_code);
 }
 
-void	ft_env();
+void	ft_env(t_list **table)
+{
+	display_table(table, "", 0, 0);
+}
 
-void	ft_unset();
+void	ft_unset(t_list **table, char **args)
+{
+	ssize_t	i;
 
-void	ft_export();
+	if (!args[1])
+		return ;
+	i = table_get_i(args[1][0]);
+	if (i == -1)
+		return ;
+	table[i] = table_del(table[i], args[1]);
+}
+
+void	ft_export(t_exec_info *exec, t_list **table, char **args)
+{
+	ssize_t	i;
+	t_list	*node;
+	char	*key;
+	char	*value;
+
+	if (!args[1])
+	{
+		display_table(table, "declare -x ", 1, 1);
+		return ;
+	}
+	i = table_get_i(args[1][0]);
+	if (i < 0)
+	{
+		ft_putstr_fd("minishell: export: '", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return ;
+	}
+	if (table_sep_string(args[1], &key, &value))
+		return (clean_exec(exec, "malloc failed\n", 1, key));
+	node = table_find_node(table, key);
+	if (!node)
+	{
+		if (table_add(table, key, value))
+			return (clean_exec(exec, "malloc failed\n", 1, key));
+	}
+	else
+		node->value = value;
+}
 
 void	ft_echo(int	fd, char **args)
 {

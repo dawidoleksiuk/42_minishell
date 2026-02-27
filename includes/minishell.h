@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/26 21:45:44 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/02/27 15:52:07 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,15 @@ ssize_t	table_get_i(char c);
 void	clear_node(t_list *node);
 t_list	*table_new_node(t_list *node);
 int		table_sep_string(char *str, char **key, char **value);
+t_list	*table_find_node(t_list **table, char *key);
 char	*table_find_value(t_list **table, char *key);
 
 //built-ins
 int		ft_pwd(t_envar **envar);
 int		ft_cd(t_envar **envar, char *path);
 void	ft_echo(int	fd, char **args);
+void	ft_env(t_list **table);
+void	ft_unset(t_list **table, char **args);
 void	ft_exit(t_data *data, char **args);
+void	ft_export(t_exec_info *exec, t_list **table, char **args);
 #endif
