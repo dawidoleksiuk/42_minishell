@@ -6,41 +6,23 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/27 21:59:22 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/02 13:08:44 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	display_sorted(t_list *node, char *prefix, char null_values)
+t_list	*node_sorted(t_list *node)
 {
-	t_list	*temp;
-	t_list	*curr;
+	t_list	*start;
 	t_list	*prev;
-	int		diff;
 
-	prev = NULL;
-	curr = node;
-	if (curr)
-		temp = curr->next;
-	while (curr)
+	if (table_add(&start, node->key, node->value))
+
+	while (node)
 	{
-		while (temp)
-		{
-			diff = ft_strncmp(curr->key, temp->key, ft_strlen(curr->key) + 1);
-			if (diff > 0 || (prev && ft_strncmp(temp->key, prev->key, ft_strlen(curr->key) + 1)))
-				curr = temp;
-			temp = temp->next;
-		}
-		if (!curr->value && null_values)
-			ft_printf("%s%s\n", prefix, curr->key);
-		else
-			ft_printf("%s%s=%s\n", prefix, curr->key, curr->value);
-		if (diff )
-			return ;
-		prev = curr;
-		curr = node;
-		temp = curr->next;
+		if (!start)
+			
 	}
 }
 
@@ -53,19 +35,21 @@ void	display_table(t_list **table, char *prefix, char null_values, char sorted)
 	while (i < 63)
 	{
 		node = table[i++];
+		if (sorted)
+		{
+			node = node_sort(node, prefix, null_values);
+			if (!node)
+				;
 		while (node)
 		{
-			if (sorted)
-			{
-				display_sorted(node, prefix, null_values);
-				break ;
-			}
 			if (!node->value && null_values)
 				ft_printf("%s%s\n", prefix, node->key);
 			else
 				ft_printf("%s%s=%s\n", prefix, node->key, node->value);
 			node = node->next;
 		}
+		while (sorted && node)
+			table_del(node, node->key);
 	}
 }
 

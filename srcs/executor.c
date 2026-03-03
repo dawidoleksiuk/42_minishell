@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/27 15:53:05 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/02 12:34:37 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ static char *check_path(t_exec_info *exec_info)
 	char	*str;
 
 	str =  NULL;
-	if (exec_info->cmd->args[0][0] == '~' && exec_info->envars->home_dir)
+	if (ft_strchr(exec_info->cmd->args[0], '/'))
 	{
-		str = ft_strjoin(exec_info->envars->home_dir, exec_info->cmd->args[0]);
+		if (exec_info->cmd->args[0][0] == '~' && exec_info->envars->home_dir)
+			str = ft_strjoin(exec_info->envars->home_dir, exec_info->cmd->args[0] + 1);
+		else
+			str = ft_strdup(exec_info->cmd->args[0]);
 		if (!str)
-			clean_exec(exec_info, "malloc failed\n", 1, NULL);
+				clean_exec(exec_info, "malloc failed\n", 1, NULL);
 		if (access(str, F_OK) == 1)
 			return (free(str), NULL);
 		if (access(str, X_OK) == 1)
