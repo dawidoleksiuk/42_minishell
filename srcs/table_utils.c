@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:36:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/27 15:46:08 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/03 12:12:39 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	table_sep_string(char *str, char **key, char **value)
 		*key = ft_substr(str, 0, sep - str);
 		if (!(*key))
 			return (1);
-		*value = ft_strdup(sep);
+		*value = ft_strdup(sep + 1);
 		if (!(*value))
 			return (1);
 		return (0);

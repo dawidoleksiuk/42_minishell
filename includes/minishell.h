@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/27 15:52:07 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/04 13:04:54 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,7 @@ void	ft_env(t_list **table);
 void	ft_unset(t_list **table, char **args);
 void	ft_exit(t_data *data, char **args);
 void	ft_export(t_exec_info *exec, t_list **table, char **args);
+
+//sort.c
+int		node_sort(t_list **ptr, t_list *node);
 #endif

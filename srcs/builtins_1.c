@@ -6,51 +6,47 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/02 13:08:44 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/04 18:25:54 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_list	*node_sorted(t_list *node)
-{
-	t_list	*start;
-	t_list	*prev;
 
-	if (table_add(&start, node->key, node->value))
-
-	while (node)
-	{
-		if (!start)
-			
-	}
-}
-
-void	display_table(t_list **table, char *prefix, char null_values, char sorted)
+int	display_table(t_list **table, char *prefix, char null_values, char sorted)
 {
 	size_t	i;
+	t_list	*temp;
 	t_list	*node;
 
+	node = NULL;
 	i = 0;
 	while (i < 63)
 	{
-		node = table[i++];
 		if (sorted)
 		{
-			node = node_sort(node, prefix, null_values);
-			if (!node)
-				;
+			if (node_sort(&node, table[i++]))
+				return (1);
+		}
+		else
+			node = table[i++];
 		while (node)
 		{
 			if (!node->value && null_values)
-				ft_printf("%s%s\n", prefix, node->key);
+				ft_printf("%s%s=\"\"\n", prefix, node->key);
 			else
-				ft_printf("%s%s=%s\n", prefix, node->key, node->value);
-			node = node->next;
+				ft_printf("%s%s=\"%s\"\n", prefix, node->key, node->value);
+			if (sorted)
+			{
+				temp = node;
+				node = node->next;
+				free(temp);
+			}
+			else
+				node = node->next;
 		}
-		while (sorted && node)
-			table_del(node, node->key);
 	}
+	return (0);
 }
 
 void	ft_exit(t_data *data, char **args)
