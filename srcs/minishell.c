@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/05 05:29:00 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 15:51:00 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,30 @@ void print_cmds(t_data *data)
 	}
 }
 
+void	interactive_mode(t_data *data)
+{
+	prompt(data);
+	if (g_signum != 0)
+	{
+		data->exit_code = 128 + g_signum;
+		g_signum = 0;
+	}
+	tokenizer(data);
+	expander(data);
+	parser(data);
+	if (data->line)
+	{
+		free(data->line);
+		data->line = NULL;
+	}
+	// print_tokens(&data);
+	// print_cmds(&data);
+	//make_connections(&data);
+	executor(data, data->cmd_head, &data->exit_code);
+	free_tokens(data);
+	free_cmd(data);
+}
+
 //valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
 int	main(int argc, char **argv, char **envp)
 {
@@ -58,32 +82,13 @@ int	main(int argc, char **argv, char **envp)
 	//do usuniecia
 	(void) argc;
 	argv[0] = NULL;
+	if (init(&data, envp) == 1)
+		clean_exit(&data, NULL, 0);
 	if (isatty(STDIN_FILENO))
 	{
-		if (init(&data, envp) == 1)
-			clean_exit(&data, NULL, 0);
 		while (1)
 		{
-			prompt(&data);
-			if (g_signum != 0)
-			{
-				data.exit_code = 128 + g_signum;
-				g_signum = 0;
-			}
-			tokenizer(&data);
-			expander(&data);
-			parser(&data);
-			if (data.line)
-			{
-				free(data.line);
-				data.line = NULL;
-			}
-			// print_tokens(&data);
-			// print_cmds(&data);
-			//make_connections(&data);
-			executor(&data, data.cmd_head, &data.exit_code);
-			free_tokens(&data);
-			free_cmd(&data);
+			interactive_mode(&data);
 		}
 	}
 	clean_exit(&data, NULL, 0);

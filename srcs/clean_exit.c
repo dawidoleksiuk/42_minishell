@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/05 05:29:09 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 15:46:57 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,10 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 			free (data->line);
 		if (isatty(STDIN_FILENO) && tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) < 0)
 			perror("error in tcsetattr");
-		free_tokens(data);
-		free_cmd(data);
+		if (data->token_head)
+			free_tokens(data);
+		if (data->cmd_head)
+			free_cmd(data);
 		if (data->exec_info->envars->table)
 			table_clear(data->exec_info->envars->table);
 		if (data->exec_info && data->exec_info->envars)
