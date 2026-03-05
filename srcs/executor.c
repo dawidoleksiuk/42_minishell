@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/05 05:28:48 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 16:29:11 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ static void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 	i = 0;
 	if (check_for_built_ins(data, cmd))
 		return (clean_exec(data->exec_info, NULL, 1, NULL));
-	init_termios(1);
-	if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
-		return (clean_exec(exec_info, "", 1, NULL));
 	exec_info->path = check_path(exec_info);
 	if (!exec_info->path)
 	{
@@ -102,8 +99,6 @@ static void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 	if (!exec_info->path)
 		clean_exec(exec_info, "command not found\n",127, NULL);
 	execve(exec_info->path, exec_info->cmd->args, exec_info->envars->envp);
-	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
-		return (clean_exec(exec_info, "", 1, NULL));
 	clean_exec(exec_info, "execve() failed\n", 1, NULL);
 }
 
@@ -119,6 +114,9 @@ t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 		return (exec_info->error = 1, exec_info);
 	else if (exec_info->pid == 0)
 	{
+		init_termios(1);
+		if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
+			return (exec_info->error = 1, exec_info);
 		dup2(exec_info->in, 0);
 		if (exec_info->redir_out)
 			dup2(exec_info->out, 1);
