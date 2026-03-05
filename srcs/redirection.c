@@ -6,11 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/23 20:04:53 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 05:28:56 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 /*
 static void	handle_redir_error(t_type type, t_redir path)
 {

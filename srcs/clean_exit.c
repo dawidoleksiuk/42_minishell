@@ -6,11 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/26 20:25:22 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 05:29:09 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	free_args_node(t_cmd *node)
 {

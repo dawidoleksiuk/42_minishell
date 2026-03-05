@@ -6,11 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/04 18:25:54 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 05:27:43 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 
 int	display_table(t_list **table, char *prefix, char null_values, char sorted)

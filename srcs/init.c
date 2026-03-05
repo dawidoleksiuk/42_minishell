@@ -6,11 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/25 18:09:27 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 05:28:54 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 //prompting for an input, 
 //when CTRL+D clears rl history and closes program

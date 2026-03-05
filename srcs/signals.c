@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:52 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/22 12:25:01 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/05 05:28:59 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 volatile sig_atomic_t	g_signum;
 

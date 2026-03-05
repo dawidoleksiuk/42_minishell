@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:11:47 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/04 18:22:12 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 08:36:26 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,23 @@ static int	add(t_list **dest, t_list *node, t_list *prev, t_list *next)
 	return (0);
 }
 
-static int find_place(t_list **start, t_list *node, t_list *curr, t_list *prev)
+static int find_place(t_list *node, t_list *prev, t_list *curr, t_list *next)
 {
 	while (curr)
 	{
-		if (!prev)
+		if (!next)
 		{
-			if (ft_strncmp(node->key, curr->key, ft_strlen(node->key) + 1) > 0)
-				return (add(&curr->next, node, NULL, curr->next));
-			else if (!curr->next)
-				return (add(start, node, NULL, curr));
+			if (ft_strncmp(node->key, curr->key, ft_strlen(node->key) + 1) < 0)
+				return (add(&curr->next, node, prev, NULL));
+			else
+				return (add(&curr, node, prev, curr));
 		}
-		else if (ft_strncmp(node->key, prev->key, ft_strlen(node->key) + 1) > 0 &&
-			ft_strncmp(node->key, curr->key, ft_strlen(node->key) + 1) < 0)
-			return (add(&prev->next, node, prev, curr));
-		else if (!curr->next)
-			return (add(&curr->next, node, curr, NULL));
+		else if (ft_strncmp(node->key, curr->key, ft_strlen(node->key) + 1) > 0 &&
+			ft_strncmp(node->key, next->key, ft_strlen(node->key) + 1) < 0)
+			return (add(&curr->next, node, curr, next));
 		prev = curr;
-		curr = curr->next;
+		curr = next;
+		next = next->next;
 	}
 	return (0);
 }
@@ -47,8 +46,8 @@ static int find_place(t_list **start, t_list *node, t_list *curr, t_list *prev)
 int	node_sort(t_list **ptr, t_list *node)
 {
 	t_list	*start;
-	t_list	*prev;
 	t_list	*curr;
+	t_list	*prev;
 
 	if (!node)
 		return (0);
@@ -59,13 +58,13 @@ int	node_sort(t_list **ptr, t_list *node)
 	{
 		curr = start;
 		prev = NULL;
-		if (find_place(&start, node, curr, prev))
+		if (find_place(node, prev, curr, curr->next))
 		{
 			while (start)
 			{
-				prev = start;
+				curr = start;
 				start = start->next;
-				free(prev);
+				free(curr);
 			}
 		}
 		node = node->next;

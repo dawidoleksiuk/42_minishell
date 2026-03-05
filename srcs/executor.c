@@ -6,11 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/02 12:34:37 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 05:28:48 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 static char *check_path(t_exec_info *exec_info)
 {

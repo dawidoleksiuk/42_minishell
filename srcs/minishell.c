@@ -6,11 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/02/25 16:35:22 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 05:29:00 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 
 void print_tokens(t_data *data)

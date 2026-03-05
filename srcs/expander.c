@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/02/22 19:39:41 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/05 05:28:51 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void dolar_insert(char *variable, int *i, char **arg, int dolar_len)
 {
