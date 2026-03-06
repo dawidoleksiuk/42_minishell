@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/05 05:28:54 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/05 16:12:42 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ struct termios	init_termios (int c_on)
 int	init_signals(t_data *data)
 {
 	rl_catch_signals = 0;
-	ft_bzero(data, sizeof(t_data));
 	data->termios_p_save = init_termios(0);
 	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
 		return (1);
@@ -85,13 +84,14 @@ static int	get_envp(t_data *data, char **envp)
 
 int	init(t_data *data, char **envp)
 {
-	data->line = NULL;
-	data->token_head = NULL;
-	data->cmd_head = NULL;
-	data->exp_data.i = 0;
-	data->exp_data.start = 0;
-	data->exp_data.status = DEFAULT;
-	data->error_msg = NULL;
+	ft_bzero(data, sizeof(t_data));
+	// data->line = NULL;
+	// data->token_head = NULL;
+	// data->cmd_head = NULL;
+	// data->exp_data.i = 0;
+	// data->exp_data.start = 0;
+	// data->exp_data.status = DEFAULT;
+	// data->error_msg = NULL;
 	if (init_signals(data))
 		return (1);
 	data->exec_info = ft_calloc(1, sizeof(t_exec_info));
