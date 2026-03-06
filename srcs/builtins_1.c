@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/05 05:27:43 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/06 08:34:43 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	display_table(t_list **table, char *prefix, char null_values, char sorted)
 		{
 			if (!node->value && null_values)
 				ft_printf("%s%s=\"\"\n", prefix, node->key);
-			else
+			else if (node->value)
 				ft_printf("%s%s=\"%s\"\n", prefix, node->key, node->value);
 			if (sorted)
 			{
@@ -108,15 +108,24 @@ void	ft_export(t_exec_info *exec, t_list **table, char **args)
 		return ;
 	}
 	if (table_sep_string(args[1], &key, &value))
+	{	
+		if (key)
+			free(key);
 		return (clean_exec(exec, "malloc failed\n", 1, key));
+	}
 	node = table_find_node(table, key);
 	if (!node)
 	{
-		if (table_add(table, key, value))
+		if (table_add(&table[i], key, value))
 			return (clean_exec(exec, "malloc failed\n", 1, key));
 	}
 	else
+	{
+		if (node->value)
+			free(node->value);
+		free(key);
 		node->value = value;
+	}
 }
 
 void	ft_echo(int	fd, char **args)

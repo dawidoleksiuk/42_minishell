@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 12:11:47 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/05 08:36:26 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/06 07:40:37 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,31 @@ static int	add(t_list **dest, t_list *node, t_list *prev, t_list *next)
 	return (0);
 }
 
+static int	switch_nodes(t_list **curr, t_list **next)
+{
+	t_list temp;
+
+	temp.key = (*next)->key;
+	temp.value = (*next)->value;
+	(*next)->key = (*curr)->key;
+	(*next)->value = (*curr)->value;
+	(*curr)->key = temp.key;
+	(*curr)->value = temp.value;
+	return (0);
+}
+
 static int find_place(t_list *node, t_list *prev, t_list *curr, t_list *next)
 {
 	while (curr)
 	{
+		if (ft_strncmp(node->key, curr->key, ft_strlen(node->key) + 1) < 0)
+			return (add(&curr->next, node, prev, curr->next) || switch_nodes(&curr, &curr->next));
 		if (!next)
 		{
-			if (ft_strncmp(node->key, curr->key, ft_strlen(node->key) + 1) < 0)
-				return (add(&curr->next, node, prev, NULL));
+			if (ft_strncmp(node->key, curr->key, ft_strlen(node->key) + 1) > 0)
+				return (add(&curr->next, node, curr, curr->next));
 			else
-				return (add(&curr, node, prev, curr));
+				return (add(&curr->next, node, curr, curr->next) || switch_nodes(&curr, &curr->next));
 		}
 		else if (ft_strncmp(node->key, curr->key, ft_strlen(node->key) + 1) > 0 &&
 			ft_strncmp(node->key, next->key, ft_strlen(node->key) + 1) < 0)
