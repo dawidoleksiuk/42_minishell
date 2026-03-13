@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/05 15:46:57 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/11 07:09:47 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus)
 		clean_exit(exec_info->data, NULL, exit_code);
 	}
 	if (msg || exit_code)
-		clean_exit(exec_info->data, NULL, 0);
+		clean_exit(exec_info->data, NULL, exit_code);
 }
 
 void	clean_envars(t_envar *envars)

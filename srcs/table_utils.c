@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:36:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/06 08:22:42 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/13 12:44:25 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ int	table_sep_string(char *str, char **key, char **value)
 			return (1);
 		return (0);
 	}
+	else
+		*value = NULL;
 	*key = ft_strdup(str);
 	if (!(*key))
 		return (1);
-	*value = NULL;
 	return (0);
 }
 

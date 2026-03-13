@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/05 16:12:42 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/06 10:56:52 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	prompt(t_data *data)
 // turns off termios flag for signal output (^C, ^\ etc.) in terminal
 // sets signal handling
 
-struct termios	init_termios (int c_on)
+struct termios	init_termios (int symbol_on)
 {
 	struct termios	termios_p;
 	struct termios	termios_p_copy;
@@ -44,9 +44,9 @@ struct termios	init_termios (int c_on)
 	if (tcgetattr(STDIN_FILENO, &termios_p) == 0)
 	{
 		termios_p_copy = termios_p;
-		if (!c_on)
+		if (!symbol_on)
 			termios_p.c_lflag &= ~ECHOCTL;
-		if (c_on)
+		if (symbol_on)
 			termios_p.c_lflag |= ECHOCTL;
 		tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
 	}
@@ -85,13 +85,6 @@ static int	get_envp(t_data *data, char **envp)
 int	init(t_data *data, char **envp)
 {
 	ft_bzero(data, sizeof(t_data));
-	// data->line = NULL;
-	// data->token_head = NULL;
-	// data->cmd_head = NULL;
-	// data->exp_data.i = 0;
-	// data->exp_data.start = 0;
-	// data->exp_data.status = DEFAULT;
-	// data->error_msg = NULL;
 	if (init_signals(data))
 		return (1);
 	data->exec_info = ft_calloc(1, sizeof(t_exec_info));

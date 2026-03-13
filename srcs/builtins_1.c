@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/06 08:34:43 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/13 12:50:39 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	ft_export(t_exec_info *exec, t_list **table, char **args)
 	node = table_find_node(table, key);
 	if (!node)
 	{
-		if (table_add(&table[i], key, value))
+		if (table_add(&(table[i]), key, value))
 			return (clean_exec(exec, "malloc failed\n", 1, key));
 	}
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/05 15:51:00 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/06 13:10:05 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,8 @@ int	main(int argc, char **argv, char **envp)
 	if (init(&data, envp) == 1)
 		clean_exit(&data, NULL, 0);
 	if (isatty(STDIN_FILENO))
-	{
 		while (1)
-		{
 			interactive_mode(&data);
-		}
-	}
 	clean_exit(&data, NULL, 0);
 	return (0);
 }

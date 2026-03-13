@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/05 16:29:11 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/11 07:06:17 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,19 @@ static void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 
 t_exec_info	*give_birth(t_exec_info *exec_info, t_cmd *cmd)
 {
-	if (signal_action(SIGINT, SIG_IGN) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
-		return (exec_info);
 	exec_info = redir(exec_info, cmd->redirs);
+	if (g_signum)
+	{
+		ft_printf("exit\n");
+		return (exec_info);
+	}
 	if (exec_info->error || pipe(exec_info->pipe_fd) == -1)
 		return (exec_info->error += exec_info->error == 0, exec_info);
 	exec_info->pid = fork();
 	if (exec_info->pid == -1)
 		return (exec_info->error = 1, exec_info);
+	if (signal_action(SIGINT, SIG_IGN) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+		return (exec_info);
 	else if (exec_info->pid == 0)
 	{
 		init_termios(1);
@@ -145,25 +150,34 @@ void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 	if (!data->exec_info->pipe_fd)
 		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL));
 	cmd = cmd_head;
-	if (!cmd->next && check_for_built_ins(data, cmd) && !cmd->redirs)
+	if (cmd && !cmd->next && check_for_built_ins(data, cmd) && !cmd->redirs)
 		return (clean_exec(data->exec_info, NULL, 0, NULL));
 	while (cmd)
 	{
 		data->exec_info->cmd = cmd;
 		data->exec_info = give_birth(data->exec_info, cmd);
+		if (g_signum)
+		{
+			ft_printf("exit\n");
+			return (clean_exec(data->exec_info, NULL, 0, NULL));
+		}
+		if (data->exec_info->error)
+			break;
 		if (data->exec_info->pid == 0)
 			do_your_job(data, data->exec_info, cmd);
 		cmd = cmd->next;
 	}
 	pid = waitpid(-1, &status, 0);
 	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
-		return ;
+		return (clean_exec(data->exec_info, NULL, 0, NULL));
 	while (pid > 0)
 	{
 		if (pid == data->exec_info->pid)
 		{
-			if (WIFEXITED(status))
+			if (WIFEXITED(status) && !data->exec_info->error)
 				*exit_code = WEXITSTATUS(status);
+			else
+				*exit_code = data->exec_info->error;
 			if (WIFSIGNALED(status))
 			{
 				sig = WTERMSIG(status);

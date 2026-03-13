@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/04 13:04:54 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/09 12:43:17 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ struct termios	init_termios (int c_on);
 
 // signals.c 
 void	sig_handler(int sig);
+void	sig_handler_child(int sig);
 int	config_sigaction(struct sigaction *sa);
 int	signals(void);
 int	signal_action(int sig, void *handler);
