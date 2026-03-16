@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/09 12:43:17 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/16 20:15:37 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	free_cmd(t_data *data);
 void	free_tokens(t_data *data);
 void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus);
 void	clean_exit(t_data *data, char *msg, int exit_code);
+void	put_msg(char *msg);
 
 // init.c
 void	prompt(t_data *data);
@@ -99,11 +100,11 @@ int	signals(void);
 int	signal_action(int sig, void *handler);
 
 // tokenizer.c
-void	tokenizer(t_data *data);
+int	tokenizer(t_data *data);
 
 //tokenizer_2.c
 void	assign_token_type(t_data *data);
-void	check_syntax(t_data *data);
+int	check_syntax(t_data *data);
 
 // parser.c
 void	parser(t_data *data);

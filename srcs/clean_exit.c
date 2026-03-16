@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/11 07:09:47 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/16 20:13:21 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,15 +118,20 @@ void	clean_envars(t_envar *envars)
 	free(envars);
 }
 
+void	put_msg(char *msg)
+{
+	if (msg)
+	{
+		ft_putstr_fd(msg, 2);
+		ft_putstr_fd("\n", 2);
+	}
+}
+
 void	clean_exit(t_data *data, char *msg, int exit_code)
 {	
 	if (data)
 	{
-		if (msg)
-		{
-			ft_putstr_fd(msg, 2);
-			ft_putstr_fd("\n", 2);
-		}
+		put_msg(msg);
 		if (data->error_msg)
 			free(data->error_msg);
 		rl_clear_history();

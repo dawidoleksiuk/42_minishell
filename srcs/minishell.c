@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/06 13:10:05 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/16 20:58:51 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,17 @@ void print_cmds(t_data *data)
 	}
 }
 
-void	interactive_mode(t_data *data)
+int	minishell(t_data *data)
 {
+
 	prompt(data);
 	if (g_signum != 0)
 	{
 		data->exit_code = 128 + g_signum;
 		g_signum = 0;
 	}
-	tokenizer(data);
+	if (tokenizer(data) == 1)
+		return (1);
 	expander(data);
 	parser(data);
 	if (data->line)
@@ -66,12 +68,13 @@ void	interactive_mode(t_data *data)
 		free(data->line);
 		data->line = NULL;
 	}
-	// print_tokens(&data);
+	// print_tokens(data);
 	// print_cmds(&data);
 	//make_connections(&data);
 	executor(data, data->cmd_head, &data->exit_code);
 	free_tokens(data);
 	free_cmd(data);
+	return (0);
 }
 
 //valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
@@ -84,9 +87,8 @@ int	main(int argc, char **argv, char **envp)
 	argv[0] = NULL;
 	if (init(&data, envp) == 1)
 		clean_exit(&data, NULL, 0);
-	if (isatty(STDIN_FILENO))
-		while (1)
-			interactive_mode(&data);
+	while (1)
+		minishell(&data);	
 	clean_exit(&data, NULL, 0);
 	return (0);
 }

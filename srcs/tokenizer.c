@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/05 05:28:45 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/16 20:59:05 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_separator(char c)
 	return (0);
 }
 
-void	get_next_word(t_data *data, char *line, int *i)
+int	get_next_word(char *line, int *i)
 {
 	int	status;
 
@@ -67,7 +67,11 @@ void	get_next_word(t_data *data, char *line, int *i)
 		(*i)++;
 	}
 	if (status == IN_SINGLE || status == IN_DOUBLE)
-		clean_exit(data, "bad quotes", 0);
+	{
+		ft_putstr_fd("minishell: bad quotes\n", 2);
+		return (1);
+	}
+	return (0);
 }
 
 void	get_next_operator(char *line, int *start, int *i)
@@ -85,7 +89,7 @@ void	get_next_operator(char *line, int *start, int *i)
 	(*i)++;
 }
 
-void	tokenizer(t_data *data)
+int	tokenizer(t_data *data)
 {
 	int		i;
 	int		start;
@@ -101,7 +105,10 @@ void	tokenizer(t_data *data)
 		if (data->line[i])
 		{
 			if (!check_separator(data->line[i]))
-				get_next_word(data, data->line, &i);
+			{
+				if (get_next_word(data->line, &i) == 1)
+					return (1);
+			}
 			else
 				get_next_operator(data->line, &start, &i);
 			current_token = create_token_node(data, &current_token);
@@ -109,7 +116,9 @@ void	tokenizer(t_data *data)
 		}
 	}
 	assign_token_type(data);
-	check_syntax(data);
+	if (check_syntax(data) == 1)
+		return (1);
+	return (0);
 }
 
 // int	main(void)

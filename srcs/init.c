@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/06 10:56:52 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/16 21:14:34 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,30 @@
 //if we get input, it adds it to history
 void	prompt(t_data *data)
 {
-	data->line = readline("minishell$ ");
-	// data->line = get_next_line(0);
-	if (!data->line)
+	int	line_len;
+
+	if (isatty(STDIN_FILENO))
 	{
-		write (1, "exit\n", 5);
-		clean_exit(data, NULL, 0);
+		data->line = readline("minishell$ ");
+		if (!data->line)
+		{
+			write (1, "exit\n", 5);
+			clean_exit(data, NULL, 0);
+		}
+		if (data->line[0] != '\0')
+			add_history(data->line);
 	}
-	if (data->line[0] != '\0')
-		add_history(data->line);
+	else
+	{
+		data->line = get_next_line(0);
+		// printf("%s", data->line);
+		if (!data->line)
+			clean_exit(data, NULL, 0);
+		line_len = ft_strlen(data->line);
+		// printf("%s %d", data->line, line_len);
+		if (data->line[line_len- 1] == '\n')
+			data->line[line_len- 1] = '\0';
+	}
 }
 
 // termios https://www.gnu.org/software/libc/manual/html_node/Local-Modes.html
@@ -85,8 +100,9 @@ static int	get_envp(t_data *data, char **envp)
 int	init(t_data *data, char **envp)
 {
 	ft_bzero(data, sizeof(t_data));
-	if (init_signals(data))
-		return (1);
+	if (isatty(STDIN_FILENO))
+		if (init_signals(data) == 1)
+			return (1);
 	data->exec_info = ft_calloc(1, sizeof(t_exec_info));
 	if (!data->exec_info || get_envp(data, envp))
 		return (1);
