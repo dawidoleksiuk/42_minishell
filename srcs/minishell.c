@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/17 19:55:32 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/19 21:24:55 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	minishell(t_data *data)
 		data->line = NULL;
 	}
 	// print_tokens(data);
-	// print_cmds(&data);
+	// print_cmds(data);
 	//make_connections(&data);
 	executor(data, data->cmd_head, &data->exit_code);
 	free_tokens(data);

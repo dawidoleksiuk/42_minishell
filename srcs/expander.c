@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/05 05:28:51 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/19 21:24:09 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,22 @@ void	dolar_handler(t_data *data, int *i, char **arg)
 		value = ft_itoa(data->exit_code);
 		dolar_insert(value, i, arg, 2);
 	}
-	else
+	else if (ft_isalnum((*arg)[j]) || (*arg)[j] == '_')
 	{
-		while ((*arg)[j] && (ft_isalnum((*arg)[j]) || (*arg)[j] == '_'))
+		while ((*arg)[j])
 			j++;
 		key = ft_substr(*arg, *i + 1, j - (*i + 1));
 		value = table_find_value(data->exec_info->envars->table, key);
 		if (value)
 			value = ft_strdup(value);
 		else
-			value =ft_strdup("");
+			value = ft_strdup("");
 		dolar_insert(value, i, arg, j - *i);
 	}
-	free (key);
-	free (value);
+	if (key)
+		free (key);
+	if (value)
+		free (value);
 }
 
 char	*remove_quote(t_data *data, char *temp, char *arg, int len)
