@@ -6,14 +6,13 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/19 21:24:55 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/20 17:05:30 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void print_tokens(t_data *data)
+void	print_tokens(t_data *data)
 {
 	t_token	*token;
 
@@ -25,13 +24,12 @@ void print_tokens(t_data *data)
 	}
 }
 
-void print_cmds(t_data *data)
+void	print_cmds(t_data *data)
 {
 	t_cmd	*cmd;
 	int		i;
 
 	i = 0;
-
 	cmd = data->cmd_head;
 	while (cmd)
 	{
@@ -52,7 +50,6 @@ void print_cmds(t_data *data)
 
 int	minishell(t_data *data)
 {
-
 	prompt(data);
 	if (g_signum != 0)
 	{
@@ -91,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	if (init(&data, envp) == 1)
 		clean_exit(&data, NULL, 0);
 	while (1)
-		minishell(&data);	
+		minishell(&data);
 	clean_exit(&data, NULL, 0);
 	return (0);
 }

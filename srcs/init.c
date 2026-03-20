@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/19 20:44:59 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/20 17:07:14 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	prompt(t_data *data)
 			clean_exit(data, NULL, 0);
 		line_len = ft_strlen(data->line);
 		// printf("%s %d", data->line, line_len);
-		if (data->line[line_len- 1] == '\n')
-			data->line[line_len- 1] = '\0';
+		if (data->line[line_len - 1] == '\n')
+			data->line[line_len - 1] = '\0';
 	}
 }
 
@@ -50,7 +50,7 @@ void	prompt(t_data *data)
 // turns off termios flag for signal output (^C, ^\ etc.) in terminal
 // sets signal handling
 
-struct termios	init_termios (int symbol_on)
+struct termios	init_termios(int symbol_on)
 {
 	struct termios	termios_p;
 	struct termios	termios_p_copy;
@@ -72,7 +72,8 @@ int	init_signals(t_data *data)
 {
 	rl_catch_signals = 0;
 	data->termios_p_save = init_termios(0);
-	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+	if (signal_action(SIGINT, &sig_handler) == 1
+		|| signal_action(SIGQUIT, SIG_IGN) == 1)
 		return (1);
 	return (0);
 }

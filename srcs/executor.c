@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/11 07:06:17 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/20 17:02:21 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,9 @@ void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 		cmd = cmd->next;
 	}
 	pid = waitpid(-1, &status, 0);
-	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
-		return (clean_exec(data->exec_info, NULL, 0, NULL));
+	if (isatty(STDIN_FILENO))
+		if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+			return (clean_exec(data->exec_info, NULL, 0, NULL));
 	while (pid > 0)
 	{
 		if (pid == data->exec_info->pid)
