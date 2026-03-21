@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/20 17:05:30 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/21 09:53:47 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	minishell(t_data *data)
 	}
 	if (tokenizer(data) == 1)
 	{
+		data->exit_code = 2;
 		free_tokens(data);
 		return (1);
 	}

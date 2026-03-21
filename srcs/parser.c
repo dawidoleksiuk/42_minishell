@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:38:03 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/05 05:29:02 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/21 09:35:20 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 t_cmd	*new_cmd_node(t_data *data, t_cmd *cmd)
 {
@@ -27,9 +26,9 @@ t_cmd	*new_cmd_node(t_data *data, t_cmd *cmd)
 		cmd->next = node;
 	else
 		data->cmd_head = node;
-	// (*cmd) = node;
 	return (node);
 }
+
 int	copy_args(t_data *data, t_token *token, t_cmd *cmd)
 {
 	int		i;
@@ -60,9 +59,9 @@ int	copy_args(t_data *data, t_token *token, t_cmd *cmd)
 
 t_token	*add_cmd(t_data *data, t_token *token, t_cmd *cmd)
 {
-	(void) data;
 	int		i;
 
+	(void) data;
 	i = copy_args(data, token, cmd);
 	while (token && token->type == WORD)
 	{
@@ -111,7 +110,7 @@ void	parser(t_data *data)
 {
 	t_token	*token;
 	t_cmd	*current_cmd;
-	
+
 	token = data->token_head;
 	current_cmd = data->cmd_head;
 	while (token)

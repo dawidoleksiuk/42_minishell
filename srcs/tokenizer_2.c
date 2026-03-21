@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 17:21:51 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/17 19:59:33 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/21 09:46:25 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	check_syntax(t_data *data)
 			return (put_msg(data->error_msg), 1);
 		}
 		else if (token->type != WORD && token->next == NULL)
-			return (put_msg("minishell: syntax error near unexpected token `newline'"), 1);
+			return (put_msg("minishell: syntax error"
+					"near unexpected token `newline'"), 1);
 		token = token->next;
 	}
 	return (0);
