@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/21 19:57:34 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/21 21:47:31 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,12 @@ t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 		return (exec_info);
 	else if (exec_info->pid == 0)
 	{
-		set_terminal_settings(data, 1);
-		if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
-			return (exec_info->error = 1, exec_info);
+		if (isatty(STDIN_FILENO))
+		{
+			set_terminal_settings(data, 1);
+			if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
+				return (exec_info->error = 1, exec_info);
+		}
 		dup2(exec_info->in, 0);
 		if (exec_info->redir_out)
 			dup2(exec_info->out, 1);
@@ -196,7 +199,8 @@ void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 		}
 		pid = waitpid(-1, &status, 0);
 	}
-	set_terminal_settings(data, 0);
+	if (isatty(STDIN_FILENO))
+		set_terminal_settings(data, 0);
 	if (data->exec_info->pipe_fd[1])
 		close(data->exec_info->pipe_fd[1]);
 	clean_exec(data->exec_info, NULL, 0, NULL);
