@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/16 20:15:37 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/21 19:57:11 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	put_msg(char *msg);
 // init.c
 void	prompt(t_data *data);
 int	init(t_data *data, char **envp);
-struct termios	init_termios (int c_on);
+struct termios	set_terminal_settings(t_data *data, int c_on);
 
 // signals.c 
 void	sig_handler(int sig);

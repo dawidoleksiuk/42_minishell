@@ -6,15 +6,20 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/20 17:07:14 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/21 21:43:40 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//prompting for an input, 
-//when CTRL+D clears rl history and closes program
-//if we get input, it adds it to history
+/*
+in interactive mode:
+prompting for an input, 
+if we get input, it adds it to history
+when CTRL+D, clears rl history and closes program
+in non-interactive mode:
+reads from the file descriptor 0
+*/
 void	prompt(t_data *data)
 {
 	int	line_len;
@@ -46,16 +51,16 @@ void	prompt(t_data *data)
 // termios https://www.gnu.org/software/libc/manual/html_node/Local-Modes.html
 // https://www.gnu.org/software/libc/manual/html_node/Setting-Modes.html
 // rl_catch_signals https://www.manpagez.com/info/rlman/rlman-5.2/rlman_43.php
-// sets variables to zero
-// turns off termios flag for signal output (^C, ^\ etc.) in terminal
-// sets signal handling
+/*
+turns off termios flag for signal output (^C, ^\ etc.) in terminal
+sets signal handling
+*/
 
-struct termios	init_termios(int symbol_on)
+struct termios	set_terminal_settings(t_data *data, int symbol_on)
 {
 	struct termios	termios_p;
 	struct termios	termios_p_copy;
 
-	ft_bzero(&termios_p_copy, sizeof(struct termios));
 	if (tcgetattr(STDIN_FILENO, &termios_p) == 0)
 	{
 		termios_p_copy = termios_p;
@@ -63,15 +68,18 @@ struct termios	init_termios(int symbol_on)
 			termios_p.c_lflag &= ~ECHOCTL;
 		if (symbol_on)
 			termios_p.c_lflag |= ECHOCTL;
-		tcsetattr(STDIN_FILENO, TCSANOW, &termios_p);
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &termios_p) != 0)
+			clean_exit(data, "minishell: tcsetattr error", 0);
 	}
+	else
+		clean_exit(data, "minishell: tcgetattr error", 0);
 	return (termios_p_copy);
 }
 
 int	init_signals(t_data *data)
 {
 	rl_catch_signals = 0;
-	data->termios_p_save = init_termios(0);
+	data->termios_p_save = set_terminal_settings(data, 0);
 	if (signal_action(SIGINT, &sig_handler) == 1
 		|| signal_action(SIGQUIT, SIG_IGN) == 1)
 		return (1);
