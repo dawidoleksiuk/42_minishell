@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/22 13:39:09 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/22 15:36:08 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	minishell(t_data *data)
 		data->exit_code = 128 + g_signum;
 		g_signum = 0;
 	}
-	if (tokenizer(data) == 1)
+	if (tokenizer(data) != 0)
 	{
 		data->exit_code = 2;
 		free_tokens(data);
@@ -89,10 +89,13 @@ int	main(int argc, char **argv, char **envp)
 	//do usuniecia
 	(void) argc;
 	argv[0] = NULL;
-	if (init(&data, envp) == 1)
-		clean_exit(&data, NULL, 0);
+	if (init(&data, envp) != 0)
+	{
+		data.exit_code = 0;
+		clean_exit(&data, NULL, data.exit_code);
+	}
 	while (1)
-		minishell(&data);
+	minishell(&data);
 	clean_exit(&data, NULL, data.exit_code);
 	return (0);
 }

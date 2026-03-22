@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/21 09:37:49 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/22 14:16:13 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	tokenizer(t_data *data)
 		}
 	}
 	assign_token_type(data);
-	if (check_syntax(data) == 1)
-		return (1);
+	if (check_syntax(data) != 0)
+		return (2);
 	return (0);
 }
