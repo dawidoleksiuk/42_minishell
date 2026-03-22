@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:52 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/21 20:37:20 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/22 13:17:50 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ void	sig_handler(int sig)
 	if (sig == SIGINT)
 	{
 		write(STDOUT_FILENO, "^C\n", 3);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (isatty(STDIN_FILENO))
+		{
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
 	}
 }
 
