@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/21 21:43:40 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/22 13:48:14 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int	init(t_data *data, char **envp)
 		if (init_signals(data) == 1)
 			return (1);
 	data->exec_info = ft_calloc(1, sizeof(t_exec_info));
+	data->exec_info->out = 1;
 	if (!data->exec_info || get_envp(data, envp))
 		return (1);
 	data->exec_info->data = data;

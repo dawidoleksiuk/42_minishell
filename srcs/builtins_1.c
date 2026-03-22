@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/13 12:50:39 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/22 13:47:52 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,10 +142,10 @@ void	ft_echo(int	fd, char **args)
 	{
 		ft_putstr_fd(args[flag + i++], fd);
 		if (args[flag + i])
-			write(1, " ", 1);
+			write(1, " ", fd);
 	}
 	if (!flag)
-		write(1, "\n", 1);
+		write(1, "\n", fd);
 }
 
 int	ft_cd(t_envar **envar, char *path)
