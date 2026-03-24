@@ -6,7 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/03/22 13:51:50 by alusnia          ###   ########.fr       */
+=======
+/*   Updated: 2026/03/22 14:47:08 by doleksiu         ###   ########.fr       */
+>>>>>>> 5f30ad5e10be44147b3228690898e02c140d3dab
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +33,8 @@ void	prompt(t_data *data)
 		data->line = readline("minishell$ ");
 		if (!data->line)
 		{
-			write (1, "exit\n", 5);
-			clean_exit(data, NULL, 0);
+			// write (1, "exit\n", 5);
+			clean_exit(data, NULL, data->exit_code);
 		}
 		if (data->line[0] != '\0')
 			add_history(data->line);
@@ -40,10 +44,10 @@ void	prompt(t_data *data)
 		data->line = get_next_line(STDIN_FILENO);
 		// printf("%s", data->line);
 		if (!data->line)
-			clean_exit(data, NULL, 0);
+			clean_exit(data, NULL, data->exit_code);
 		line_len = ft_strlen(data->line);
 		// printf("%s %d", data->line, line_len);
-		if (data->line[line_len - 1] == '\n')
+		if (line_len > 0 && data->line[line_len - 1] == '\n')
 			data->line[line_len - 1] = '\0';
 	}
 }
