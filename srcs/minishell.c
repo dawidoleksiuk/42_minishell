@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/21 09:53:47 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/22 13:39:09 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ void	print_cmds(t_data *data)
 int	minishell(t_data *data)
 {
 	prompt(data);
+	// char *line = get_next_line(0);
+	// if (line)
+    // 	printf("DEBUG: |%s|\n", line);
 	if (g_signum != 0)
 	{
 		data->exit_code = 128 + g_signum;
@@ -90,6 +93,6 @@ int	main(int argc, char **argv, char **envp)
 		clean_exit(&data, NULL, 0);
 	while (1)
 		minishell(&data);
-	clean_exit(&data, NULL, 0);
+	clean_exit(&data, NULL, data.exit_code);
 	return (0);
 }

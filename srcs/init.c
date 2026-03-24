@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/22 13:48:14 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/22 13:51:50 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	prompt(t_data *data)
 	}
 	else
 	{
-		data->line = get_next_line(0);
+		data->line = get_next_line(STDIN_FILENO);
 		// printf("%s", data->line);
 		if (!data->line)
 			clean_exit(data, NULL, 0);
@@ -71,15 +71,14 @@ struct termios	set_terminal_settings(t_data *data, int symbol_on)
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &termios_p) != 0)
 			clean_exit(data, "minishell: tcsetattr error", 0);
 	}
-	else
-		clean_exit(data, "minishell: tcgetattr error", 0);
 	return (termios_p_copy);
 }
 
 int	init_signals(t_data *data)
 {
 	rl_catch_signals = 0;
-	data->termios_p_save = set_terminal_settings(data, 0);
+	if (isatty(STDIN_FILENO))
+		data->termios_p_save = set_terminal_settings(data, 0);
 	if (signal_action(SIGINT, &sig_handler) == 1
 		|| signal_action(SIGQUIT, SIG_IGN) == 1)
 		return (1);
@@ -109,9 +108,9 @@ static int	get_envp(t_data *data, char **envp)
 int	init(t_data *data, char **envp)
 {
 	ft_bzero(data, sizeof(t_data));
-	if (isatty(STDIN_FILENO))
-		if (init_signals(data) == 1)
-			return (1);
+	// if (isatty(STDIN_FILENO))
+	if (init_signals(data) == 1)
+		return (1);
 	data->exec_info = ft_calloc(1, sizeof(t_exec_info));
 	data->exec_info->out = 1;
 	if (!data->exec_info || get_envp(data, envp))

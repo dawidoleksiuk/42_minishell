@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/21 20:03:01 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/22 13:22:41 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 		rl_clear_history();
 		if (data->line)
 			free(data->line);
-		if (isatty(STDIN_FILENO) && tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) < 0)
-			perror("minishell: tcgetattr error");
+		if(isatty(STDIN_FILENO) && tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) < 0)
+			perror("minishell: tcsetattr error");
 		if (data->token_head)
 			free_tokens(data);
 		if (data->cmd_head)
