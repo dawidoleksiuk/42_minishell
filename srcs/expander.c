@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/31 17:53:52 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:00:12 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	dolar_handler(t_data *data, int *i, char **arg)
 		value = ft_itoa(data->exit_code);
 		dolar_insert(value, i, arg, 2);
 	}
-	if (ft_isalnum((*arg)[j]) || (*arg)[j] == '_')
+	else if (ft_isalnum((*arg)[j]) || (*arg)[j] == '_')
 	{
-		while ((*arg)[j] && (*arg)[j] != '\"')
+		while ((*arg)[j] && (ft_isalnum((*arg)[j]) || (*arg)[j] == '_') && (*arg)[j] != '\"')
 			j++;
 		key = ft_substr(*arg, *i + 1, j - (*i + 1));
 		if (key)
