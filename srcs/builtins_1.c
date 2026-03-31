@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/03/22 13:47:52 by alusnia          ###   ########.fr       */
-=======
-/*   Updated: 2026/03/22 14:49:25 by doleksiu         ###   ########.fr       */
->>>>>>> 5f30ad5e10be44147b3228690898e02c140d3dab
+/*   Updated: 2026/03/31 12:30:09 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +142,10 @@ void	ft_echo(int	fd, char **args)
 	{
 		ft_putstr_fd(args[flag + i++], fd);
 		if (args[flag + i])
-			write(1, " ", fd);
+			ft_putchar_fd(' ', fd);
 	}
 	if (!flag)
-		write(1, "\n", fd);
+		ft_putchar_fd('\n', fd);
 }
 
 int	ft_cd(t_envar **envar, char *path)
@@ -165,11 +161,15 @@ int	ft_cd(t_envar **envar, char *path)
 			return (1);
 		path = temp;
 		temp = ft_strjoin((*envar)->curr_dir, path);
+		free(path);
 	}
 	if (!temp)
 			return (1);
 	if (chdir(temp) == -1)
+	{
 		perror("cd");
+		free(temp);
+	}
 	else
 	{
 		free((*envar)->curr_dir);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/22 14:49:22 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:54:10 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static t_exec_info	*check_catalogs(t_exec_info *exec_info, char *path, char *f_n
 
 int	check_for_built_ins(t_data *data, t_cmd *cmd)
 {
+	if (!cmd->args)
+		return (0);
 	if (!strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
 		ft_cd(&data->exec_info->envars, cmd->args[1]);
  	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))

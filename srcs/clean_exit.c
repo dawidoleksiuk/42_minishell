@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/22 15:42:15 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:57:23 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_args_node(t_cmd *node)
 	t_redir	*redir;
 
 	i = 0;
-	while (node->args[i])
+	while (node->args && node->args[i])
 	{
 		free(node->args[i]);
 		i++;
@@ -135,6 +135,8 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 		if (data->error_msg)
 			free(data->error_msg);
 		rl_clear_history();
+		if (data->prev_exit)
+			free(data->prev_exit);
 		if (data->line)
 			free(data->line);
 		if(isatty(STDIN_FILENO) && tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) < 0)
