@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/31 10:17:14 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/03/31 17:53:52 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,21 @@ void	dolar_handler(t_data *data, int *i, char **arg)
 	key = NULL;
 	value = NULL;
 	j = *i + 1;
-	if ((*arg)[*i + 1] == '?')
+	if ((*arg)[j] == '?')
 	{
 		value = ft_itoa(data->exit_code);
 		dolar_insert(value, i, arg, 2);
 	}
-	else if (ft_isalnum((*arg)[j]) || (*arg)[j] == '_')
+	if (ft_isalnum((*arg)[j]) || (*arg)[j] == '_')
 	{
-		while ((*arg)[j])
+		while ((*arg)[j] && (*arg)[j] != '\"')
 			j++;
 		key = ft_substr(*arg, *i + 1, j - (*i + 1));
-		if (!ft_strncmp("?", key, 2))
-			value = data->prev_exit;
-		else
+		if (key)
 			value = table_find_value(data->exec_info->envars->table, key);
 		if (value)
 			value = ft_strdup(value);
-		else
+		if (!value)
 			value = ft_strdup("");
 		dolar_insert(value, i, arg, j - *i);
 	}
