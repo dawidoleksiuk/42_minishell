@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   table_sort.c                                       :+:      :+:    :+:   */
+/*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:41:28 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 13:33:16 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 17:31:02 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static int find_spot(t_list **env, t_list **node)
 
 	len = ft_strlen((*env)->key);
 	if (ft_strisless((*env)->key, (*node)->key, len))
-		return (!node_insert(env, NULL, *node, 1));
-	else if (!(*node)->next_sorted)
-		return (!node_insert(env, node, NULL, 1));
-	else if (ft_strismore((*env)->key, (*node)->key, len) && ft_strisless((*env)->key, (*node)->next_sorted->key, len))
-		return (!node_insert(env, node, (*node)->next_sorted, 1));
+		return (!node_insert(env, NULL, node, SORTED));
+	else if (!(*node)->next[SORTED])
+		return (!node_insert(env, node, NULL, SORTED));
+	else if (ft_strismore((*env)->key, (*node)->key, len) && ft_strisless((*env)->key, (*node)->next[SORTED]->key, len))
+		return (!node_insert(env, node, &(*node)->next[SORTED], SORTED));
 	return (0);
 }
 
@@ -42,13 +42,13 @@ void	sort(t_table **table)
 	{
 		while ((*table)->env)
 		{
-			env_next = (*table)->env->next_sorted;
+			env_next = (*table)->env->next[SORTED];
 			node_moved = 0;
 			node_moved = find_spot(&(*table)->env, &node);
 			if (node_moved)
 				(*table)->env = env_next;
 			else
-				node = node->next_sorted;
+				node = node->next[SORTED];
 		}
 	}
 }

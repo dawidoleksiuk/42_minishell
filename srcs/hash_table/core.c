@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   table_core.c                                       :+:      :+:    :+:   */
+/*   core.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:26:53 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 13:43:40 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 18:48:50 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void free_list(t_list *list)
 {
 	t_list	*next;
 
-	next = list->next_sorted;
+	next = list->next[SORTED];
+	free(list->next);
+	free(list->prev);
 	free(list->key);
 	free(list->value);
 	free(list);
@@ -70,7 +72,7 @@ t_env_table *table_init(char **envp)
 {
 	t_env_table	*env_table;
 
-	env_table = malloc(sizeof(t_env_table));
+	env_table = ft_calloc(1, sizeof(t_env_table));
 	if (!env_table)
 		return (NULL);
 	env_table->table = table_alloc();
@@ -83,8 +85,9 @@ t_env_table *table_init(char **envp)
 	}
 	else
 		return (free(env_table), NULL);
-	env_table->get = &table_get;
-	env_table->set = &table_set;
+	env_table->get = &get;
+	env_table->set = &set;
+	// env_table->del = &del;
 	env_table->clear = &free_table;
 	return (env_table);
 }

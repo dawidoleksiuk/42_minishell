@@ -6,38 +6,47 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 18:47:34 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 13:40:27 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 18:19:56 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash_table_internal.h"
 
+
+
 //inserts node between two other node, if there is no previous node write NULL
-int	node_insert(t_list **new, t_list **prev, t_list *next, char sorted)
+int	node_insert(t_list **new, t_list **prev, t_list **next, t_connect index)
 {
-	if (sorted)
+	t_list	*next_cpy;
+
+	if (next)
+		next_cpy = *next;
+	if (prev && *prev)
 	{
-		if (prev && *prev)
-			(*prev)->next_sorted = *new;
-		(*new)->next_sorted = next;
+		(*prev)->next[index] = *new;
+		(*new)->prev[index] = *prev;
 	}
-	else
+	if (next_cpy)
 	{
-		if (prev && *prev)
-			(*prev)->next = *new;
-		(*new)->next = next;
+		(*new)->next[index] = next_cpy;
+		next_cpy->prev[index] = *new;
 	}
 	return (0);
 }
 
-int add_node(t_list **node, char *key, char *value)
+int add_node(t_list **node, t_list *prev, char *key, char *value)
 {
 	(*node) = malloc(sizeof(t_list));
 	if (!node)
-		return (1);
+	{
+		if (value)
+			free(value);
+		return(free(key), 1);
+	}
 	(*node)->key = key;
 	(*node)->value = value;
-	(*node)->next = NULL;
-	(*node)->next_sorted = NULL;
+	(*node)->next = ft_calloc(2, sizeof(t_list*));
+	(*node)->prev = ft_calloc(2, sizeof(t_list*));
+	(*node)->prev[REGULAR] = prev;
 	return (0);
 }
