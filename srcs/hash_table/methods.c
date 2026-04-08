@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:54:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 18:27:55 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 19:46:27 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,42 @@ static t_list	*find(t_table *table, char *key)
 	return (node);
 }
 
-// void	del(t_table **table, char *key)
-// {
-// 	t_list	*node;
+static void	connect_nodes(t_list ***prev, t_list ***next)
+{
+	t_list *tmp[2];
 
-// 	node = find(*table, key);
-// 	if (!node)
-// 		return ;
-	
-// }
+	if (*next)
+	{
+		tmp[0] = *next[0];
+		tmp[1] = *next[1];
+	}
+	if (*prev)
+	{
+		if ((*prev)[SORTED])
+			(*prev)[SORTED]->next[SORTED] = tmp[SORTED];
+		else
+			(*prev)[SORTED] = tmp[SORTED];
+		if ((*prev)[REGULAR])
+			(*prev)[REGULAR]->next[REGULAR] = tmp[REGULAR];
+		else
+			*prev[REGULAR] = tmp[REGULAR];
+	}
+	if ((*next)[SORTED])
+		(*next)[SORTED]->prev[SORTED] = (*prev)[SORTED];
+	if ((*next)[REGULAR])
+		(*next)[REGULAR]->prev[REGULAR] = (*prev)[REGULAR];
+}
+
+void	del(t_table **table, char *key)
+{
+	t_list	*node;
+
+	node = find(*table, key);
+	if (!node)
+		return ;
+	connect_nodes(&node->prev, &node->next);
+	free_list(node);
+}
 
 char	*get(t_table *table, char *key)
 {

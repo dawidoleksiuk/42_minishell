@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:26:58 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 18:27:57 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 19:26:45 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,13 @@ typedef struct s_table
 	size_t	n_of_nodes;
 } t_table;
 
+//core.c
+void free_list(t_list *list);
 
 //methods.c
 char	*get(t_table *table, char *key);
 int		set(t_table **table, char *str);
-// void	del(t_table **table, char *key);
+void	del(t_table **table, char *key);
 
 //utils.c
 size_t	hash_fnv1(char *key);

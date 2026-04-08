@@ -6,7 +6,7 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/04/08 12:34:04 by alusnia          ###   ########.fr        #
+#    Updated: 2026/04/08 19:24:34 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,12 @@ TOK_DIR     = tokenizer
 BLT_DIR     = builtins
 
 CORE_FILES  = minishell.c clean_exit.c init.c signals.c
-HASH_FILES  = nodes_operations.c table_core.c table_operations.c \
-				table_sort.c table_utils.c
+HASH_FILES  = nodes_operations.c core.c operations.c \
+				sort.c utils.c methods.c
 EXEC_FILES  = redirection.c executor.c
 PARS_FILES  = parser.c expander.c
 TOK_FILES   = tokenizer.c tokenizer_2.c
-BLT_FILES   = builtins_1.c
+BLT_FILES   = builtins_1.c table_related.c
 
 SRCS = $(addprefix $(SRC_DIR)/$(CORE_DIR)/, $(CORE_FILES)) \
        $(addprefix $(SRC_DIR)/$(HASH_DIR)/, $(HASH_FILES)) \

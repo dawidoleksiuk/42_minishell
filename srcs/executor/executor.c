@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 12:52:10 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 19:28:10 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int	check_for_built_ins(t_data *data, t_cmd *cmd)
 	// 	ft_export(data->exec_info, data->exec_info->envars->table, cmd->args);
 	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
 		ft_pwd(&data->exec_info->envars);
-	// else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
-	// 	ft_unset(data->exec_info->envars->table, cmd->args);
+	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
+		ft_unset(&data->exec_info->envars->table, cmd->args + 1);
 	else
 		return (0);
 	return (1);
