@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/31 11:57:23 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 12:29:13 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 		if (data->cmd_head)
 			free_cmd(data);
 		if (data->exec_info->envars->table)
-			table_clear(data->exec_info->envars->table);
+			data->exec_info->envars->table->clear(data->exec_info->envars->table);
 		if (data->exec_info && data->exec_info->envars)
 			clean_envars(data->exec_info->envars);
 		if (data->exec_info && data->exec_info->pipe_fd)

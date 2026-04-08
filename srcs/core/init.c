@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/31 09:14:18 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 12:20:09 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ static int	get_envp(t_data *data, char **envp)
 	if (!data->exec_info->envars)
 		return (1);
 	data->exec_info->envars->envp = envp;
-	data->exec_info->envars->table = init_table(envp);
+	data->exec_info->envars->table = table_init(envp);
+	if (!data->exec_info->envars->table)
+		return (1);
 	str = getenv("PATH");
 	if (str)
 		data->exec_info->envars->catalogs = ft_split(str, ':');

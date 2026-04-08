@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/18 13:00:25 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/31 19:00:12 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/08 12:55:33 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	dolar_handler(t_data *data, int *i, char **arg)
 			j++;
 		key = ft_substr(*arg, *i + 1, j - (*i + 1));
 		if (key)
-			value = table_find_value(data->exec_info->envars->table, key);
+			value = data->exec_info->envars->table->get(data->exec_info->envars->table->table, key);
 		if (value)
 			value = ft_strdup(value);
 		if (!value)

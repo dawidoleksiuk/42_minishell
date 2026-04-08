@@ -6,26 +6,51 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/03/03 12:13:40 by alusnia          ###   ########.fr        #
+#    Updated: 2026/04/08 12:34:04 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS =-g -Wall -Werror -Wextra -I$(LIB_DIR)/incs -I$(INCS_DIR)
+CFLAGS = -g -Wall -Werror -Wextra -I$(LIB_DIR)/incs -I$(INCS_DIR)
 NAME = minishell
 
-LIB_DIR		= ./lib
+LIB_DIR     = ./lib
+LIB         = $(LIB_DIR)/libftplus.a
 
-LIB			= $(LIB_DIR)/libftplus.a
+SRC_DIR     = ./srcs
+OBJS_DIR    = ./objs
+INCS_DIR    = ./includes
 
-SRC_DIR = ./srcs
-OBJS_DIR = ./objs
-INCS_DIR = ./includes
-SRCS = minishell.c clean_exit.c init.c signals.c tokenizer.c tokenizer_2.c \
-		parser.c expander.c redirection.c executor.c builtins_1.c table.c \
-		table_utils.c sort.c
-OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
+CORE_DIR	= core
+HASH_DIR    = hash_table
+EXEC_DIR    = executor
+PARS_DIR    = parser
+TOK_DIR     = tokenizer
+BLT_DIR     = builtins
+
+CORE_FILES  = minishell.c clean_exit.c init.c signals.c
+HASH_FILES  = nodes_operations.c table_core.c table_operations.c \
+				table_sort.c table_utils.c
+EXEC_FILES  = redirection.c executor.c
+PARS_FILES  = parser.c expander.c
+TOK_FILES   = tokenizer.c tokenizer_2.c
+BLT_FILES   = builtins_1.c
+
+SRCS = $(addprefix $(SRC_DIR)/$(CORE_DIR)/, $(CORE_FILES)) \
+       $(addprefix $(SRC_DIR)/$(HASH_DIR)/, $(HASH_FILES)) \
+       $(addprefix $(SRC_DIR)/$(EXEC_DIR)/, $(EXEC_FILES)) \
+       $(addprefix $(SRC_DIR)/$(PARS_DIR)/, $(PARS_FILES)) \
+       $(addprefix $(SRC_DIR)/$(TOK_DIR)/, $(TOK_FILES)) \
+       $(addprefix $(SRC_DIR)/$(BLT_DIR)/, $(BLT_FILES))
+
+OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
+
 INCS = $(INCS_DIR)/minishell.h $(INCS_DIR)/parser.h
+
+$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 
 all: $(LIB) $(NAME)
  
@@ -35,9 +60,6 @@ $(NAME): $(OBJS) $(LIB)
 
 $(LIB):
 	@$(MAKE) -C $(LIB_DIR)
-
-$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(INCS) | $(OBJS_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)

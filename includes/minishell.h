@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/31 10:17:01 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 12:50:46 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include "./parser.h"
 # include "libftplus.h"
+# include "../srcs/hash_table/hash_table.h"
 # include <errno.h>
 # include <sys/wait.h>
 # include <stdio.h>
@@ -25,13 +26,6 @@
 // # include <sys/types.h>
 # include <unistd.h>
 # include <termios.h>
-
-typedef struct s_list
-{
-	char			*key;
-	char			*value;
-	struct s_list	*next;
-} t_list;
 
 typedef	struct s_exp_data
 {
@@ -46,7 +40,7 @@ typedef struct s_envar
 	char			*home_dir;
 	char			**catalogs;
 	char			**envp;
-	t_list			**table;
+	t_env_table		*table;
 } t_envar;
 
 typedef struct s_exec_info
@@ -119,30 +113,13 @@ t_exec_info *redir(t_exec_info *ex_info, t_redir *redir);
 // executor.c
 void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code);
 
-//table.c
-t_list	**init_table(char **envp);
-int		table_mod(t_list **ptr, char *key, char *value);
-int		table_add(t_list **node, char *key, char *value);
-t_list	*table_del(t_list *ptr, char *key);
-void	table_clear(t_list **table);
-
-//table_utils.c
-ssize_t	table_get_i(char c);
-void	clear_node(t_list *node);
-t_list	*table_new_node(t_list *node);
-int		table_sep_string(char *str, char **key, char **value);
-t_list	*table_find_node(t_list **table, char *key);
-char	*table_find_value(t_list **table, char *key);
-
 //built-ins
 int		ft_pwd(t_envar **envar);
 int		ft_cd(t_envar **envar, char *path);
 void	ft_echo(int	fd, char **args);
-void	ft_env(t_list **table);
-void	ft_unset(t_list **table, char **args);
+// void	ft_env(t_list **table);
+// void	ft_unset(t_list **table, char **args);
 void	ft_exit(t_data *data, char **args);
-void	ft_export(t_exec_info *exec, t_list **table, char **args);
+// void	ft_export(t_exec_info *exec, t_list **table, char **args);
 
-//sort.c
-int		node_sort(t_list **ptr, t_list *node);
 #endif

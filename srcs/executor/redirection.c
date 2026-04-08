@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/13 09:24:34 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:38:51 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static void read_input(t_exec_info *ex_info, int out, char *delimiter)
 	char    *str;
 	size_t  len;
 	
-	len = ft_strlen(delimiter);
+	len = ft_strlen(delimiter) - 1;
 	if (signal_action(SIGINT, &sig_handler_child) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
 		return (clean_exec(ex_info, NULL, 1, NULL));
 	str = readline("> ");
-	while (str && (len != ft_strlen(str) || ft_strncmp(delimiter, str, len)))
+	while (str && (len != ft_strlen(str) || !ft_strisequal(delimiter, str, len)))
 	{
 		ft_putstr_fd(str, out);
 		ft_putchar_fd('\n', out);
