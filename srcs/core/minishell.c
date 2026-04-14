@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/03/31 18:55:50 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/14 15:01:31 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	main(int argc, char **argv, char **envp)
 		clean_exit(&data, NULL, data.exit_code);
 	}
 	while (1)
-	minishell(&data);
+		minishell(&data);
 	clean_exit(&data, NULL, data.exit_code);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/22 14:16:13 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/14 15:13:33 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 // 		node = node->next;
 // 	return (node);
 // }
-
 t_token	*create_token_node(t_data *data, t_token **token)
 {
 	t_token	*node;
@@ -38,13 +37,6 @@ t_token	*create_token_node(t_data *data, t_token **token)
 		(*token) = node;
 	}
 	return (node);
-}
-
-int	check_separator(char c)
-{
-	if (c == ' ' || c == '>' || c == '<' || c == '|' || c == '\t')
-		return (1);
-	return (0);
 }
 
 int	get_next_word(char *line, int *i)
@@ -89,6 +81,18 @@ void	get_next_operator(char *line, int *start, int *i)
 	(*i)++;
 }
 
+int	get_next_token(char *line, int *i, int *start)
+{
+	if (check_separator(line[*i]) == 0)
+	{
+		if (get_next_word(line, i) == 1)
+			return (1);
+	}
+	else
+		get_next_operator(line, start, i);
+	return (0);
+}
+
 int	tokenizer(t_data *data)
 {
 	int		i;
@@ -104,13 +108,8 @@ int	tokenizer(t_data *data)
 		start = i;
 		if (data->line[i])
 		{
-			if (!check_separator(data->line[i]))
-			{
-				if (get_next_word(data->line, &i) == 1)
-					return (1);
-			}
-			else
-				get_next_operator(data->line, &start, &i);
+			if (get_next_token(data->line, &i, &start))
+				return (1);
 			current_token = create_token_node(data, &current_token);
 			current_token->content = ft_substr(data->line, start, i - start);
 		}
