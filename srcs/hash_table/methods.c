@@ -6,50 +6,21 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:54:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 19:46:27 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/14 13:13:01 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash_table_internal.h"
 
-static t_list	*find(t_table *table, char *key)
+void	display(t_table *table, char sorted, int fd)
 {
-	size_t	index;
-	size_t	len;
-	t_list	*node;
-
-	len = ft_strlen(key);
-	index = hash_fnv1(key);
-	node = table->nodes[index];
-	while (node && !ft_strisequal(node->key ,key, len))
-		node = node->next[REGULAR];
-	return (node);
-}
-
-static void	connect_nodes(t_list ***prev, t_list ***next)
-{
-	t_list *tmp[2];
-
-	if (*next)
+	if (sorted)
 	{
-		tmp[0] = *next[0];
-		tmp[1] = *next[1];
+		sort(&table);
+		display_sorted(table->sorted_list, fd);
 	}
-	if (*prev)
-	{
-		if ((*prev)[SORTED])
-			(*prev)[SORTED]->next[SORTED] = tmp[SORTED];
-		else
-			(*prev)[SORTED] = tmp[SORTED];
-		if ((*prev)[REGULAR])
-			(*prev)[REGULAR]->next[REGULAR] = tmp[REGULAR];
-		else
-			*prev[REGULAR] = tmp[REGULAR];
-	}
-	if ((*next)[SORTED])
-		(*next)[SORTED]->prev[SORTED] = (*prev)[SORTED];
-	if ((*next)[REGULAR])
-		(*next)[REGULAR]->prev[REGULAR] = (*prev)[REGULAR];
+	else
+		display_regular(table->nodes, fd);
 }
 
 void	del(t_table **table, char *key)
@@ -86,7 +57,7 @@ int	set(t_table **table, char *str)
 	{
 		ft_putstr_fd("bash: export: `", 2);
 		ft_putstr_fd(key, 2);
-		ft_putstr_fd("': not a valid identifier", 2);
+		ft_putendl_fd("': not a valid identifier", 2);
 		if (value)
 			free(value);
 		free(key);

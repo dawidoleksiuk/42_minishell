@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:26:53 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 19:26:36 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/15 12:16:44 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_env_table *table_init(char **envp)
 		if (!copy_envp(&env_table->table, envp))
 			sort(&env_table->table);
 		else
-			return (free_table(env_table), NULL);
+			return (free_table(env_table));
 	}
 	else
 		return (free(env_table), NULL);
@@ -89,5 +89,6 @@ t_env_table *table_init(char **envp)
 	env_table->set = &set;
 	env_table->del = &del;
 	env_table->clear = &free_table;
+	env_table->display = &display;
 	return (env_table);
 }

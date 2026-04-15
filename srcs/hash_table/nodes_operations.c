@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 18:47:34 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 18:19:56 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/14 12:19:35 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	node_insert(t_list **new, t_list **prev, t_list **next, t_connect index)
 {
 	t_list	*next_cpy;
 
+	next_cpy = NULL;
 	if (next)
 		next_cpy = *next;
 	if (prev && *prev)

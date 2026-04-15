@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:27:01 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 18:50:31 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/08 20:05:18 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_env_table
 	char	*(*get)(t_table *self, char *key);
     int		(*set)(t_table **self, char *str);
 	void	(*del)(t_table **self, char *key);
+	void	(*display)(t_table *self, char sorted, int fd);
 	void	*(*clear)(struct s_env_table *env_table);
 } t_env_table;
 

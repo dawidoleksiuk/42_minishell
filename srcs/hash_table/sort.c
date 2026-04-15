@@ -6,13 +6,13 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:41:28 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 17:31:02 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/15 12:13:31 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash_table_internal.h"
 
-static int find_spot(t_list **env, t_list **node)
+int find_spot(t_list **env, t_list **node)
 {
 	size_t	len;
 
@@ -42,6 +42,7 @@ void	sort(t_table **table)
 	{
 		while ((*table)->env)
 		{
+			//edge case na nowy node mniejszy niz poczatek sorted_list
 			env_next = (*table)->env->next[SORTED];
 			node_moved = 0;
 			node_moved = find_spot(&(*table)->env, &node);
