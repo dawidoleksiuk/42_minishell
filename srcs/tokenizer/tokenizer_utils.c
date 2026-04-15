@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_2.c                                      :+:      :+:    :+:   */
+/*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 17:21:51 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/03/22 14:16:31 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/15 13:38:41 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ void	assign_token_type(t_data *data)
 	}
 }
 
+int	check_separator(char c)
+{
+	if (c == ' ' || c == '>' || c == '<' || c == '|' || c == '\t')
+		return (1);
+	return (0);
+}
+
 int	check_syntax(t_data *data)
 {
 	t_token	*token;
@@ -42,9 +49,9 @@ int	check_syntax(t_data *data)
 	token = data->token_head;
 	while (token)
 	{
-		if ((token->type == PIPE && token->next && token->next->type == PIPE) 
-			|| ((token->type != WORD && token->type != PIPE) 
-			&& ((token->next && token->next->type != WORD))))
+		if ((token->type == PIPE && token->next && token->next->type == PIPE)
+			|| ((token->type != WORD && token->type != PIPE)
+				&& ((token->next && token->next->type != WORD))))
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 			data->error_msg = ft_strjoin(token->next->content, "'");

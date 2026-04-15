@@ -6,7 +6,7 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/04/15 13:08:25 by alusnia          ###   ########.fr        #
+#    Updated: 2026/04/15 13:38:11 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ HASH_FILES  = nodes_operations.c core.c operations.c \
 				sort.c utils.c methods.c
 EXEC_FILES  = redirection.c executor.c
 PARS_FILES  = parser.c expander.c
-TOK_FILES   = tokenizer.c tokenizer_2.c
+TOK_FILES   = tokenizer.c tokenizer_utils.c
 BLT_FILES   = rest.c table_related.c
 
 SRCS = $(addprefix $(SRC_DIR)/$(CORE_DIR)/, $(CORE_FILES)) \

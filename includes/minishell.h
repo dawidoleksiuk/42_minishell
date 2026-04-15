@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/08 20:23:01 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/15 13:38:12 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	tokenizer(t_data *data);
 
 //tokenizer_2.c
 void	assign_token_type(t_data *data);
+int	check_separator(char c);
 int	check_syntax(t_data *data);
 
 // parser.c
