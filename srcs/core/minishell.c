@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/14 15:01:31 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/16 20:54:55 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,6 @@ void	print_cmds(t_data *data)
 int	minishell(t_data *data)
 {
 	prompt(data);
-	// char *line = get_next_line(0);
-	// if (line)
-    // 	printf("DEBUG: |%s|\n", line);
 	if (g_signum != 0)
 	{
 		data->exit_code = 128 + g_signum;
@@ -65,7 +62,7 @@ int	minishell(t_data *data)
 		free_tokens(data);
 		return (1);
 	}
-	expander(data);
+	expand_tokens(data);
 	parser(data);
 	if (data->line)
 	{
@@ -93,7 +90,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
-	//do usuniecia
 	(void) argc;
 	argv[0] = NULL;
 	if (init(&data, envp) != 0)

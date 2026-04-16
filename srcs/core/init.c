@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/08 12:20:09 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/16 20:52:18 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	prompt(t_data *data)
 		data->line = readline("minishell$ ");
 		if (!data->line)
 		{
-			// write (1, "exit\n", 5);
 			clean_exit(data, NULL, data->exit_code);
 		}
 		if (data->line[0] != '\0')
@@ -38,11 +37,9 @@ void	prompt(t_data *data)
 	else
 	{
 		data->line = get_next_line(STDIN_FILENO);
-		// printf("%s", data->line);
 		if (!data->line)
 			clean_exit(data, NULL, data->exit_code);
 		line_len = ft_strlen(data->line);
-		// printf("%s %d", data->line, line_len);
 		if (line_len > 0 && data->line[line_len - 1] == '\n')
 			data->line[line_len - 1] = '\0';
 	}
@@ -77,8 +74,7 @@ struct termios	set_terminal_settings(t_data *data, int symbol_on)
 int	init_signals(t_data *data)
 {
 	rl_catch_signals = 0;
-	if (isatty(STDIN_FILENO))
-		data->termios_p_save = set_terminal_settings(data, 0);
+	data->termios_p_save = set_terminal_settings(data, 0);
 	if (signal_action(SIGINT, &sig_handler) == 1
 		|| signal_action(SIGQUIT, SIG_IGN) == 1)
 		return (1);
@@ -110,8 +106,7 @@ static int	get_envp(t_data *data, char **envp)
 int	init(t_data *data, char **envp)
 {
 	ft_bzero(data, sizeof(t_data));
-	// if (isatty(STDIN_FILENO))
-	if (init_signals(data) == 1)
+	if (isatty(STDIN_FILENO) && init_signals(data) == 1)
 		return (1);
 	data->exec_info = ft_calloc(1, sizeof(t_exec_info));
 	data->exec_info->out = 1;
