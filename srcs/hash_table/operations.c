@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 15:38:37 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/14 13:17:29 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/17 19:40:32 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,12 @@ int table_add(t_table **table, char *key, char *value)
 
 void	display_sorted(t_list *list, int fd)
 {
+	t_list *debug_node;
 	while (list)
 	{
+		debug_node = list->next[SORTED];
+		if (!debug_node)
+			debug_node = 0;
 		ft_putstr_fd("declare -x ", fd);
 		ft_putstr_fd(list->key, fd);
 		if (list->value)

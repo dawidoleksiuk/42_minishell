@@ -6,11 +6,12 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/15 13:11:42 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/17 22:51:12 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "executor.h"
 
 static char *check_path(t_exec_info *exec_info)
 {
@@ -144,13 +145,25 @@ t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 	return (exec_info);
 }
 
+void	execute(t_data *data, t_cmd *cmd)
+{
+	data->exec_info->cmd = cmd;
+	data->exec_info = give_birth(data, data->exec_info, cmd);
+	if (g_signum)
+	{
+		ft_printf("exit\n");
+		return (clean_exec(data->exec_info, NULL, 0, NULL));
+	}
+	if (data->exec_info->error)
+		return ;
+	if (data->exec_info->pid == 0)
+		do_your_job(data, data->exec_info, cmd);
+}
+
 void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 {
 	t_cmd	*cmd;
-	pid_t	pid;
-	int		status;
-	int		sig;
-
+	
 	data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
 	if (!data->exec_info->pipe_fd)
 		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL));
@@ -159,48 +172,10 @@ void	executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code)
 		return (clean_exec(data->exec_info, NULL, 0, NULL));
 	while (cmd)
 	{
-		data->exec_info->cmd = cmd;
-		data->exec_info = give_birth(data, data->exec_info, cmd);
-		if (g_signum)
-		{
-			ft_printf("exit\n");
-			return (clean_exec(data->exec_info, NULL, 0, NULL));
-		}
-		if (data->exec_info->error)
-			break;
-		if (data->exec_info->pid == 0)
-			do_your_job(data, data->exec_info, cmd);
+		execute(data, cmd);
 		cmd = cmd->next;
 	}
-	pid = waitpid(-1, &status, 0);
-	if (isatty(STDIN_FILENO))
-		if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
-			return (clean_exec(data->exec_info, NULL, 0, NULL));
-	while (pid > 0)
-	{
-		if (pid == data->exec_info->pid)
-		{
-			if (WIFEXITED(status) && !data->exec_info->error)
-				*exit_code = WEXITSTATUS(status);
-			else
-				*exit_code = data->exec_info->error;
-			if (WIFSIGNALED(status))
-			{
-				sig = WTERMSIG(status);
-				if (sig == SIGINT)
-				{
-					g_signum = sig;
-					write(1, "\n", 1);
-				}
-				if (sig == SIGQUIT)
-				{
-					g_signum = sig;
-					write(1, "Quit (core dumped)\n", 20);
-				}
-			}
-		}
-		pid = waitpid(-1, &status, 0);
-	}
+	check_out_children(data->exec_info, exit_code);
 	if (isatty(STDIN_FILENO))
 		set_terminal_settings(data, 0);
 	if (data->exec_info->pipe_fd[1])

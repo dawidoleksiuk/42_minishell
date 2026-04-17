@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:36:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/15 12:25:52 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/17 19:04:30 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,32 +80,4 @@ t_list	*find(t_table *table, char *key)
 	while (node && !ft_strisequal(node->key ,key, len))
 		node = node->next[REGULAR];
 	return (node);
-}
-
-
-//czy jak node jest pierwszy w tabeli to czy sie nie wyjebie
-void	connect_nodes(t_list ***prev, t_list ***next)
-{
-	t_list *tmp[2];
-
-	if (*next)
-	{
-		tmp[0] = *next[0];
-		tmp[1] = *next[1];
-	}
-	if (*prev)
-	{
-		if ((*prev)[SORTED])
-			(*prev)[SORTED]->next[SORTED] = tmp[SORTED];
-		else
-			(*prev)[SORTED] = tmp[SORTED];
-		if ((*prev)[REGULAR])
-			(*prev)[REGULAR]->next[REGULAR] = tmp[REGULAR];
-		else
-			*prev[REGULAR] = tmp[REGULAR];
-	}
-	if ((*next)[SORTED])
-		(*next)[SORTED]->prev[SORTED] = (*prev)[SORTED];
-	if ((*next)[REGULAR])
-		(*next)[REGULAR]->prev[REGULAR] = (*prev)[REGULAR];
 }
