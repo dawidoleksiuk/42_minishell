@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/08 12:29:13 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/16 20:48:02 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	free_cmd(t_data *data)
 		cmd = data->cmd_head;
 		while (cmd)
 		{
-
 			temp = cmd;
 			cmd = cmd->next;
 			free_args_node(temp);
@@ -128,7 +127,7 @@ void	put_msg(char *msg)
 }
 
 void	clean_exit(t_data *data, char *msg, int exit_code)
-{	
+{
 	if (data)
 	{
 		put_msg(msg);
@@ -139,7 +138,8 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 			free(data->prev_exit);
 		if (data->line)
 			free(data->line);
-		if(isatty(STDIN_FILENO) && tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) < 0)
+		if (isatty(STDIN_FILENO)
+			&& tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) < 0)
 			perror("minishell: tcsetattr error");
 		if (data->token_head)
 			free_tokens(data);
@@ -154,6 +154,5 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 		if (data->exec_info)
 			free(data->exec_info);
 	}
-	// printf("exit");
 	exit(exit_code);
 }

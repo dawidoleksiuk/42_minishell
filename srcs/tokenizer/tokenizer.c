@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/15 13:38:37 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/15 17:08:22 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,13 @@ int	get_next_word(char *line, int *i)
 
 void	get_next_operator(char *line, int *start, int *i)
 {
-	if (line[*i] == '|')
-		*start = (*i);
-	else if (ft_strncmp(line + (*i), ">>", 2) == 0
+	if (ft_strncmp(line + (*i), ">>", 2) == 0
 		|| ft_strncmp(line + (*i), "<<", 2) == 0)
 	{
 		*start = (*i);
 		(*i)++;
 	}
-	else if (line[*i] == '<' || line[*i] == '>')
+	else if (line[*i] == '|' || line[*i] == '<' || line[*i] == '>')
 		*start = (*i);
 	(*i)++;
 }

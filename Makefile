@@ -6,7 +6,7 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/04/15 13:47:25 by alusnia          ###   ########.fr        #
+#    Updated: 2026/04/17 18:55:26 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ CORE_FILES  = minishell.c clean_exit.c init.c signals.c
 HASH_FILES  = nodes_operations.c core.c operations.c \
 				sort.c utils.c methods.c
 EXEC_FILES  = redirection.c executor.c
-PARS_FILES  = parser.c expander.c
+PARS_FILES  = parser.c parser_utils.c token_processor.c dollar_handler.c
 TOK_FILES   = tokenizer.c tokenizer_utils.c
 BLT_FILES   = rest.c table_related.c
 
