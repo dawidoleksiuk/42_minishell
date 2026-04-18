@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:52 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/16 20:46:01 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/18 11:25:48 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	sig_handler_child(int sig)
 	// 	|| (sigaddset(&sa.sa_mask, SIGQUIT) == -1))
 	// 	return (1);
 
-int	signal_action(int sig, void *handler)
+int setup_signal(int sig, void (*handler)(int))
 {
 	struct sigaction	sa;
 

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/16 20:52:18 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/18 11:23:53 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ int	init_signals(t_data *data)
 {
 	rl_catch_signals = 0;
 	data->termios_p_save = set_terminal_settings(data, 0);
-	if (signal_action(SIGINT, &sig_handler) == 1
-		|| signal_action(SIGQUIT, SIG_IGN) == 1)
+	if (setup_signal(SIGINT, &sig_handler) || setup_signal(SIGQUIT, SIG_IGN))
 		return (1);
 	return (0);
 }

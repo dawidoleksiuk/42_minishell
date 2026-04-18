@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/16 20:39:55 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/18 11:25:34 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			sig_handler(int sig);
 void			sig_handler_child(int sig);
 int				config_sigaction(struct sigaction *sa);
 int				signals(void);
-int				signal_action(int sig, void *handler);
+int				setup_signal(int sig, void (*handler)(int));
 
 // redirection.c
 t_exec_info		*redir(t_exec_info *ex_info, t_redir *redir);

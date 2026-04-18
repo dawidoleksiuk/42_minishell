@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/17 22:51:12 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/18 11:34:15 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,25 +109,19 @@ t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 {
 	exec_info = redir(exec_info, cmd->redirs);
 	if (g_signum)
-	{
-		ft_printf("exit\n");
 		return (exec_info);
-	}
 	if (exec_info->error || pipe(exec_info->pipe_fd) == -1)
 		return (exec_info->error += exec_info->error == 0, exec_info);
 	exec_info->pid = fork();
 	if (exec_info->pid == -1)
 		return (exec_info->error = 1, exec_info);
-	if (signal_action(SIGINT, SIG_IGN) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+	if (setup_signal(SIGINT, SIG_IGN) || setup_signal(SIGQUIT, SIG_IGN))
 		return (exec_info);
 	else if (exec_info->pid == 0)
 	{
-		if (isatty(STDIN_FILENO))
-		{
-			set_terminal_settings(data, 1);
-			if (signal_action(SIGINT, SIG_DFL) == 1 || signal_action(SIGQUIT, SIG_DFL) == 1)
-				return (exec_info->error = 1, exec_info);
-		}
+		set_terminal_settings(data, 1);
+		if (setup_signal(SIGINT, SIG_DFL) || setup_signal(SIGQUIT, SIG_DFL))
+			clean_exec(data->exec_info, NULL, 1, NULL);
 		dup2(exec_info->in, 0);
 		if (exec_info->redir_out)
 			dup2(exec_info->out, 1);
@@ -150,10 +144,7 @@ void	execute(t_data *data, t_cmd *cmd)
 	data->exec_info->cmd = cmd;
 	data->exec_info = give_birth(data, data->exec_info, cmd);
 	if (g_signum)
-	{
-		ft_printf("exit\n");
-		return (clean_exec(data->exec_info, NULL, 0, NULL));
-	}
+		clean_exec(data->exec_info, NULL, 0, NULL);
 	if (data->exec_info->error)
 		return ;
 	if (data->exec_info->pid == 0)

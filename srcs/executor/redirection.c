@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/07 11:38:51 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/18 11:24:54 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void read_input(t_exec_info *ex_info, int out, char *delimiter)
 	size_t  len;
 	
 	len = ft_strlen(delimiter) - 1;
-	if (signal_action(SIGINT, &sig_handler_child) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+	if (setup_signal(SIGINT, &sig_handler_child) == 1 || setup_signal(SIGQUIT, SIG_IGN) == 1)
 		return (clean_exec(ex_info, NULL, 1, NULL));
 	str = readline("> ");
 	while (str && (len != ft_strlen(str) || !ft_strisequal(delimiter, str, len)))
@@ -62,7 +62,7 @@ static t_exec_info	*handle_heredoc(t_exec_info *ex_info, char *delimiter)
 	else
 		return (ex_info->error = 2, ex_info);
 	close(ex_info->pipe_fd[1]);
-	if (signal_action(SIGINT, SIG_IGN) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+	if (setup_signal(SIGINT, SIG_IGN) == 1 || setup_signal(SIGQUIT, SIG_IGN) == 1)
 		return (ex_info->error = 1, ex_info);
 	waitpid(ex_info->pid, &status, 0);
 	ex_info->in = ex_info->pipe_fd[0];
@@ -82,7 +82,7 @@ static t_exec_info	*handle_heredoc(t_exec_info *ex_info, char *delimiter)
 		}
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &ex_info->data->termios_p_save);
-	if (signal_action(SIGINT, &sig_handler) == 1 || signal_action(SIGQUIT, SIG_IGN) == 1)
+	if (setup_signal(SIGINT, &sig_handler) || setup_signal(SIGQUIT, SIG_IGN))
 		return (ex_info->error = 1, ex_info);
 	return (ex_info->error = errno, ex_info);
 }
