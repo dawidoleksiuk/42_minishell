@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/16 20:48:02 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/22 20:03:15 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus)
 	exec_info->temp = NULL;
 	exec_info->in = 0;
 	exec_info->out = 0;
+	exec_info->error = 0;
 	if (msg && ft_strlen(msg))
 	{
 		ft_putstr_fd(exec_info->cmd->args[0], 2);

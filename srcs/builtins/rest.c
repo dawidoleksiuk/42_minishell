@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/08 14:04:13 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/22 20:32:33 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@ void	ft_exit(t_data *data, char **args)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		clean_exit(data, NULL, 255);
+		clean_exit(data, NULL, 2);
 	}
 	if (args[2])
+	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		data->exec_info->error = 1;
+	}
 	else
 		clean_exit(data, NULL, (unsigned char)exit_code);
 }
@@ -53,13 +56,17 @@ void	ft_echo(int	fd, char **args)
 		ft_putchar_fd('\n', fd);
 }
 
-int	ft_cd(t_envar **envar, char *path)
+int	ft_cd(t_envar **envar, char **args)
 {
 	char	*temp;
+	char	*path;
 
+	path = args[0];
+	if (args[1])
+		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
 	if (path[0] == '~' && (*envar)->home_dir)
 		temp = ft_strjoin((*envar)->home_dir, path + 1);
-	else
+	else if (path[0] != '/')
 	{
 		temp = ft_strjoin("/", path);
 		if (!temp)
@@ -68,6 +75,8 @@ int	ft_cd(t_envar **envar, char *path)
 		temp = ft_strjoin((*envar)->curr_dir, path);
 		free(path);
 	}
+	else
+		temp = ft_strdup(path);
 	if (!temp)
 			return (1);
 	if (chdir(temp) == -1)

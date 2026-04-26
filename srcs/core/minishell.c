@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/16 20:54:55 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/22 19:42:55 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,7 @@ int	minishell(t_data *data)
 	// print_tokens(data);
 	// print_cmds(data);
 	//make_connections(&data);
-	executor(data, data->cmd_head, &data->exit_code);
-	if (data->prev_exit)
-		free(data->prev_exit);
-	data->prev_exit = ft_itoa(data->exit_code);
-	if (!data->prev_exit)
-		data->exit_code = 1;
-	else
-		data->exit_code = 0;
+	executor(data, data->cmd_head);
 	free_tokens(data);
 	free_cmd(data);
 	return (0);

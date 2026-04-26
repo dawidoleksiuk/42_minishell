@@ -3,32 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/18 11:24:54 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/20 19:58:28 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "executor.h"
 
 /*
 Function is printing input from the user directly into the pipe, it will
 continue till user enters exactly the same input as delimiter
 */
-static void read_input(t_exec_info *ex_info, int out, char *delimiter)
+static void	read_input(t_exec_info *ex_info, int out, char *delimiter)
 {
-	char    *str;
-	size_t  len;
-	
-	len = ft_strlen(delimiter) - 1;
-	if (setup_signal(SIGINT, &sig_handler_child) == 1 || setup_signal(SIGQUIT, SIG_IGN) == 1)
+	char	*str;
+	size_t	len;
+
+	len = ft_strlen(delimiter);
+	if (setup_signal(SIGINT, &sig_handler_child) == 1
+		|| setup_signal(SIGQUIT, SIG_IGN) == 1)
 		return (clean_exec(ex_info, NULL, 1, NULL));
 	str = readline("> ");
-	while (str && (len != ft_strlen(str) || !ft_strisequal(delimiter, str, len)))
+	while (str && (len != ft_strlen(str)
+			|| !ft_strisequal(delimiter, str, len + 1)))
 	{
-		ft_putstr_fd(str, out);
-		ft_putchar_fd('\n', out);
+		ft_putendl_fd(str, out);
 		free(str);
 		str = readline("> ");
 		if (g_signum != 0)
@@ -47,10 +49,8 @@ static void read_input(t_exec_info *ex_info, int out, char *delimiter)
 static t_exec_info	*handle_heredoc(t_exec_info *ex_info, char *delimiter)
 {
 	int		status;
-	int		sig;
 
 	status = 0;
-	errno = 0;
 	if (!pipe(ex_info->pipe_fd))
 	{
 		ex_info->pid = fork();
@@ -62,31 +62,17 @@ static t_exec_info	*handle_heredoc(t_exec_info *ex_info, char *delimiter)
 	else
 		return (ex_info->error = 2, ex_info);
 	close(ex_info->pipe_fd[1]);
-	if (setup_signal(SIGINT, SIG_IGN) == 1 || setup_signal(SIGQUIT, SIG_IGN) == 1)
+	if (setup_signal(SIGINT, SIG_IGN) == 1
+		|| setup_signal(SIGQUIT, SIG_IGN) == 1)
 		return (ex_info->error = 1, ex_info);
 	waitpid(ex_info->pid, &status, 0);
 	ex_info->in = ex_info->pipe_fd[0];
-	if (WIFEXITED(status))
-		errno = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-	{
-		sig = WTERMSIG(status);
-		if (sig == SIGINT)
-		{
-			g_signum = sig;
-		}
-		if (sig == SIGQUIT)
-		{
-			g_signum = sig;
-			write(1, "Quit (core dumped)\n", 20);
-		}
-	}
+	errno = translate_status(0, 0, status, 0);
 	tcsetattr(STDIN_FILENO, TCSANOW, &ex_info->data->termios_p_save);
 	if (setup_signal(SIGINT, &sig_handler) || setup_signal(SIGQUIT, SIG_IGN))
 		return (ex_info->error = 1, ex_info);
 	return (ex_info->error = errno, ex_info);
 }
-
 
 /*
 Funtion takes type of redirection and returns 0 if executed correctly and
@@ -111,7 +97,7 @@ static t_exec_info	*redirection(t_exec_info *ex_info, t_type type, char *path)
 /*
 Function loops thru redir list and executes redir for each node.
 */
-t_exec_info *redir(t_exec_info *ex_info, t_redir *redir)
+t_exec_info	*redir(t_exec_info *ex_info, t_redir *redir)
 {
 	ex_info->redir_in = 0;
 	ex_info->redir_out = 0;

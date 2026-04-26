@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/18 11:25:34 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/22 20:26:09 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_data
 	char			*line;
 	char			*error_msg;
 	char			*prev_exit;
-	unsigned char	exit_code;
+	int				exit_code;
 	t_exec_info		*exec_info;
 	t_token			*token_head;
 	t_cmd			*cmd_head;
@@ -91,11 +91,11 @@ int				setup_signal(int sig, void (*handler)(int));
 t_exec_info		*redir(t_exec_info *ex_info, t_redir *redir);
 
 // executor.c
-void			executor(t_data *data, t_cmd *cmd_head, unsigned char *exit_code);
+void			executor(t_data *data, t_cmd *cmd_head);
 
 //built-ins
 int				ft_pwd(t_envar **envar);
-int				ft_cd(t_envar **envar, char *path);
+int				ft_cd(t_envar **envar, char **args);
 void			ft_echo(int	fd, char **args);
 void			ft_env(t_env_table *table, int fd);
 void			ft_unset(t_env_table **table, char **args);
