@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/16 20:10:26 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/04/27 18:27:05 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*process_token_content(t_data *data, char **content)
 		res = process_char(data, &exp, content, res);
 		exp.i++;
 	}
-	// remove_quote(data, &res, *content + exp.start, exp.i - exp.start);
+	remove_quote(data, &res, *content + exp.start, exp.i - exp.start);
 	if (res)
 	{
 		free(*content);

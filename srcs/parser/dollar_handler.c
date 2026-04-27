@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/22 18:15:38 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/27 18:27:08 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	insert_dollar_val(t_data *data, t_exp_data *exp, char **content)
 
 	if ((*content)[exp->i + 1] == '?')
 		handle_exit_code(data, exp, content);
-	if (ft_isalnum((*content)[exp->i + 1]) || (*content)[exp->i + 1] == '_')
+	else if (ft_isalnum((*content)[exp->i + 1]) || (*content)[exp->i + 1] == '_')
 	{
 		exp->key_len = keylen(*content, exp->i + 1);
 		key = ft_substr(*content, exp->i + 1, exp->key_len);
