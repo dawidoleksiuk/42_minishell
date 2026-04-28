@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/22 20:27:01 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 10:57:29 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	execute(t_data *data, t_cmd *cmd)
 	if (g_signum)
 		clean_exec(data->exec_info, NULL, 0, NULL);
 	if (data->exec_info->error)
+	{
+		data->exit_code = data->exec_info->error;
 		return ;
+	}
 	if (data->exec_info->pid == IS_CHILD)
 		do_your_job(data, data->exec_info, cmd);
 }

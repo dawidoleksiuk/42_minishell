@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/22 20:32:33 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 10:35:35 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	ft_echo(int	fd, char **args)
 	size_t	i;
 
 	i = 0;
+	if (!fd)
+		fd = STDOUT_FILENO;
 	if (args[0] && ft_strisequal(args[0], "-n", 0))
 		flag = 1;
 	else

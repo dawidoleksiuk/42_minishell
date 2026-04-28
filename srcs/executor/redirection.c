@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/20 19:58:28 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 10:59:34 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ t_exec_info	*redir(t_exec_info *ex_info, t_redir *redir)
 			ex_info->redir_out = 1;
 		}
 		ex_info = redirection(ex_info, redir->type, redir->filename);
-		if (ex_info->error && ex_info->error != errno)
-			return (ex_info->error = errno, perror("minishell"), ex_info);
+		if (ex_info->error)
+			return (ex_info->error = 1, perror("minishell"), ex_info);
 		redir = redir->next;
 	}
 	return (ex_info);

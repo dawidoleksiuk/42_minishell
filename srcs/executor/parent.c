@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 21:19:55 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/22 19:53:39 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 11:41:37 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 			close(exec_info->in);
 		close(exec_info->pipe_fd[1]);
 		exec_info->in = exec_info->pipe_fd[0];
+		exec_info->out = 1;
 	}
 	return (exec_info);
 }
