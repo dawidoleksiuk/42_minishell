@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/28 12:05:49 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 14:28:22 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,28 @@
 
 int	check_for_built_ins(t_data *data, t_cmd *cmd)
 {
-	if (!cmd->args)
+	char	**args;
+
+	args = cmd->args;
+	while (args && args[0] && !ft_strlen(args[0]))
+		args = args + 1;
+	if (!args || !args[0])
 		return (0);
-	if (!strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
-		data->exec_info->error = ft_cd(&data->exec_info->envars, cmd->args + 1);
-	else if (!strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
-		ft_echo(data->exec_info->out, cmd->args + 1);
-	else if (!strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
+	if (!strncmp(cmd->args[0], "cd", ft_strlen(args[0])))
+		data->exec_info->error = ft_cd(&data->exec_info->envars, args + 1);
+	else if (!strncmp(args[0], "echo", ft_strlen(args[0])))
+		ft_echo(data->exec_info->out, args + 1);
+	else if (!strncmp(args[0], "env", ft_strlen(args[0])))
 		ft_env(data->exec_info->envars->table, data->exec_info->out);
-	else if (!strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
-		ft_exit(data, cmd->args);
-	else if (!strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
+	else if (!strncmp(args[0], "exit", ft_strlen(args[0])))
+		ft_exit(data, args);
+	else if (!strncmp(args[0], "export", ft_strlen(args[0])))
 		ft_export(data->exec_info, &data->exec_info->envars->table,
-			cmd->args, data->exec_info->out);
-	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
+			args, data->exec_info->out);
+	else if (!strncmp(cmd->args[0], "pwd", ft_strlen(args[0])))
 		ft_pwd(&data->exec_info->envars);
-	else if (!strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
-		ft_unset(&data->exec_info->envars->table, cmd->args + 1);
+	else if (!strncmp(args[0], "unset", ft_strlen(args[0])))
+		ft_unset(&data->exec_info->envars->table, args + 1);
 	else
 		return (0);
 	return (1);
@@ -59,8 +64,7 @@ void	executor(t_data *data, t_cmd *cmd_head)
 	data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
 	if (!data->exec_info->pipe_fd)
 		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL));
-	cmd = cmd_head;
-	if (cmd && !cmd->next && !cmd->redirs && check_for_built_ins(data, cmd))
+	cmd = cmd_head;	if (cmd && !cmd->next && !cmd->redirs && check_for_built_ins(data, cmd))
 		return (data->exit_code = data->exec_info->error, clean_exec(data->exec_info, NULL, 0, NULL));
 	while (cmd)
 	{

@@ -6,13 +6,12 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:52:52 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/22 19:53:21 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 12:24:48 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
-# include <stdlib.h>
 # include "minishell.h"
 
 # define IS_CHILD 0

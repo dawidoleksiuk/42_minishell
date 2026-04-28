@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/28 10:48:55 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 14:19:32 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ void	clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus)
 	exec_info->in = 0;
 	exec_info->out = 0;
 	exec_info->error = 0;
+	if (exec_info->args)
+	{
+		free(exec_info->args);
+		exec_info->args = NULL;
+	}
 	if (msg && ft_strlen(msg))
 	{
 		ft_putstr_fd(exec_info->cmd->args[0], 2);

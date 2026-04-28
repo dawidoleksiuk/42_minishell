@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/28 10:35:35 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 12:33:12 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ void	ft_echo(int	fd, char **args)
 		flag = 0;
 	while (args[flag + i])
 	{
-		ft_putstr_fd(args[flag + i++], fd);
-		if (args[flag + i])
+		ft_putstr_fd(args[flag + i], fd);
+		if (args[flag + i + 1] && ft_strlen(args[flag + i]))
 			ft_putchar_fd(' ', fd);
+		i++;
 	}
 	if (!flag)
 		ft_putchar_fd('\n', fd);

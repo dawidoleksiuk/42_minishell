@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/22 20:26:09 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 14:17:30 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_exec_info
 	char			redir_out;
 	char			*path;
 	char			*temp;
+	char			**args;
 	t_envar			*envars;
 	t_cmd			*cmd;
 	pid_t			pid;
@@ -74,6 +75,7 @@ void			free_tokens(t_data *data);
 void			clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus);
 void			clean_exit(t_data *data, char *msg, int exit_code);
 void			put_msg(char *msg);
+void			free_args_node(t_cmd *node);
 
 // init.c
 void			prompt(t_data *data);
