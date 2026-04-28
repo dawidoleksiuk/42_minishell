@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 21:19:55 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/28 11:41:37 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/04/28 12:06:06 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,14 @@ t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 	exec_info = redir(exec_info, cmd->redirs);
 	if (g_signum)
 		return (exec_info);
-	if (exec_info->error || pipe(exec_info->pipe_fd) == -1)
+	if (pipe(exec_info->pipe_fd) == -1)
 		return (exec_info->error += exec_info->error == 0, exec_info);
+	if (exec_info->error)
+	{
+		if (exec_info->in)
+			close(exec_info->in);
+		return (exec_info->in = exec_info->pipe_fd[0], close(exec_info->pipe_fd[1]), exec_info);
+	}
 	exec_info->pid = fork();
 	if (exec_info->pid == -1)
 		return (exec_info->error = 1, exec_info);
@@ -80,7 +86,6 @@ t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 			close(exec_info->in);
 		close(exec_info->pipe_fd[1]);
 		exec_info->in = exec_info->pipe_fd[0];
-		exec_info->out = 1;
 	}
 	return (exec_info);
 }
