@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:52 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/18 11:25:48 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/05 06:57:35 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	sig_handler_child(int sig)
 	// 	|| (sigaddset(&sa.sa_mask, SIGQUIT) == -1))
 	// 	return (1);
 
-int setup_signal(int sig, void (*handler)(int))
+int	setup_signal(int sig, void (*handler)(int))
 {
 	struct sigaction	sa;
 

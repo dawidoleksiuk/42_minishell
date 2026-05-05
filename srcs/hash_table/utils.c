@@ -6,13 +6,12 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:36:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/17 19:04:30 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 07:46:35 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "hash_table_internal.h"
-
 
 /*hashing algorythm used in shell, uses XOR to switch bits. XOR example:
 0 XOR 0 = 0 | 1 XOR 1 = 0 | 0 XOR 1 = 1 | 1 XOR 0 = 1*/
@@ -32,7 +31,7 @@ size_t	hash_fnv1(char *key)
 
 int	seperate_string(char *str, char **key, char **value)
 {
-	char *ptr;
+	char	*ptr;
 
 	ptr = ft_strchr(str, '=');
 	if (!ptr)
@@ -44,7 +43,7 @@ int	seperate_string(char *str, char **key, char **value)
 		*value = ft_calloc(1, sizeof(char));
 		if (!*value)
 			return (free(str), 1);
-		return (0); 
+		return (0);
 	}
 	*key = ft_strdup(str);
 	if (!*key)
@@ -55,7 +54,7 @@ int	seperate_string(char *str, char **key, char **value)
 	return (free(str), 0);
 }
 
-int verify_key(char *key)
+int	verify_key(char *key)
 {
 	if (!ft_isalpha(*key) && *key != '_')
 		return (1);
@@ -77,7 +76,7 @@ t_list	*find(t_table *table, char *key)
 	len = ft_strlen(key);
 	index = hash_fnv1(key);
 	node = table->nodes[index];
-	while (node && !ft_strisequal(node->key ,key, len))
+	while (node && !ft_strisequal(node->key, key, len))
 		node = node->next[REGULAR];
 	return (node);
 }

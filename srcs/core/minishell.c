@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/27 18:28:49 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/05 06:08:01 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,6 @@ void	print_tokens(t_data *data)
 	{
 		printf("%s, type: %d \n", token->content, token->type);
 		token = token->next;
-	}
-}
-
-void	print_cmds(t_data *data)
-{
-	t_cmd	*cmd;
-	int		i;
-
-	i = 0;
-	cmd = data->cmd_head;
-	while (cmd)
-	{
-		i = 0;
-		while (cmd->args && cmd->args[i])
-		{
-			printf("args %d: %s \n", i, cmd->args[i]);
-			i++;
-		}
-		while (cmd->redirs)
-		{
-			printf("file: %s, redir type: %d \n", cmd->redirs->filename, cmd->redirs->type);
-			cmd->redirs = cmd->redirs->next;
-		}
-		cmd = cmd->next;
 	}
 }
 
@@ -69,16 +45,14 @@ int	minishell(t_data *data)
 		free(data->line);
 		data->line = NULL;
 	}
-	// print_tokens(data);
-	// print_cmds(data);
-	//make_connections(&data);
 	executor(data, data->cmd_head);
 	free_tokens(data);
 	free_cmd(data);
 	return (0);
 }
 
-//valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
+//valgrind --leak-check=full --show-leak-kinds=all
+// --suppressions=readline.supp ./minishell
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;

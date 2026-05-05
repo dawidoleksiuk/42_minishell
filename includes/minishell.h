@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/28 14:17:30 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 08:05:07 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ extern volatile sig_atomic_t	g_signum;
 // clean_exit.c
 void			free_cmd(t_data *data);
 void			free_tokens(t_data *data);
-void			clean_exec(t_exec_info *exec_info, char *msg, int exit_code, void *bonus);
+void			clean_exec(t_exec_info *exec_info, char *msg,
+					int exit_code, void *bonus);
 void			clean_exit(t_data *data, char *msg, int exit_code);
 void			put_msg(char *msg);
 void			free_args_node(t_cmd *node);
@@ -94,14 +95,16 @@ t_exec_info		*redir(t_exec_info *ex_info, t_redir *redir);
 
 // executor.c
 void			executor(t_data *data, t_cmd *cmd_head);
+void			clean_envars(t_envar *envars);
 
 //built-ins
 int				ft_pwd(t_envar **envar);
 int				ft_cd(t_envar **envar, char **args);
-void			ft_echo(int	fd, char **args);
+void			ft_echo(int fd, char **args);
 void			ft_env(t_env_table *table, int fd);
 void			ft_unset(t_env_table **table, char **args);
 void			ft_exit(t_data *data, char **args);
-void			ft_export(t_exec_info *exec, t_env_table **table, char **args, int fd);
+void			ft_export(t_exec_info *exec, t_env_table **table,
+					char **args, int fd);
 
 #endif

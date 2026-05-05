@@ -6,13 +6,13 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 15:38:37 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/17 19:40:32 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 07:50:38 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash_table_internal.h"
 
-static int add_env(t_table **table, t_list **node)
+static int	add_env(t_table **table, t_list **node)
 {
 	t_list	*env;
 	t_list	*env_next;
@@ -22,7 +22,8 @@ static int add_env(t_table **table, t_list **node)
 	if (!env)
 		return ((*table)->env = *node, 0);
 	else if (env && ft_strisless((*node)->key, env->key, 0))
-		return (node_insert(node, NULL, &env, SORTED), (*table)->env = *node, 0);
+		return (node_insert(node, NULL, &env, SORTED),
+			(*table)->env = *node, 0);
 	while (env)
 	{
 		env_next = env->next[SORTED];
@@ -31,12 +32,12 @@ static int add_env(t_table **table, t_list **node)
 		if (!node_moved)
 			env = env_next;
 		else
-			break;
+			break ;
 	}
 	return (0);
 }
 
-int table_add(t_table **table, char *key, char *value)
+int	table_add(t_table **table, char *key, char *value)
 {
 	size_t	index;
 	t_list	*node;
@@ -44,15 +45,18 @@ int table_add(t_table **table, char *key, char *value)
 	index = hash_fnv1(key);
 	node = (*table)->nodes[index];
 	if (!node)
-		return (add_node(&(*table)->nodes[index], NULL, key, value) || add_env(table, &(*table)->nodes[index]));
+		return (add_node(&(*table)->nodes[index], NULL, key, value)
+			|| add_env(table, &(*table)->nodes[index]));
 	while (node->next[REGULAR])
 		node = node->next[REGULAR];
-	return (add_node(&node->next[REGULAR], node, key, value) || add_env(table, &node->next[REGULAR]));
+	return (add_node(&node->next[REGULAR], node, key, value)
+		|| add_env(table, &node->next[REGULAR]));
 }
 
 void	display_sorted(t_list *list, int fd)
 {
-	t_list *debug_node;
+	t_list	*debug_node;
+
 	while (list)
 	{
 		debug_node = list->next[SORTED];

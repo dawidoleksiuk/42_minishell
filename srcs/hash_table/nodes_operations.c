@@ -6,13 +6,11 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 18:47:34 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/17 19:12:59 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 08:22:36 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash_table_internal.h"
-
-
 
 //inserts node between two other node, if there is no previous node write NULL
 int	node_insert(t_list **new, t_list **prev, t_list **next, t_connect index)
@@ -35,33 +33,33 @@ int	node_insert(t_list **new, t_list **prev, t_list **next, t_connect index)
 	return (0);
 }
 
-int add_node(t_list **node, t_list *prev, char *key, char *value)
+int	add_node(t_list **node, t_list *prev, char *key, char *value)
 {
 	(*node) = malloc(sizeof(t_list));
-	if (!node)
+	if (!*node)
 	{
 		if (value)
 			free(value);
-		return(free(key), 1);
+		return (free(key), 1);
 	}
 	(*node)->key = key;
 	(*node)->value = value;
-	(*node)->next = ft_calloc(2, sizeof(t_list*));
-	(*node)->prev = ft_calloc(2, sizeof(t_list*));
+	(*node)->next = ft_calloc(2, sizeof(t_list *));
+	(*node)->prev = ft_calloc(2, sizeof(t_list *));
 	(*node)->prev[REGULAR] = prev;
 	return (0);
 }
 
 void	connect_nodes(t_list ***prev, t_list ***next, t_connect index)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	if (*next)
-		tmp = *next[index];
+		tmp = (*next)[index];
 	if ((*prev)[index])
 		(*prev)[index]->next[index] = tmp;
 	else
-		*prev[index] = tmp;
+		(*prev)[index] = tmp;
 	if ((*next)[index])
 		(*next)[index]->prev[index] = (*prev)[index];
 }

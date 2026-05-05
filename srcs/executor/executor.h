@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:52:52 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/28 12:24:48 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 07:10:10 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,13 @@ t_exec_info		*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd);
 //child.c
 void			set_up_child(t_data *data, t_exec_info *exec_info, t_cmd *cmd);
 void			do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd);
+
+//child_utils.c
+void			iter_catalogs(t_exec_info *exec_info);
+char			**filtr_cmd(t_cmd *cmd);
+char			*check_path(t_exec_info *exec_info, char **args);
+t_exec_info		*check_catalogs(t_exec_info *exec_info,
+					char *path, char *f_name);
+int				check_for_directory(char *path);
 
 #endif

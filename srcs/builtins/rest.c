@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/28 12:33:12 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 07:44:18 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_exit(t_data *data, char **args)
 		clean_exit(data, NULL, (unsigned char)exit_code);
 }
 
-void	ft_echo(int	fd, char **args)
+void	ft_echo(int fd, char **args)
 {
 	char	flag;
 	size_t	i;
@@ -81,19 +81,11 @@ int	ft_cd(t_envar **envar, char **args)
 	else
 		temp = ft_strdup(path);
 	if (!temp)
-			return (1);
+		return (1);
 	if (chdir(temp) == -1)
-	{
-		perror("cd");
-		free(temp);
-	}
+		return (perror("cd"), free(temp), 1);
 	else
-	{
-		free((*envar)->curr_dir);
-		(*envar)->curr_dir = temp;
-		return (0);
-	}
-	return (1);
+		return (free((*envar)->curr_dir), (*envar)->curr_dir = temp, 0);
 }
 
 int	ft_pwd(t_envar **envar)

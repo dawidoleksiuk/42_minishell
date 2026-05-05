@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:54:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/17 19:13:44 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 08:15:36 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	del(t_table **table, char *key)
 		(*table)->sorted_list = node->next[SORTED];
 	else
 		connect_nodes(&node->prev, &node->next, SORTED);
-	free_list(node);
+	free_list(node, ONE);
 }
 
 char	*get(t_table *table, char *key)

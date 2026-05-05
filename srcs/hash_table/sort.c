@@ -6,13 +6,13 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:41:28 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/17 19:37:53 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 07:52:24 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hash_table_internal.h"
 
-int find_spot(t_list **env, t_list **node)
+int	find_spot(t_list **env, t_list **node)
 {
 	size_t	len;
 
@@ -21,7 +21,8 @@ int find_spot(t_list **env, t_list **node)
 		return (!node_insert(env, NULL, node, SORTED));
 	else if (!(*node)->next[SORTED])
 		return (!node_insert(env, node, NULL, SORTED));
-	else if (ft_strismore((*env)->key, (*node)->key, len) && ft_strisless((*env)->key, (*node)->next[SORTED]->key, len))
+	else if (ft_strismore((*env)->key, (*node)->key, len)
+		&& ft_strisless((*env)->key, (*node)->next[SORTED]->key, len))
 		return (!node_insert(env, node, &(*node)->next[SORTED], SORTED));
 	return (0);
 }

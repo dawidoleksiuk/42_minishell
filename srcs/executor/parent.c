@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 21:19:55 by alusnia           #+#    #+#             */
-/*   Updated: 2026/04/28 12:06:06 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/05 07:22:59 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 	{
 		if (exec_info->in)
 			close(exec_info->in);
-		return (exec_info->in = exec_info->pipe_fd[0], close(exec_info->pipe_fd[1]), exec_info);
+		return (exec_info->in = exec_info->pipe_fd[0],
+			close(exec_info->pipe_fd[1]), exec_info);
 	}
 	exec_info->pid = fork();
 	if (exec_info->pid == -1)
