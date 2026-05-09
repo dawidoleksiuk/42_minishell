@@ -6,13 +6,16 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 18:20:26 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 20:54:39 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "./parser.h"
+
+# include "parser.h"
+# include "tokenizer.h"
+# include "expander.h"
 # include "libftplus.h"
 # include "../srcs/hash_table/hash_table.h"
 # include <errno.h>
@@ -98,10 +101,6 @@ t_exec_info	*redir(t_exec_info *ex_info, t_redir *redir);
 // executor.c
 void		executor(t_data *data, t_cmd *cmd_head);
 void		clean_envars(t_envar *envars);
-
-//expander
-void	expander(t_data *data);
-void	insert_dollar_val(t_data *data, t_exp_data *exp, char **content);
 
 //built-ins
 int			ft_pwd(t_envar **envar);

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:39:33 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 18:20:31 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 20:53:29 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,6 @@ typedef struct s_cmd
 	t_redir			*redirs;
 	struct s_cmd	*next;
 }	t_cmd;
-
-typedef struct s_exp_data
-{
-	int		i;
-	char	c;
-	int		start;
-	int		status;
-	int		key_len;
-}	t_exp_data;
 
 // parser.c
 void	parser(t_data *data);
