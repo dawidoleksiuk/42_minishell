@@ -6,20 +6,12 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/15 17:08:22 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 18:12:57 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// t_token	*last_node(t_token *node)
-// {
-// 	if (!node)
-// 		return (node);
-// 	while (node->next != NULL)
-// 		node = node->next;
-// 	return (node);
-// }
 t_token	*create_token_node(t_data *data, t_token **token)
 {
 	t_token	*node;

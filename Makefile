@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
+#    By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/05/05 07:17:08 by alusnia          ###   ########.fr        #
+#    Updated: 2026/05/09 18:23:47 by doleksiu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ INCS_DIR    = ./includes
 CORE_DIR	= core
 HASH_DIR    = hash_table
 EXEC_DIR    = executor
+EXP_DIR		= expander
 PARS_DIR    = parser
 TOK_DIR     = tokenizer
 BLT_DIR     = builtins
@@ -32,13 +33,15 @@ CORE_FILES  = minishell.c clean_exit.c init.c signals.c
 HASH_FILES  = nodes_operations.c core.c operations.c \
 				sort.c utils.c methods.c
 EXEC_FILES  = redirection.c executor.c parent.c child.c child_utils.c
-PARS_FILES  = parser.c parser_utils.c token_processor.c dollar_handler.c
+EXP_FILES	= expander.c dollar_handler.c
+PARS_FILES  = parser.c parser_utils.c
 TOK_FILES   = tokenizer.c tokenizer_utils.c
 BLT_FILES   = rest.c table_related.c
 
 SRCS = $(addprefix $(SRC_DIR)/$(CORE_DIR)/, $(CORE_FILES)) \
        $(addprefix $(SRC_DIR)/$(HASH_DIR)/, $(HASH_FILES)) \
        $(addprefix $(SRC_DIR)/$(EXEC_DIR)/, $(EXEC_FILES)) \
+	   $(addprefix $(SRC_DIR)/$(EXP_DIR)/, $(EXP_FILES)) \
        $(addprefix $(SRC_DIR)/$(PARS_DIR)/, $(PARS_FILES)) \
        $(addprefix $(SRC_DIR)/$(TOK_DIR)/, $(TOK_FILES)) \
        $(addprefix $(SRC_DIR)/$(BLT_DIR)/, $(BLT_FILES))

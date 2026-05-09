@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 16:47:28 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 18:20:26 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,10 @@ t_exec_info	*redir(t_exec_info *ex_info, t_redir *redir);
 void		executor(t_data *data, t_cmd *cmd_head);
 void		clean_envars(t_envar *envars);
 
+//expander
+void	expander(t_data *data);
+void	insert_dollar_val(t_data *data, t_exp_data *exp, char **content);
+
 //built-ins
 int			ft_pwd(t_envar **envar);
 int			ft_cd(t_envar **envar, char **args);
@@ -108,5 +112,4 @@ void		ft_unset(t_env_table **table, char **args);
 void		ft_exit(t_data *data, char **args);
 void		ft_export(t_exec_info *exec, t_env_table **table,
 					char **args, int fd);
-
 #endif
