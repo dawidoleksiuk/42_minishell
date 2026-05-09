@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 21:27:52 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 23:13:01 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ void	process_char(t_data *data, t_exp_data *exp, char *content, char **res)
 	else if (exp->status == IN_DOUBLE && exp->c == '\"')
 		exp->status = DEFAULT;
 	if ((exp->status != IN_SINGLE) && exp->c == '$')
+	{
+		remove_quote(data, content + exp->start, res, exp->i - exp->start);
+		exp->start = exp->i;
 		insert_dollar(data, exp, content, res);
+	}
 	if ((exp->status != IN_SINGLE && exp->c == '\"')
 		|| (exp->status != IN_DOUBLE && exp->c == '\''))
 	{

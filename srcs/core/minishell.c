@@ -6,12 +6,11 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/09 20:54:14 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 23:16:24 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 void	print_tokens(t_data *data)
 {
 	t_token	*token;
@@ -21,6 +20,30 @@ void	print_tokens(t_data *data)
 	{
 		printf("%s, type: %d \n", token->content, token->type);
 		token = token->next;
+	}
+}
+
+void	print_cmds(t_data *data)
+{
+	t_cmd	*cmd;
+	int		i;
+
+	i = 0;
+	cmd = data->cmd_head;
+	while (cmd)
+	{
+		i = 0;
+		while (cmd->args && cmd->args[i])
+		{
+			printf("args %d: %s \n", i, cmd->args[i]);
+			i++;
+		}
+		while (cmd->redirs)
+		{
+			printf("file: %s, redir type: %d \n", cmd->redirs->filename, cmd->redirs->type);
+			cmd->redirs = cmd->redirs->next;
+		}
+		cmd = cmd->next;
 	}
 }
 
@@ -40,6 +63,8 @@ int	minishell(t_data *data)
 	}
 	expander(data);
 	parser(data);
+	// print_tokens(data);
+	// print_cmds(data);
 	if (data->line)
 	{
 		free(data->line);

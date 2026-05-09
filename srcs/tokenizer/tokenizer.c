@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 20:41:29 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 22:20:46 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	get_next_token(char *line, int *i, int *start)
 			return (1);
 	}
 	else
-		get_next_operator(line, start, i);
+		get_next_operator(line, i, start);
 	return (0);
 }
 
