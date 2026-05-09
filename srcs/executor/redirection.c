@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/09 16:47:37 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 17:35:14 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static void	read_input(t_exec_info *ex_info, int out, char *delimiter)
 	size_t	len;
 
 	len = ft_strlen(delimiter);
-	if (setup_signal(SIGINT, &sig_handler_heredoc) != 0)
+	if (setup_signal(SIGINT, &sig_handler_heredoc) != 0 
+		|| setup_signal(SIGQUIT, SIG_IGN) != 0)
 		return (clean_exec(ex_info, NULL, 1, NULL));
 	str = readline("> ");
 	while (str && (len != ft_strlen(str)
@@ -52,6 +53,9 @@ static t_exec_info	*handle_heredoc(t_exec_info *ex_info, char *delimiter)
 	status = 0;
 	if (!pipe(ex_info->pipe_fd))
 	{
+		if (setup_signal(SIGINT, SIG_IGN) != 0
+			|| setup_signal(SIGQUIT, SIG_IGN) != 0)
+		return (ex_info->error = 1, ex_info);
 		ex_info->pid = fork();
 		if (ex_info->pid == -1)
 			return (ex_info->error = 1, ex_info);
@@ -61,13 +65,10 @@ static t_exec_info	*handle_heredoc(t_exec_info *ex_info, char *delimiter)
 	else
 		return (ex_info->error = 2, ex_info);
 	close(ex_info->pipe_fd[1]);
-	if (setup_signal(SIGINT, SIG_IGN) == 1
-		|| setup_signal(SIGQUIT, SIG_IGN) == 1)
-		return (ex_info->error = 1, ex_info);
 	waitpid(ex_info->pid, &status, 0);
 	ex_info->in = ex_info->pipe_fd[0];
 	errno = translate_status(0, 0, status, 0);
-	if (setup_signal(SIGINT, &sig_handler) != 0)
+	if (setup_signal(SIGINT, &sig_handler) != 0 || setup_signal(SIGQUIT, SIG_IGN) != 0)
 		return (ex_info->error = 1, ex_info);
 	return (ex_info->error = errno, ex_info);
 }

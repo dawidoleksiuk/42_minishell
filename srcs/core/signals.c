@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:52 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 16:16:44 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 17:37:30 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	sig_handler_heredoc(int sig)
 	if (sig == SIGINT)
 	{
 		write(STDOUT_FILENO, "^C", 2);
-		close(0);
+		close(STDIN_FILENO);
 	}
 }
 
@@ -49,7 +49,7 @@ int	setup_signal(int sig, void (*handler)(int))
 
 	ft_bzero(&sa, sizeof(sa));
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
+	// sa.sa_flags = 0;
 	sa.sa_handler = handler;
 	if (sigaction(sig, &sa, NULL) == -1)
 		return (1);
