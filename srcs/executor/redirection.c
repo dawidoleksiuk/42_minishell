@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/09 17:35:14 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 00:16:12 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_exec_info	*handle_heredoc(t_exec_info *ex_info, char *delimiter)
 	{
 		if (setup_signal(SIGINT, SIG_IGN) != 0
 			|| setup_signal(SIGQUIT, SIG_IGN) != 0)
-		return (ex_info->error = 1, ex_info);
+			return (ex_info->error = 1, ex_info);
 		ex_info->pid = fork();
 		if (ex_info->pid == -1)
 			return (ex_info->error = 1, ex_info);

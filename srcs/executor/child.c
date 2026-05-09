@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:17:07 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/09 16:10:54 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 23:50:45 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 int	setup_child_signals_and_termios(t_data *data)
 {
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) != 0)
-		return (1);
-	if (setup_signal(SIGINT, SIG_DFL) != 0)
-		return (1);
-	if (setup_signal(SIGQUIT, SIG_DFL) != 0)
-		return (1);
+	if (isatty(STDIN_FILENO))
+	{
+		if (tcsetattr(STDIN_FILENO, TCSANOW, &data->termios_p_save) != 0)
+			return (1);
+		if (setup_signal(SIGINT, SIG_DFL) != 0)
+			return (1);
+		if (setup_signal(SIGQUIT, SIG_DFL) != 0)
+			return (1);
+	}
 	return (0);
 }
 
