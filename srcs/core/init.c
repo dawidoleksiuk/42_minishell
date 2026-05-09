@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/18 11:23:53 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 16:47:35 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ when CTRL+D, clears rl history and closes program
 in non-interactive mode:
 reads from the file descriptor 0
 */
+
 void	prompt(t_data *data)
 {
 	int	line_len;
@@ -29,6 +30,7 @@ void	prompt(t_data *data)
 		data->line = readline("minishell$ ");
 		if (!data->line)
 		{
+			write(STDOUT_FILENO, "exit\n", 5);
 			clean_exit(data, NULL, data->exit_code);
 		}
 		if (data->line[0] != '\0')
@@ -53,28 +55,35 @@ turns off termios flag for signal output (^C, ^\ etc.) in terminal
 sets signal handling
 */
 
-struct termios	set_terminal_settings(t_data *data, int symbol_on)
+int	get_terminal_settings(struct termios *termios_p)
+{
+	if (tcgetattr(STDIN_FILENO, termios_p) == 0)
+		return (0);
+	return (1);
+}
+
+int	disable_echoctl(void)
 {
 	struct termios	termios_p;
-	struct termios	termios_p_copy;
 
 	if (tcgetattr(STDIN_FILENO, &termios_p) == 0)
 	{
-		termios_p_copy = termios_p;
-		if (!symbol_on)
-			termios_p.c_lflag &= ~ECHOCTL;
-		if (symbol_on)
-			termios_p.c_lflag |= ECHOCTL;
+		termios_p.c_lflag &= ~ECHOCTL;
 		if (tcsetattr(STDIN_FILENO, TCSANOW, &termios_p) != 0)
-			clean_exit(data, "minishell: tcsetattr error", 0);
+			return (1);
 	}
-	return (termios_p_copy);
+	else
+		return (1);
+	return (0);
 }
 
 int	init_signals(t_data *data)
 {
 	rl_catch_signals = 0;
-	data->termios_p_save = set_terminal_settings(data, 0);
+	if (get_terminal_settings(&data->termios_p_save) != 0)
+		return (1);
+	if (disable_echoctl() != 0)
+		return (1);
 	if (setup_signal(SIGINT, &sig_handler) || setup_signal(SIGQUIT, SIG_IGN))
 		return (1);
 	return (0);

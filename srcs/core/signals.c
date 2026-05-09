@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:52 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/05 06:57:35 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/09 16:16:44 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	sig_handler(int sig)
 	}
 }
 
-void	sig_handler_child(int sig)
+void	sig_handler_heredoc(int sig)
 {
 	g_signum = sig;
 	if (sig == SIGINT)
