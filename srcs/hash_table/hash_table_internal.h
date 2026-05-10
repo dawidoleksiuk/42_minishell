@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hash_table_internal.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:26:58 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 08:15:55 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 12:53:23 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define ALL 1
 # define ONE 0
 # include "libftplus.h"
-
 
 typedef enum e_connect
 {

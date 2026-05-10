@@ -163,16 +163,23 @@ The project follows the 42 subject requirements:
 ## Resources
 
 * Bash manual: https://www.gnu.org/software/bash/manual/bash.html
+* Unix Processes in C YouTube Playlist (CodeVault): https://www.youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY
 * GNU Readline documentation: https://tiswww.case.edu/php/chet/readline/rltop.html
 * Readline `rl_catch_signals`: https://www.manpagez.com/info/rlman/rlman-5.2/rlman_43.php
 * GNU C Library (termios modes / local modes): https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_node/libc_355.html
-* Unix Processes in C YouTube Playlist (CodeVault): https://www.youtube.com/playlist?list=PLfqABt5AS4FkW5mOn2Tn9ZZLLDwA3kZUY
 * Linux manual pages for different functions used in the program.
 * Various programming forums for troubleshooting and conceptual understanding.
 
 ### AI Usage
 
-AI tools were used to help structure this documentation, improve clarity, and prepare usage examples. The final technical implementation and logic remain the responsibility of the authors.
+During the development of this project, AI (Google Gemini) was utilized as an educational resource to clarify system-level concepts and streamline the debugging process. All insights were critically evaluated before application.
+
+Specifically, AI assisted us with:
+
+- **Understanding System Concepts:** Clarifying the underlying mechanics of OS-level functions, such as process duplication (`fork()`), inter-process communication (pipes), and terminal signal handling (`isatty`, `tcgetattr`, `sigaction`).
+- **Debugging & Log Analysis:** Interpreting Valgrind memory leak reports, managing `readline` suppressions, and analyzing tester logs to resolve edge cases in variable expansion (e.g., `$VAR` and `$?`).
+- **Architectural Brainstorming:** Discussing logical approaches for structuring the program and managing parent-child process states. We strictly avoided generating or copy-pasting C code, ensuring that the final implementation is entirely our own and fully understood.
+- **Documentation:** Generating an initial structural draft of this README file, which was subsequently reviewed, refined, and validated against the project requirements.
 
 ```
 
