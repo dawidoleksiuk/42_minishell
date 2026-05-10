@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 21:19:55 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 14:56:56 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 15:33:51 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ void	check_out_children(t_exec_info *exec_info, int *exit_code)
 
 	pid = waitpid(-1, &status, 0);
 	if (isatty(STDIN_FILENO))
+	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &exec_info->data->termios_p_save);
 		if (setup_signal(SIGINT, &sig_handler)
 			|| setup_signal(SIGQUIT, SIG_IGN))
 			return (clean_exec(exec_info, NULL, 0, NULL));
+	}
 	while (pid > 0)
 	{
 		*exit_code = translate_status(exec_info->pid, pid,

@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 14:56:47 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 15:40:40 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	executor(t_data *data, t_cmd *cmd_head)
 	while (cmd)
 	{
 		execute(data, cmd);
+		if (data->exec_info->error == 130)
+			break ;
 		cmd = cmd->next;
 		data->exec_info->out = 1;
 	}

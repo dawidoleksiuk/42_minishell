@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 12:52:44 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 15:46:57 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ static t_exec_info	*handle_heredoc(t_exec_info *ex_info, char *delimiter)
 	close(ex_info->pipe_fd[1]);
 	waitpid(ex_info->pid, &status, 0);
 	ex_info->in = ex_info->pipe_fd[0];
-	errno = translate_status(0, 0, status, 0);
+	ex_info->error = translate_status(0, 0, status, 0);
 	if (setup_signal(SIGINT, &sig_handler) != 0
 		|| setup_signal(SIGQUIT, SIG_IGN) != 0)
 		return (ex_info->error = 1, ex_info);
-	return (ex_info->error = errno, ex_info);
+	return (ex_info);
 }
 
 /*
@@ -112,13 +112,15 @@ t_exec_info	*redir(t_exec_info *ex_info, t_redir *redir)
 		}
 		else if (redir->type == REDIR_OUT || redir->type == APPEND)
 		{
-			if (ex_info->out && ex_info->redir_out)
+			if (ex_info->out > 0 && ex_info->redir_out)
 				close(ex_info->out);
 			ex_info->redir_out = 1;
 		}
 		ex_info = redirection(ex_info, redir->type, redir->filename);
+		if (ex_info->error && redir->type != HEREDOC)
+			perror("minishell");
 		if (ex_info->error)
-			return (ex_info->error = 1, perror("minishell"), ex_info);
+			return (ex_info);
 		redir = redir->next;
 	}
 	return (ex_info);
