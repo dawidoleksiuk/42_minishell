@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 11:23:16 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 15:03:59 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	append_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
 		key = ft_substr(content, exp->i + 1, exp->key_len);
 		if (!key)
 			clean_exit(data, "Malloc failed", 0);
-		value = data->exec_info->envars->table->get(data->exec_info->envars->table->table, key);
+		value = data->exec_info->envars->table->get(
+				data->exec_info->envars->table->table, key);
 		if (value)
 			value = ft_strdup(value);
 		else

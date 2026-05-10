@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 11:30:11 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 14:59:42 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	print_cmds(t_data *data)
 		}
 		while (cmd->redirs)
 		{
-			printf("file: %s, redir type: %d \n", cmd->redirs->filename, cmd->redirs->type);
+			printf("file: %s, redir type: %d \n",
+				cmd->redirs->filename, cmd->redirs->type);
 			cmd->redirs = cmd->redirs->next;
 		}
 		cmd = cmd->next;
