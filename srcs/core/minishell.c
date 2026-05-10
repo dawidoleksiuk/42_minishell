@@ -6,11 +6,12 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/09 23:31:49 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 11:30:11 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	print_tokens(t_data *data)
 {
 	t_token	*token;

@@ -6,21 +6,25 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 23:13:01 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 11:22:25 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	remove_quote(t_data *data, char *content, char **res, int pre_quote_len)
+/*
+This function takes char *content 
+and appends a specified number of chars (substr_len) to res
+*/
+
+void	append_substr(t_data *data, char *content, char **res, int substr_len)
 {
 	char	*res1;
 	char	*res2;
 
-	(void)data;
 	res1 = NULL;
 	res2 = NULL;
-	res1 = ft_substr(content, 0, pre_quote_len);
+	res1 = ft_substr(content, 0, substr_len);
 	res2 = ft_strjoin(*res, res1);
 	if (!res1 || !res2)
 		clean_exit(data, "Malloc failed", 0);
@@ -41,14 +45,14 @@ void	process_char(t_data *data, t_exp_data *exp, char *content, char **res)
 		exp->status = DEFAULT;
 	if ((exp->status != IN_SINGLE) && exp->c == '$')
 	{
-		remove_quote(data, content + exp->start, res, exp->i - exp->start);
+		append_substr(data, content + exp->start, res, exp->i - exp->start);
 		exp->start = exp->i;
-		insert_dollar(data, exp, content, res);
+		append_dollar(data, exp, content, res);
 	}
 	if ((exp->status != IN_SINGLE && exp->c == '\"')
 		|| (exp->status != IN_DOUBLE && exp->c == '\''))
 	{
-		remove_quote(data, content + exp->start, res, exp->i - exp->start);
+		append_substr(data, content + exp->start, res, exp->i - exp->start);
 		exp->start = exp->i + 1;
 	}
 }
@@ -58,9 +62,7 @@ iterates through each token content char and:
 - checks quotes and updates quote status if found one
 - inserts dollar value if found '$', and not IN_SINGLE quote
 
-
-res is a result of the 
-
+res is the result of the content after processing
 */
 
 char	*process_token_content(t_data *data, char *content)
@@ -76,7 +78,7 @@ char	*process_token_content(t_data *data, char *content)
 		process_char(data, &exp, content, &res);
 		exp.i++;
 	}
-	remove_quote(data, content + exp.start, &res, exp.i - exp.start);
+	append_substr(data, content + exp.start, &res, exp.i - exp.start);
 	return (res);
 }
 

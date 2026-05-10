@@ -6,39 +6,23 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 23:14:56 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 11:23:16 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char	*get_after_dollar(t_data *data, char **content, int post_len)
-// {
-// 	char	*after_dollar;
-// 	int		content_len;
-
-// 	after_dollar = NULL;
-// 	content_len = ft_strlen(*content);
-// 	if (content_len > post_len)
-// 	{
-// 		after_dollar = ft_substr(*content, post_len, content_len - post_len);
-// 		if (!after_dollar)
-// 			clean_exit(data, "Malloc failed", 0);
-// 	}
-// 	return (after_dollar);
-// }
-
-void	insert_val(t_data *data, char **res, char *val)
+void	append_value(t_data *data, char **res, char *value)
 {
 	char	*temp;
 
-	temp = ft_strjoin(*res, val);
+	temp = ft_strjoin(*res, value);
 	if (!temp)
 		clean_exit(data, "Malloc failed", 0);
 	*res = temp;
 }
 
-void	handle_exit_code(t_data *data, t_exp_data *exp, char **res)
+void	append_exit_code(t_data *data, t_exp_data *exp, char **res)
 {
 	char	*value;
 
@@ -46,7 +30,7 @@ void	handle_exit_code(t_data *data, t_exp_data *exp, char **res)
 	exp->key_len = 1;
 	exp->i += exp->key_len;
 	exp->start = exp->i + 1;
-	insert_val(data, res, value);
+	append_value(data, res, value);
 }
 
 int	keylen(char *content, int start)
@@ -60,13 +44,13 @@ int	keylen(char *content, int start)
 	return (i - start);
 }
 
-void	insert_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
+void	append_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
 {
 	char	*key;
 	char	*value;
 
 	if (content[exp->i + 1] == '?')
-		handle_exit_code(data, exp, res);
+		append_exit_code(data, exp, res);
 	else if (ft_isalnum(content[exp->i + 1]) || content[exp->i + 1] == '_')
 	{
 		exp->key_len = keylen(content, exp->i + 1);
@@ -80,7 +64,7 @@ void	insert_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
 			value = ft_strdup("");
 		if (!value)
 			clean_exit(data, "Malloc failed", 0);
-		insert_val(data, res, value);
+		append_value(data, res, value);
 		exp->i += exp->key_len;
 		exp->start = exp->i + 1;
 		free (key);

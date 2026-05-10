@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 00:09:15 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 12:29:07 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ void	prompt(t_data *data)
 			data->line[line_len - 1] = '\0';
 	}
 }
-
-// termios https://www.gnu.org/software/libc/manual/html_node/Local-Modes.html
-// https://www.gnu.org/software/libc/manual/html_node/Setting-Modes.html
-// rl_catch_signals https://www.manpagez.com/info/rlman/rlman-5.2/rlman_43.php
-
 
 int	get_terminal_settings(struct termios *termios_p)
 {
