@@ -6,7 +6,7 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/05/05 07:17:08 by alusnia          ###   ########.fr        #
+#    Updated: 2026/05/10 14:48:59 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ BLT_DIR     = builtins
 CORE_FILES  = minishell.c clean_exit.c init.c signals.c
 HASH_FILES  = nodes_operations.c core.c operations.c \
 				sort.c utils.c methods.c
-EXEC_FILES  = redirection.c executor.c parent.c child.c child_utils.c
+EXEC_FILES  = redirection.c executor.c parent.c child.c child_utils.c exit.c
 PARS_FILES  = parser.c parser_utils.c token_processor.c dollar_handler.c
 TOK_FILES   = tokenizer.c tokenizer_utils.c
 BLT_FILES   = rest.c table_related.c

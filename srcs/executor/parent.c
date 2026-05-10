@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 21:19:55 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 07:22:59 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 14:39:57 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,19 @@ void	check_out_children(t_exec_info *exec_info, int *exit_code)
 	}
 }
 
-t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
+static t_exec_info	*prepare_for_labor(t_exec_info *exec_info, t_cmd *cmd)
 {
 	exec_info = redir(exec_info, cmd->redirs);
 	if (g_signum)
 		return (exec_info);
 	if (pipe(exec_info->pipe_fd) == -1)
 		return (exec_info->error += exec_info->error == 0, exec_info);
+	return (exec_info);
+}
+
+t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
+{
+	exec_info = prepare_for_labor(exec_info, cmd);
 	if (exec_info->error)
 	{
 		if (exec_info->in)

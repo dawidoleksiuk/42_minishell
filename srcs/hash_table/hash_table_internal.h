@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:26:58 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 08:15:55 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 14:35:05 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define ALL 1
 # define ONE 0
 # include "libftplus.h"
-
 
 typedef enum e_connect
 {
@@ -70,7 +69,7 @@ void	connect_nodes(t_list ***prev, t_list ***next, t_connect index);
 void	replace_node(t_table **table, char *key);
 
 //sort.c
-int		find_spot(t_list **env, t_list **node);
+void	insert_sorted_list(t_list **head, t_list *new_node);
 void	sort(t_table **table);
 
 #endif

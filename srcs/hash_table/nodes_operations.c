@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 18:47:34 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 08:22:36 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 11:23:38 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,6 @@ void	replace_node(t_table **table, char *key)
 	index = hash_fnv1(key);
 	node = (*table)->nodes[index];
 	(*table)->nodes[index] = node->next[REGULAR];
+	if ((*table)->nodes[index])
+		(*table)->nodes[index]->prev[REGULAR] = NULL;
 }

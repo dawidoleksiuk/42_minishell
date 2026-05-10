@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:54:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 08:15:36 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 11:23:41 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	del(t_table **table, char *key)
 {
 	t_list	*node;
 
+	sort(table);
 	node = find(*table, key);
 	if (!node)
 		return ;
@@ -35,7 +36,12 @@ void	del(t_table **table, char *key)
 	else
 		connect_nodes(&node->prev, &node->next, REGULAR);
 	if (!node->prev[SORTED])
-		(*table)->sorted_list = node->next[SORTED];
+	{
+		if ((*table)->sorted_list == node)
+			(*table)->sorted_list = node->next[SORTED];
+		if ((*table)->env == node)
+			(*table)->env = node->next[SORTED];
+	}
 	else
 		connect_nodes(&node->prev, &node->next, SORTED);
 	free_list(node, ONE);

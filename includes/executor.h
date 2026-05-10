@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:52:52 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 07:10:10 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 14:47:44 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,11 @@ char			*check_path(t_exec_info *exec_info, char **args);
 t_exec_info		*check_catalogs(t_exec_info *exec_info,
 					char *path, char *f_name);
 int				check_for_directory(char *path);
+
+//exit.c
+void			clean_exec(t_exec_info *exec_info, char *msg,
+					int exit_code, void *bonus);
+void			clean_envars(t_envar *envars);
+void			clean_exit_executor(t_exec_info *exec_info);
 
 #endif

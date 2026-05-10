@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 15:38:37 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 07:50:38 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 14:27:36 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,9 @@
 
 static int	add_env(t_table **table, t_list **node)
 {
-	t_list	*env;
-	t_list	*env_next;
-	int		node_moved;
-
-	env = (*table)->env;
-	if (!env)
-		return ((*table)->env = *node, 0);
-	else if (env && ft_strisless((*node)->key, env->key, 0))
-		return (node_insert(node, NULL, &env, SORTED),
-			(*table)->env = *node, 0);
-	while (env)
-	{
-		env_next = env->next[SORTED];
-		node_moved = 0;
-		node_moved = find_spot(node, &env);
-		if (!node_moved)
-			env = env_next;
-		else
-			break ;
-	}
+	if (!table || !*table || !node || !*node)
+		return (1);
+	insert_sorted_list(&(*table)->env, *node);
 	return (0);
 }
 

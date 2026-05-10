@@ -6,11 +6,12 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/05 06:55:47 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 14:48:39 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "executor.h"
 
 void	free_args_node(t_cmd *node)
 {
@@ -104,13 +105,7 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 		free_tokens(data);
 	if (data->cmd_head)
 		free_cmd(data);
-	if (data->exec_info->envars->table)
-		data->exec_info->envars->table->clear(data->exec_info->envars->table);
-	if (data->exec_info && data->exec_info->envars)
-		clean_envars(data->exec_info->envars);
-	if (data->exec_info && data->exec_info->pipe_fd)
-		free(data->exec_info->pipe_fd);
 	if (data->exec_info)
-		free(data->exec_info);
+		clean_exit_executor(data->exec_info);
 	exit(exit_code);
 }
