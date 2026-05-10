@@ -6,7 +6,7 @@
 #    By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 20:07:11 by doleksiu          #+#    #+#              #
-#    Updated: 2026/05/10 14:48:59 by alusnia          ###   ########.fr        #
+#    Updated: 2026/05/10 14:54:45 by alusnia          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ INCS_DIR    = ./includes
 CORE_DIR	= core
 HASH_DIR    = hash_table
 EXEC_DIR    = executor
+EXP_DIR		= expander
 PARS_DIR    = parser
 TOK_DIR     = tokenizer
 BLT_DIR     = builtins
@@ -33,19 +34,23 @@ HASH_FILES  = nodes_operations.c core.c operations.c \
 				sort.c utils.c methods.c
 EXEC_FILES  = redirection.c executor.c parent.c child.c child_utils.c exit.c
 PARS_FILES  = parser.c parser_utils.c token_processor.c dollar_handler.c
+EXEC_FILES  = redirection.c executor.c parent.c child.c child_utils.c
+EXP_FILES	= expander.c dollar_handler.c
+PARS_FILES  = parser.c parser_utils.c
 TOK_FILES   = tokenizer.c tokenizer_utils.c
 BLT_FILES   = rest.c table_related.c
 
 SRCS = $(addprefix $(SRC_DIR)/$(CORE_DIR)/, $(CORE_FILES)) \
        $(addprefix $(SRC_DIR)/$(HASH_DIR)/, $(HASH_FILES)) \
        $(addprefix $(SRC_DIR)/$(EXEC_DIR)/, $(EXEC_FILES)) \
+	   $(addprefix $(SRC_DIR)/$(EXP_DIR)/, $(EXP_FILES)) \
        $(addprefix $(SRC_DIR)/$(PARS_DIR)/, $(PARS_FILES)) \
        $(addprefix $(SRC_DIR)/$(TOK_DIR)/, $(TOK_FILES)) \
        $(addprefix $(SRC_DIR)/$(BLT_DIR)/, $(BLT_FILES))
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJS_DIR)/%.o)
 
-INCS = $(INCS_DIR)/minishell.h $(INCS_DIR)/parser.h
+INCS = $(INCS_DIR)/minishell.h $(INCS_DIR)/parser.h $(INCS_DIR)/tokenizer.h $(INCS_DIR)/expander.h
 
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(INCS)
 	@mkdir -p $(dir $@)

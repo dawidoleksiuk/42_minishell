@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:52 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/05 06:57:35 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/09 18:07:51 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,15 @@ void	sig_handler(int sig)
 	}
 }
 
-void	sig_handler_child(int sig)
+void	sig_handler_heredoc(int sig)
 {
 	g_signum = sig;
 	if (sig == SIGINT)
 	{
 		write(STDOUT_FILENO, "^C", 2);
-		close(0);
+		close(STDIN_FILENO);
 	}
 }
-
-	// if ((sigaddset(&sa.sa_mask, SIGINT) == -1)
-	// 	|| (sigaddset(&sa.sa_mask, SIGQUIT) == -1))
-	// 	return (1);
 
 int	setup_signal(int sig, void (*handler)(int))
 {
@@ -49,7 +45,6 @@ int	setup_signal(int sig, void (*handler)(int))
 
 	ft_bzero(&sa, sizeof(sa));
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
 	sa.sa_handler = handler;
 	if (sigaction(sig, &sa, NULL) == -1)
 		return (1);

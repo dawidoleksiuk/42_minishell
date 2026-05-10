@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:38:03 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/16 20:24:26 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/10 11:42:26 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ t_cmd	*new_cmd_node(t_data *data, t_cmd *cmd)
 	return (node);
 }
 
-int	copy_args(t_data *data, t_token *token, t_cmd *cmd)
+/*
+Reallocates the cmd argument array to save new token arguments, 
+saving the existing arguments.
+*/
+
+int	realloc_args(t_data *data, t_token *token, t_cmd *cmd)
 {
 	int		i;
 	char	**args;
@@ -62,7 +67,7 @@ t_token	*add_cmd(t_data *data, t_token *token, t_cmd *cmd)
 {
 	int		i;
 
-	i = copy_args(data, token, cmd);
+	i = realloc_args(data, token, cmd);
 	while (token && token->type == WORD)
 	{
 		cmd->args[i] = ft_strdup(token->content);

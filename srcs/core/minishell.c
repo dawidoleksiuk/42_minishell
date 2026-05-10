@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 06:08:01 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 11:30:11 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,30 @@ void	print_tokens(t_data *data)
 	}
 }
 
+void	print_cmds(t_data *data)
+{
+	t_cmd	*cmd;
+	int		i;
+
+	i = 0;
+	cmd = data->cmd_head;
+	while (cmd)
+	{
+		i = 0;
+		while (cmd->args && cmd->args[i])
+		{
+			printf("args %d: %s \n", i, cmd->args[i]);
+			i++;
+		}
+		while (cmd->redirs)
+		{
+			printf("file: %s, redir type: %d \n", cmd->redirs->filename, cmd->redirs->type);
+			cmd->redirs = cmd->redirs->next;
+		}
+		cmd = cmd->next;
+	}
+}
+
 int	minishell(t_data *data)
 {
 	prompt(data);
@@ -38,8 +62,10 @@ int	minishell(t_data *data)
 		free_tokens(data);
 		return (1);
 	}
-	expand_tokens(data);
+	expander(data);
 	parser(data);
+	// print_tokens(data);
+	// print_cmds(data);
 	if (data->line)
 	{
 		free(data->line);

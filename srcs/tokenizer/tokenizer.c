@@ -6,21 +6,13 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/15 17:08:22 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/09 22:20:46 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// t_token	*last_node(t_token *node)
-// {
-// 	if (!node)
-// 		return (node);
-// 	while (node->next != NULL)
-// 		node = node->next;
-// 	return (node);
-// }
-t_token	*create_token_node(t_data *data, t_token **token)
+static t_token	*create_token_node(t_data *data, t_token **token)
 {
 	t_token	*node;
 
@@ -34,12 +26,12 @@ t_token	*create_token_node(t_data *data, t_token **token)
 	else
 	{
 		data->token_head = node;
-		(*token) = node;
+		*token = node;
 	}
 	return (node);
 }
 
-int	get_next_word(char *line, int *i)
+static int	get_next_word(char *line, int *i)
 {
 	int	status;
 
@@ -66,7 +58,7 @@ int	get_next_word(char *line, int *i)
 	return (0);
 }
 
-void	get_next_operator(char *line, int *start, int *i)
+static void	get_next_operator(char *line, int *i, int *start)
 {
 	if (ft_strncmp(line + (*i), ">>", 2) == 0
 		|| ft_strncmp(line + (*i), "<<", 2) == 0)
@@ -79,15 +71,15 @@ void	get_next_operator(char *line, int *start, int *i)
 	(*i)++;
 }
 
-int	get_next_token(char *line, int *i, int *start)
+static int	get_next_token(char *line, int *i, int *start)
 {
 	if (check_separator(line[*i]) == 0)
 	{
-		if (get_next_word(line, i) == 1)
+		if (get_next_word(line, i) != 0)
 			return (1);
 	}
 	else
-		get_next_operator(line, start, i);
+		get_next_operator(line, i, start);
 	return (0);
 }
 
@@ -106,7 +98,7 @@ int	tokenizer(t_data *data)
 		start = i;
 		if (data->line[i])
 		{
-			if (get_next_token(data->line, &i, &start))
+			if (get_next_token(data->line, &i, &start) != 0)
 				return (1);
 			current_token = create_token_node(data, &current_token);
 			current_token->content = ft_substr(data->line, start, i - start);

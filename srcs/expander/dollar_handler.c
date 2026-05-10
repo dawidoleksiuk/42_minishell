@@ -1,0 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dollar_handler.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
+/*   Updated: 2026/05/10 11:23:16 by doleksiu         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	append_value(t_data *data, char **res, char *value)
+{
+	char	*temp;
+
+	temp = ft_strjoin(*res, value);
+	if (!temp)
+		clean_exit(data, "Malloc failed", 0);
+	*res = temp;
+}
+
+void	append_exit_code(t_data *data, t_exp_data *exp, char **res)
+{
+	char	*value;
+
+	value = ft_itoa(data->exit_code);
+	exp->key_len = 1;
+	exp->i += exp->key_len;
+	exp->start = exp->i + 1;
+	append_value(data, res, value);
+}
+
+int	keylen(char *content, int start)
+{
+	int	i;
+
+	i = start;
+	while (content[i] && (ft_isalnum(content[i]) || content[i] == '_')
+		&& content[i] != '\"')
+		i++;
+	return (i - start);
+}
+
+void	append_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
+{
+	char	*key;
+	char	*value;
+
+	if (content[exp->i + 1] == '?')
+		append_exit_code(data, exp, res);
+	else if (ft_isalnum(content[exp->i + 1]) || content[exp->i + 1] == '_')
+	{
+		exp->key_len = keylen(content, exp->i + 1);
+		key = ft_substr(content, exp->i + 1, exp->key_len);
+		if (!key)
+			clean_exit(data, "Malloc failed", 0);
+		value = data->exec_info->envars->table->get(data->exec_info->envars->table->table, key);
+		if (value)
+			value = ft_strdup(value);
+		else
+			value = ft_strdup("");
+		if (!value)
+			clean_exit(data, "Malloc failed", 0);
+		append_value(data, res, value);
+		exp->i += exp->key_len;
+		exp->start = exp->i + 1;
+		free (key);
+		free (value);
+	}
+}

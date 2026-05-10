@@ -6,13 +6,16 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 14:46:34 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/10 14:56:12 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "./parser.h"
+
+# include "parser.h"
+# include "tokenizer.h"
+# include "expander.h"
 # include "libftplus.h"
 # include "../srcs/hash_table/hash_table.h"
 # include <errno.h>
@@ -77,31 +80,32 @@ void			put_msg(char *msg);
 void			free_args_node(t_cmd *node);
 
 // init.c
-void			prompt(t_data *data);
-int				init(t_data *data, char **envp);
-struct termios	set_terminal_settings(t_data *data, int c_on);
+void		prompt(t_data *data);
+int			get_terminal_settings(struct termios *termios_p);
+int			disable_echoctl(void);
+int			init_signals(t_data *data);
+int			init(t_data *data, char **envp);
 
 // signals.c 
-void			sig_handler(int sig);
-void			sig_handler_child(int sig);
-int				config_sigaction(struct sigaction *sa);
-int				signals(void);
-int				setup_signal(int sig, void (*handler)(int));
+void		sig_handler(int sig);
+void		sig_handler_heredoc(int sig);
+int			config_sigaction(struct sigaction *sa);
+int			signals(void);
+int			setup_signal(int sig, void (*handler)(int));
 
 // redirection.c
-t_exec_info		*redir(t_exec_info *ex_info, t_redir *redir);
+t_exec_info	*redir(t_exec_info *ex_info, t_redir *redir);
 
 // executor.c
-void			executor(t_data *data, t_cmd *cmd_head);
+void		executor(t_data *data, t_cmd *cmd_head);
 
 //built-ins
-int				ft_pwd(t_envar **envar);
-int				ft_cd(t_envar **envar, char **args);
-void			ft_echo(int fd, char **args);
-void			ft_env(t_env_table *table, int fd);
-void			ft_unset(t_env_table **table, char **args);
-void			ft_exit(t_data *data, char **args);
-void			ft_export(t_exec_info *exec, t_env_table **table,
+int			ft_pwd(t_envar **envar);
+int			ft_cd(t_envar **envar, char **args);
+void		ft_echo(int fd, char **args);
+void		ft_env(t_env_table *table, int fd);
+void		ft_unset(t_env_table **table, char **args);
+void		ft_exit(t_data *data, char **args);
+void		ft_export(t_exec_info *exec, t_env_table **table,
 					char **args, int fd);
-
 #endif
