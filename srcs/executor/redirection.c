@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 15:46:57 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/12 17:37:30 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,25 @@ static void	read_input(t_exec_info *ex_info, int out, char *delimiter)
 	if (setup_signal(SIGINT, &sig_handler_heredoc) != 0
 		|| setup_signal(SIGQUIT, SIG_IGN) != 0)
 		return (clean_exec(ex_info, NULL, 1, NULL));
-	str = readline("> ");
+	if (isatty(STDIN_FILENO))
+		str = readline("> ");
+	else
+	{
+		str = get_next_line(STDIN_FILENO);
+		str[ft_strlen(str) - 1] = '\0';
+	}
 	while (str && (len != ft_strlen(str)
 			|| !ft_strisequal(delimiter, str, len + 1)))
 	{
 		ft_putendl_fd(str, out);
 		free(str);
-		str = readline("> ");
+		if (isatty(STDIN_FILENO))
+			str = readline("> ");
+		else
+		{
+			str = get_next_line(STDIN_FILENO);
+			str[ft_strlen(str) - 1] = '\0';
+		}
 		if (g_signum != 0)
 		{
 			clean_exec(ex_info, "", 128 + g_signum, NULL);

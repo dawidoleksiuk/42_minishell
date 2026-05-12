@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 14:59:42 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/12 16:53:44 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 
 	(void) argc;
-	argv[0] = NULL;
+	(void) argv;
 	if (init(&data, envp) != 0)
 	{
 		data.exit_code = 0;
