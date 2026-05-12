@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 15:03:59 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/12 19:55:50 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	append_value(t_data *data, char **res, char *value)
 	temp = ft_strjoin(*res, value);
 	if (!temp)
 		clean_exit(data, "Malloc failed", 0);
+	free(*res);
 	*res = temp;
 }
 
@@ -59,10 +60,7 @@ void	append_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
 			clean_exit(data, "Malloc failed", 0);
 		value = data->exec_info->envars->table->get(
 				data->exec_info->envars->table->table, key);
-		if (value)
-			value = ft_strdup(value);
-		else
-			value = ft_strdup("");
+		value = ft_strdup(value);
 		if (!value)
 			clean_exit(data, "Malloc failed", 0);
 		append_value(data, res, value);

@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:54:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 14:54:47 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/12 19:53:19 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get(t_table *table, char *key)
 	node = find(table, key);
 	if (node)
 		return (node->value);
-	return (NULL);
+	return ("");
 }
 
 int	set(t_table **table, char *str)
