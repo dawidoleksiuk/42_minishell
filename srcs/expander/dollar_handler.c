@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/13 10:51:32 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 16:13:14 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	append_value(t_data *data, char **res, char *value)
 
 	temp = ft_strjoin(*res, value);
 	if (!temp)
+	{
+		free(*res);
 		clean_exit(data, "Malloc failed", 0);
+	}
 	free(*res);
 	*res = temp;
 }
@@ -57,11 +60,13 @@ void	append_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
 		exp->key_len = keylen(content, exp->i + 1);
 		key = ft_substr(content, exp->i + 1, exp->key_len);
 		if (!key)
-			clean_exit(data, "Malloc failed", 0);
+			return (free(*res), clean_exit(data, "Malloc failed", 0));
 		value = data->table->get(data->table->table, key);
 		value = ft_strdup(value);
 		if (!value)
-			clean_exit(data, "Malloc failed", 0);
+			free(key);
+		if (!value)
+			return (free(*res), clean_exit(data, "Malloc failed", 0));
 		append_value(data, res, value);
 		exp->i += exp->key_len;
 		exp->start = exp->i + 1;

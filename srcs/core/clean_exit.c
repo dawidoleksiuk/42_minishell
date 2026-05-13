@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 14:48:39 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 16:23:29 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,11 @@ void	free_tokens(t_data *data)
 	}
 }
 
-void	put_msg(char *msg)
-{
-	if (msg)
-	{
-		ft_putstr_fd(msg, 2);
-		ft_putstr_fd("\n", 2);
-	}
-}
-
 void	clean_exit(t_data *data, char *msg, int exit_code)
 {
 	if (!data)
 		exit(exit_code);
-	put_msg(msg);
-	if (data->error_msg)
-		free(data->error_msg);
+	ft_putendl_fd(msg, 2);
 	rl_clear_history();
 	if (data->prev_exit)
 		free(data->prev_exit);

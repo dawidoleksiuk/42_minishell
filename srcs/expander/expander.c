@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/12 19:49:01 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 16:00:06 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,16 @@ void	append_substr(t_data *data, char *content, char **res, int substr_len)
 	res1 = NULL;
 	res2 = NULL;
 	res1 = ft_substr(content, 0, substr_len);
-	res2 = ft_strjoin(*res, res1);
-	if (!res1 || !res2)
+	if (!res1)
 	{
 		free(*res);
-		free(res1);
 		clean_exit(data, "Malloc failed", 0);
 	}
+	res2 = ft_strjoin(*res, res1);
 	free(*res);
 	free(res1);
+	if (!res2)
+		clean_exit(data, "Malloc failed", 0);
 	*res = res2;
 }
 

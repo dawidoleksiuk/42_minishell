@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/13 10:42:08 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 16:25:28 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_data
 {
 	struct termios	termios_p_save;
 	char			*line;
-	char			*error_msg;
 	char			*prev_exit;
 	int				exit_code;
 	t_env_table		*table;
@@ -76,7 +75,6 @@ extern volatile sig_atomic_t	g_signum;
 void			free_cmd(t_data *data);
 void			free_tokens(t_data *data);
 void			clean_exit(t_data *data, char *msg, int exit_code);
-void			put_msg(char *msg);
 void			free_args_node(t_cmd *node);
 
 // init.c
