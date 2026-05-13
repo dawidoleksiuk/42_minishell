@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:35:08 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 15:01:18 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 10:43:37 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ static int	get_envp(t_data *data, char **envp)
 	if (!data->exec_info->envars)
 		return (1);
 	data->exec_info->envars->envp = envp;
-	data->exec_info->envars->table = table_init(envp);
-	if (!data->exec_info->envars->table)
-		return (1);
 	str = getenv("PATH");
 	if (str)
 		data->exec_info->envars->catalogs = ft_split(str, ':');
@@ -41,6 +38,9 @@ int	init(t_data *data, char **envp)
 		return (1);
 	data->exec_info = ft_calloc(1, sizeof(t_exec_info));
 	data->exec_info->out = 1;
+	data->table = table_init(envp);
+	if (!data->table)
+		return (1);
 	if (!data->exec_info || get_envp(data, envp))
 		return (1);
 	data->exec_info->data = data;

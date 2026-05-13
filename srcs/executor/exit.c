@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 14:42:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 14:49:30 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 10:50:52 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void	clean_envars(t_envar *envars)
 
 void	clean_exit_executor(t_exec_info *exec_info)
 {
-	if (exec_info->envars->table)
-		exec_info->envars->table->clear(exec_info->envars->table);
+	if (exec_info->data->table)
+		exec_info->data->table->clear(exec_info->data->table);
 	if (exec_info && exec_info->envars)
 		clean_envars(exec_info->envars);
 	if (exec_info && exec_info->pipe_fd)

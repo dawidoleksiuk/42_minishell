@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 15:40:40 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 10:44:48 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ int	check_for_built_ins(t_data *data, t_cmd *cmd)
 	else if (ft_strisequal(args[0], "echo", 4))
 		ft_echo(data->exec_info->out, args + 1);
 	else if (ft_strisequal(args[0], "env", 3))
-		ft_env(data->exec_info->envars->table, data->exec_info->out);
+		ft_env(data->table, data->exec_info->out);
 	else if (ft_strisequal(args[0], "exit", 4))
 		ft_exit(data, args);
 	else if (ft_strisequal(args[0], "export", 6))
-		ft_export(data->exec_info, &data->exec_info->envars->table,
+		ft_export(data->exec_info, &data->table,
 			args, data->exec_info->out);
 	else if (ft_strisequal(args[0], "pwd", 3))
 		ft_pwd(&data->exec_info->envars);
 	else if (ft_strisequal(args[0], "unset", 5))
-		ft_unset(&data->exec_info->envars->table, args + 1);
+		ft_unset(&data->table, args + 1);
 	else
 		return (0);
 	return (1);

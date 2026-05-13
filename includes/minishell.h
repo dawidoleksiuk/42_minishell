@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 15:02:05 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 10:42:08 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_envar
 	char			*home_dir;
 	char			**catalogs;
 	char			**envp;
-	t_env_table		*table;
 }	t_envar;
 
 typedef struct s_exec_info
@@ -64,6 +63,7 @@ typedef struct s_data
 	char			*error_msg;
 	char			*prev_exit;
 	int				exit_code;
+	t_env_table		*table;
 	t_exec_info		*exec_info;
 	t_token			*token_head;
 	t_cmd			*cmd_head;

@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/12 19:55:50 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 10:51:32 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ void	append_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
 		key = ft_substr(content, exp->i + 1, exp->key_len);
 		if (!key)
 			clean_exit(data, "Malloc failed", 0);
-		value = data->exec_info->envars->table->get(
-				data->exec_info->envars->table->table, key);
+		value = data->table->get(data->table->table, key);
 		value = ft_strdup(value);
 		if (!value)
 			clean_exit(data, "Malloc failed", 0);
