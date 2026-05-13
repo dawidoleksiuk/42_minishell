@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:41:28 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 14:34:51 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/13 11:11:18 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	insert_sorted_list(t_list **head, t_list *new_node)
 	}
 	current = *head;
 	while (current->next[SORTED]
-		&& ft_strismore(new_node->key, (*head)->key, 0))
+		&& ft_strismore(new_node->key, current->next[SORTED]->key, 0))
 		current = current->next[SORTED];
 	new_node->next[SORTED] = current->next[SORTED];
 	if (current->next[SORTED])
