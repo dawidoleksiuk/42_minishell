@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 07:44:18 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/15 19:56:21 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	ft_cd(t_envar **envar, char **args)
 	char	*path;
 
 	path = args[0];
+	if (!path)
+		return (0);
 	if (args[1])
 		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
 	if (path[0] == '~' && (*envar)->home_dir)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/13 16:23:29 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:20:52 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	clean_exit(t_data *data, char *msg, int exit_code)
 {
 	if (!data)
 		exit(exit_code);
-	ft_putendl_fd(msg, 2);
+	if (msg)
+		ft_putendl_fd(msg, 2);
 	rl_clear_history();
 	if (data->prev_exit)
 		free(data->prev_exit);
