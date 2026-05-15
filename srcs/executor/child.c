@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:17:07 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/09 23:50:45 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/15 20:42:45 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	set_up_child(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 
 void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 {
+	if (!cmd->args)
+		clean_exec(exec_info, "", 0, NULL);
 	exec_info->args = filtr_cmd(cmd);
 	if (!exec_info->args)
 		return (clean_exec(exec_info, "malloc failed\n", 1, NULL));

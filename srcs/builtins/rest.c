@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/15 20:06:27 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/15 20:07:11 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int	ft_cd(t_envar **envar, char **args)
 	if (!temp)
 		return (1);
 	if (chdir(temp) == -1)
-		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(args[0], 2), ft_putendl_fd(": No such file or directory", 2), free(temp), 1);
+		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(args[0], 2),
+			ft_putendl_fd(": No such file or directory", 2), free(temp), 1);
 	else
 		return (free((*envar)->curr_dir), (*envar)->curr_dir = temp, 0);
 }

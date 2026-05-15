@@ -6,18 +6,35 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 21:19:55 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/10 15:33:51 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/15 21:05:32 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
+static void	manage_signal(int status)
+{
+	int				sig;
+
+	sig = WTERMSIG(status);
+	if (sig == SIGINT)
+	{
+		g_signum = sig;
+		ft_putendl_fd("", 2);
+	}
+	if (sig == SIGQUIT)
+	{
+		g_signum = sig;
+		ft_putendl_fd("Quit (core dumped)", 2);
+	}
+}
+
 unsigned char	translate_status(pid_t data_pid, pid_t pid,
 				int status, unsigned char error)
 {
-	int				sig;
 	unsigned char	exit_code;
 
+	exit_code = 0;
 	if (pid == data_pid)
 	{
 		if (WIFEXITED(status) && !error)
@@ -25,19 +42,7 @@ unsigned char	translate_status(pid_t data_pid, pid_t pid,
 		else
 			exit_code = error;
 		if (WIFSIGNALED(status))
-		{
-			sig = WTERMSIG(status);
-			if (sig == SIGINT)
-			{
-				g_signum = sig;
-				write(1, "\n", 1);
-			}
-			if (sig == SIGQUIT)
-			{
-				g_signum = sig;
-				write(1, "Quit (core dumped)\n", 20);
-			}
-		}
+			manage_signal(status);
 	}
 	return (exit_code);
 }
@@ -47,6 +52,7 @@ void	check_out_children(t_exec_info *exec_info, int *exit_code)
 	pid_t	pid;
 	int		status;
 
+	status = 0;
 	pid = waitpid(-1, &status, 0);
 	if (isatty(STDIN_FILENO))
 	{

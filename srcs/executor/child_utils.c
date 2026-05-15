@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 07:06:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 07:11:19 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/15 20:35:44 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	**filtr_cmd(t_cmd *cmd)
 	size_t	i;
 
 	i = 0;
+	if (!cmd->args)
+		return (cmd->args);
 	while (cmd->args[i])
 		i++;
 	args = malloc((i + 1) * sizeof(char *));

@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/12 17:37:30 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/15 20:25:16 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ static void	read_input(t_exec_info *ex_info, int out, char *delimiter)
 		str = get_next_line(STDIN_FILENO);
 		str[ft_strlen(str) - 1] = '\0';
 	}
-	while (str && (len != ft_strlen(str)
-			|| !ft_strisequal(delimiter, str, len + 1)))
+	while (str && !ft_strisequal(delimiter, str, len + 1))
 	{
 		ft_putendl_fd(str, out);
 		free(str);
