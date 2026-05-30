@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:54:00 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/05 07:40:44 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/29 16:56:46 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,20 @@ void	ft_unset(t_env_table **table, char **args)
 
 void	ft_export(t_exec_info *exec, t_env_table **table, char **args, int fd)
 {
+	size_t	i;
+
 	if (!args[1])
 		(*table)->display((*table)->table, 1, fd);
 	else
-		if ((*table)->set(&(*table)->table, args[1]))
-			exec->error = 1;
+	{
+		i = 1;
+		while (args[i])
+		{
+			if ((*table)->set(&(*table)->table, args[i]))
+				exec->error = 1;
+			else
+				exec->error = 0;
+			i++;
+		}
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 07:06:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/15 20:35:44 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/30 08:02:21 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,27 @@
 void	iter_catalogs(t_exec_info *exec_info)
 {
 	size_t	i;
+	char *paths;
+	char **catalogs;
 
+	paths = exec_info->data->table->get(exec_info->data->table->table, "PATH");
+	if (!paths)
+		return ;
+	catalogs = ft_split(paths, ':');
 	i = 0;
-	while (exec_info->envars->catalogs
-		&& exec_info->envars->catalogs[i] && !exec_info->path)
+	while (catalogs
+		&& catalogs[i] && !exec_info->path)
 	{
-		exec_info->temp = exec_info->envars->catalogs[i++];
+		exec_info->temp = catalogs[i];
 		if (!exec_info->temp)
-			clean_exec(exec_info, "no catalogs were found\n", 1, NULL);
+			return (free(catalogs), clean_exec(exec_info, "no catalogs were found\n", 1, NULL));
 		exec_info = check_catalogs(exec_info, exec_info->temp,
 				ft_strjoin("/", exec_info->args[0]));
+		free(catalogs[i++]);
 	}
+	while (catalogs[i])
+		free(catalogs[i++]);
+	free(catalogs);
 }
 
 char	**filtr_cmd(t_cmd *cmd)

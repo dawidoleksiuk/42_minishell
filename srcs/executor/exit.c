@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 14:42:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/13 10:50:52 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/30 07:49:55 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,8 @@ void	clean_exec(t_exec_info *exec_info,
 
 void	clean_envars(t_envar *envars)
 {
-	size_t	i;
-
 	if (envars->curr_dir)
 		free(envars->curr_dir);
-	if (envars->catalogs)
-	{
-		i = 0;
-		while (envars->catalogs[i])
-			free(envars->catalogs[i++]);
-		free(envars->catalogs);
-		envars->catalogs = NULL;
-	}
 	free(envars);
 }
 
