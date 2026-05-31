@@ -3,37 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/06 14:39:17 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/15 19:20:52 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/31 12:54:06 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
 
-void	free_args_node(t_cmd *node)
+void	free_redirs(t_redir	*redir)
 {
-	size_t	i;
-	t_redir	*redir;
+	t_redir	*temp;
 
-	i = 0;
-	while (node->args && node->args[i])
-	{
-		free(node->args[i]);
-		i++;
-	}
-	free(node->args);
-	redir = node->redirs;
 	while (redir)
 	{
-		node->redirs = redir->next;
-		free(redir->filename);
-		free(redir);
-		redir = node->redirs;
+		temp = redir;
+		redir = redir->next;
+		free(temp->filename);
+		free(temp);
 	}
-	free(node);
+}
+
+void	free_args(char **args)
+{
+	size_t	i;
+
+	i = 0;
+	while (args && args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
 }
 
 void	free_cmd(t_data *data)
@@ -48,7 +51,9 @@ void	free_cmd(t_data *data)
 		{
 			temp = cmd;
 			cmd = cmd->next;
-			free_args_node(temp);
+			free_args(temp->args);
+			free_redirs(temp->redirs);
+			free(temp);
 		}
 		data->cmd_head = NULL;
 	}

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:38:03 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/04/17 12:08:52 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/31 12:16:17 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	parser(t_data *data)
 				token = token->next;
 		}
 		if (token && token->type == WORD)
-			token = add_cmd(data, token, current_cmd);
+			token = add_args(data, token, current_cmd);
 		if (token && token->type != WORD && token->type != PIPE)
 			token = add_redir(data, token, current_cmd);
 	}

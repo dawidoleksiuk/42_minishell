@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 14:42:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/30 07:49:55 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/31 14:00:52 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	clean_exec(t_exec_info *exec_info,
 	exec_info->in = 0;
 	exec_info->out = 0;
 	exec_info->error = 0;
-	if (exec_info->args)
-	{
-		free(exec_info->args);
-		exec_info->args = NULL;
-	}
+	// if (exec_info->args)
+	// {
+	// 	free(exec_info->args);
+	// 	exec_info->args = NULL;
+	// }
 	if (msg && ft_strlen(msg))
 	{
 		ft_putstr_fd(exec_info->cmd->args[0], 2);

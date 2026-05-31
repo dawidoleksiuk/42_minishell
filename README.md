@@ -167,6 +167,7 @@ The project follows the 42 subject requirements:
 * GNU Readline documentation: https://tiswww.case.edu/php/chet/readline/rltop.html
 * Readline `rl_catch_signals`: https://www.manpagez.com/info/rlman/rlman-5.2/rlman_43.php
 * GNU C Library (termios modes / local modes): https://ftp.gnu.org/old-gnu/Manuals/glibc-2.2.3/html_node/libc_355.html
+* Tokenizer https://mvsrgc.xyz/posts/Write-a-Shell-Tokenizer-in-C/
 * Linux manual pages for different functions used in the program.
 * Various programming forums for troubleshooting and conceptual understanding.
 

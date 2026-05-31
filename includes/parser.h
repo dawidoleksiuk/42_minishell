@@ -6,16 +6,12 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:39:33 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 11:42:32 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/31 12:16:28 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H	
 # define PARSER_H
-
-//COMMANDS
-/* ls -l > plik1.txt < input.dat - example of a
- more complex case with two files we need to take into account */
 
 # include "./tokenizer.h"
 
@@ -41,7 +37,7 @@ void	parser(t_data *data);
 //parser_utils.c
 t_cmd	*new_cmd_node(t_data *data, t_cmd *cmd);
 int		realloc_args(t_data *data, t_token *token, t_cmd *cmd);
-t_token	*add_cmd(t_data *data, t_token *token, t_cmd *cmd);
+t_token	*add_args(t_data *data, t_token *token, t_cmd *cmd);
 t_redir	*new_redir_node(t_data *data, t_cmd *cmd);
 t_token	*add_redir(t_data *data, t_token *token, t_cmd *cmd);
 

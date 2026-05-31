@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/30 07:39:34 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/31 13:42:44 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ typedef struct s_data
 }	t_data;
 
 extern volatile sig_atomic_t	g_signum;
-
+void	print_cmds(t_cmd *cmd);
 // clean_exit.c
+void			free_redirs(t_redir	*redir);
+void			free_args(char **args);
 void			free_cmd(t_data *data);
 void			free_tokens(t_data *data);
 void			clean_exit(t_data *data, char *msg, int exit_code);

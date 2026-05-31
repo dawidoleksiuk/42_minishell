@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:38:03 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/10 11:42:26 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/05/31 14:05:49 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,35 @@ int	realloc_args(t_data *data, t_token *token, t_cmd *cmd)
 		i++;
 		token = token->next;
 	}
-	cmd->args = malloc(sizeof(char *) * (i + 1));
+	cmd->args = malloc((i + 1) * sizeof(char *));
 	if (!cmd->args)
-		clean_exit(data, "Malloc failed", 0);
+		return (free_args(args), clean_exit(data, "Malloc failed", 0), 0);
 	i = 0;
 	while (args && args[i])
 	{
-		cmd->args[i] = ft_strdup(args[i]);
-		if (!cmd->args[i])
-			clean_exit(data, "Malloc failed", 0);
-		free(args[i]);
+		cmd->args[i] = args[i];
 		i++;
 	}
 	return (free(args), i);
 }
 
-t_token	*add_cmd(t_data *data, t_token *token, t_cmd *cmd)
+t_token	*add_args(t_data *data, t_token *token, t_cmd *cmd)
 {
 	int		i;
 
 	i = realloc_args(data, token, cmd);
 	while (token && token->type == WORD)
 	{
-		cmd->args[i] = ft_strdup(token->content);
-		if (!cmd->args[i])
-			clean_exit(data, "Malloc failed", 0);
-		i++;
+		if (token->content[0])
+		{
+			cmd->args[i] = ft_strdup(token->content);
+			if (!cmd->args[i])
+			{
+				cmd->args[i] = NULL;
+				clean_exit(data, "Malloc failed", 0);
+			}
+			i++;
+		}
 		token = token->next;
 	}
 	cmd->args[i] = NULL;
