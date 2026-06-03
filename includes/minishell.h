@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/30 07:39:34 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/30 10:45:36 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_envar
 typedef struct s_exec_info
 {
 	int				in;
-	int				*pipe_fd;
+	int				pipe_fd[2];
 	int				out;
 	unsigned char	error;
 	char			is_start;

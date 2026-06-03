@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/13 10:44:48 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/30 10:45:13 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	executor(t_data *data, t_cmd *cmd_head)
 {
 	t_cmd	*cmd;
 
-	data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
-	if (!data->exec_info->pipe_fd)
-		return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL));
+	// data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
+	// if (!data->exec_info->pipe_fd)
+	// 	return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL));
 	cmd = cmd_head;
 	if (cmd && !cmd->next && !cmd->redirs && check_for_built_ins(data, cmd))
 		return (data->exit_code = data->exec_info->error,

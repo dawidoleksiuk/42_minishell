@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 07:06:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/30 08:02:21 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/30 11:46:56 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	iter_catalogs(t_exec_info *exec_info)
 		return ;
 	catalogs = ft_split(paths, ':');
 	i = 0;
-	while (catalogs
-		&& catalogs[i] && !exec_info->path)
+	while (catalogs && catalogs[i] && !exec_info->path)
 	{
 		exec_info->temp = catalogs[i];
 		if (!exec_info->temp)
@@ -34,7 +33,7 @@ void	iter_catalogs(t_exec_info *exec_info)
 				ft_strjoin("/", exec_info->args[0]));
 		free(catalogs[i++]);
 	}
-	while (catalogs[i])
+	while (catalogs && catalogs[i])
 		free(catalogs[i++]);
 	free(catalogs);
 }

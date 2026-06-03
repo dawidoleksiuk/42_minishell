@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/15 20:07:11 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/30 12:02:21 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,11 @@ void	ft_echo(int fd, char **args)
 	size_t	i;
 
 	i = 0;
+	flag = 0;
 	if (!fd)
 		fd = STDOUT_FILENO;
 	if (args[0] && ft_strisequal(args[0], "-n", 0))
 		flag = 1;
-	else
-		flag = 0;
 	while (args[flag + i])
 	{
 		ft_putstr_fd(args[flag + i], fd);
@@ -88,7 +87,7 @@ int	ft_cd(t_envar **envar, char **args)
 		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(args[0], 2),
 			ft_putendl_fd(": No such file or directory", 2), free(temp), 1);
 	else
-		return (free((*envar)->curr_dir), (*envar)->curr_dir = temp, 0);
+		return (free((*envar)->curr_dir), (*envar)->curr_dir = temp, /*dodaj zmiane w tabeli*/ 0);
 }
 
 int	ft_pwd(t_envar **envar)

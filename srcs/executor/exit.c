@@ -6,22 +6,24 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 14:42:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/30 07:49:55 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/30 11:19:57 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//msg == NULL clean_exit won't run if exit_code != 0
+//msg == "" clean_exit will run -> children will free data memory
 void	clean_exec(t_exec_info *exec_info,
 			char *msg, int exit_code, void *bonus)
 {
 	if (bonus)
 		free(bonus);
-	if (exec_info->pipe_fd)
-		free(exec_info->pipe_fd);
+	// if (exec_info->pipe_fd)
+	// 	free(exec_info->pipe_fd);
 	if (exec_info->path)
 		free(exec_info->path);
-	exec_info->pipe_fd = NULL;
+	// exec_info->pipe_fd = NULL;
 	exec_info->path = NULL;
 	exec_info->temp = NULL;
 	exec_info->in = 0;
@@ -55,8 +57,8 @@ void	clean_exit_executor(t_exec_info *exec_info)
 		exec_info->data->table->clear(exec_info->data->table);
 	if (exec_info && exec_info->envars)
 		clean_envars(exec_info->envars);
-	if (exec_info && exec_info->pipe_fd)
-		free(exec_info->pipe_fd);
+	// if (exec_info && exec_info->pipe_fd)
+	// 	free(exec_info->pipe_fd);
 	if (exec_info)
 		free(exec_info);
 }
