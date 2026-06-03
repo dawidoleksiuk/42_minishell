@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/10 14:42:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/06/03 05:33:43 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 05:40:17 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,13 @@ void	clean_exec(t_exec_info *exec_info,
 {
 	if (bonus)
 		free(bonus);
-	// if (exec_info->pipe_fd)
-	// 	free(exec_info->pipe_fd);
 	if (exec_info->path)
 		free(exec_info->path);
-	// exec_info->pipe_fd = NULL;
 	exec_info->path = NULL;
 	exec_info->temp = NULL;
 	exec_info->in = 0;
 	exec_info->out = 0;
 	exec_info->error = 0;
-	// if (exec_info->args)
-	// {
-	// 	free(exec_info->args);
-	// 	exec_info->args = NULL;
-	// }
 	if (msg && ft_strlen(msg))
 	{
 		ft_putstr_fd(exec_info->cmd->args[0], 2);
@@ -57,8 +49,6 @@ void	clean_exit_executor(t_exec_info *exec_info)
 		exec_info->data->table->clear(exec_info->data->table);
 	if (exec_info && exec_info->envars)
 		clean_envars(exec_info->envars);
-	// if (exec_info && exec_info->pipe_fd)
-	// 	free(exec_info->pipe_fd);
 	if (exec_info)
 		free(exec_info);
 }

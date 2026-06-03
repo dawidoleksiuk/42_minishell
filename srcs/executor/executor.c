@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/30 10:45:13 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 06:22:13 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_for_built_ins(t_data *data, t_cmd *cmd)
 	if (!args || !args[0])
 		return (0);
 	if (ft_strisequal(args[0], "cd", 2))
-		data->exec_info->error = ft_cd(&data->exec_info->envars, args + 1);
+		data->exec_info->error = ft_cd(data, args + 1);
 	else if (ft_strisequal(args[0], "echo", 4))
 		ft_echo(data->exec_info->out, args + 1);
 	else if (ft_strisequal(args[0], "env", 3))
@@ -61,9 +61,6 @@ void	executor(t_data *data, t_cmd *cmd_head)
 {
 	t_cmd	*cmd;
 
-	// data->exec_info->pipe_fd = ft_calloc(2, sizeof(int));
-	// if (!data->exec_info->pipe_fd)
-	// 	return (clean_exec(data->exec_info, "Malloc failed\n", 1, NULL));
 	cmd = cmd_head;
 	if (cmd && !cmd->next && !cmd->redirs && check_for_built_ins(data, cmd))
 		return (data->exit_code = data->exec_info->error,

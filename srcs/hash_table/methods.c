@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:54:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/30 07:36:18 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 05:49:39 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,5 @@ int	set(t_table **table, char *arg)
 			return (free(key), free(node->value), node->value = value, 0);
 		return (free(key), 0);
 	}
-		
 	return (table_add(table, key, value));
 }

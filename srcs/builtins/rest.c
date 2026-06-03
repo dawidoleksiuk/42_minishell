@@ -6,11 +6,12 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:51:11 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/30 12:02:21 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 06:50:29 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "../hash_table/hash_table.h"
 
 void	ft_exit(t_data *data, char **args)
 {
@@ -58,36 +59,53 @@ void	ft_echo(int fd, char **args)
 		ft_putchar_fd('\n', fd);
 }
 
-int	ft_cd(t_envar **envar, char **args)
+static char	*export_path(t_envar *envar, char *str)
+{
+	char	*path;
+
+	if (str[0] == '~' && envar->home_dir)
+		path = ft_strjoin(envar->home_dir, str + 1);
+	else if (str[0] != '/')
+	{
+		path = ft_strjoin("/", str);
+		if (!path)
+			return (NULL);
+		str = path;
+		path = ft_strjoin(envar->curr_dir, str);
+		free(str);
+	}
+	else
+		path = ft_strdup(str);
+	return (path);
+}
+
+int	ft_cd(t_data *data, char **args)
 {
 	char	*temp;
 	char	*path;
 
-	path = args[0];
-	if (!path)
+	temp = args[0];
+	if (!temp)
 		return (0);
 	if (args[1])
 		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
-	if (path[0] == '~' && (*envar)->home_dir)
-		temp = ft_strjoin((*envar)->home_dir, path + 1);
-	else if (path[0] != '/')
+	path = export_path(data->exec_info->envars, temp);
+	if (!path)
+		return (1);
+	if (chdir(path) == -1)
+		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(args[0], 2),
+			ft_putendl_fd(": No such file or directory", 2), free(path), 1);
+	else
 	{
-		temp = ft_strjoin("/", path);
+		free(data->exec_info->envars->curr_dir);
+		data->exec_info->envars->curr_dir = path;
+		temp = ft_strjoin("PWD=", path);
 		if (!temp)
 			return (1);
-		path = temp;
-		temp = ft_strjoin((*envar)->curr_dir, path);
-		free(path);
+		temp[ft_strlen(temp) - 1] = 0;
+		data->table->set(&(data->table->table), temp);
+		return (free(temp), 0);
 	}
-	else
-		temp = ft_strdup(path);
-	if (!temp)
-		return (1);
-	if (chdir(temp) == -1)
-		return (ft_putstr_fd("minishell: cd: ", 2), ft_putstr_fd(args[0], 2),
-			ft_putendl_fd(": No such file or directory", 2), free(temp), 1);
-	else
-		return (free((*envar)->curr_dir), (*envar)->curr_dir = temp, /*dodaj zmiane w tabeli*/ 0);
 }
 
 int	ft_pwd(t_envar **envar)

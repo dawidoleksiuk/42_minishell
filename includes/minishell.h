@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:40:44 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/06/03 05:34:10 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 07:29:43 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,44 +69,44 @@ typedef struct s_data
 }	t_data;
 
 extern volatile sig_atomic_t	g_signum;
-void	print_cmds(t_cmd *cmd);
+// void		print_cmds(t_cmd *cmd);
 // clean_exit.c
-void			free_redirs(t_redir	*redir);
-void			free_args(char **args);
-void			free_cmd(t_data *data);
-void			free_tokens(t_data *data);
-void			clean_exit(t_data *data, char *msg, int exit_code);
-void			free_args_node(t_cmd *node);
+void		free_redirs(t_redir	*redir);
+void		free_args(char **args);
+void		free_cmd(t_data *data);
+void		free_tokens(t_data *data);
+void		clean_exit(t_data *data, char *msg, int exit_code);
+void		free_args_node(t_cmd *node);
 
 // init.c
-int				init_signals(t_data *data);
-int				init(t_data *data, char **envp);
+int			init_signals(t_data *data);
+int			init(t_data *data, char **envp);
 
 // terminal.c
-void			prompt(t_data *data);
-int				get_terminal_settings(struct termios *termios_p);
-int				disable_echoctl(void);
+void		prompt(t_data *data);
+int			get_terminal_settings(struct termios *termios_p);
+int			disable_echoctl(void);
 
 // signals.c 
-void			sig_handler(int sig);
-void			sig_handler_heredoc(int sig);
-int				config_sigaction(struct sigaction *sa);
-int				signals(void);
-int				setup_signal(int sig, void (*handler)(int));
+void		sig_handler(int sig);
+void		sig_handler_heredoc(int sig);
+int			config_sigaction(struct sigaction *sa);
+int			signals(void);
+int			setup_signal(int sig, void (*handler)(int));
 
 // redirection.c
-t_exec_info		*redir(t_exec_info *ex_info, t_redir *redir);
+t_exec_info	*redir(t_exec_info *ex_info, t_redir *redir);
 
 // executor.c
-void			executor(t_data *data, t_cmd *cmd_head);
+void		executor(t_data *data, t_cmd *cmd_head);
 
 //built-ins
-int				ft_pwd(t_envar **envar);
-int				ft_cd(t_envar **envar, char **args);
-void			ft_echo(int fd, char **args);
-void			ft_env(t_env_table *table, int fd);
-void			ft_unset(t_env_table **table, char **args);
-void			ft_exit(t_data *data, char **args);
-void			ft_export(t_exec_info *exec, t_env_table **table,
-					char **args, int fd);
+int			ft_pwd(t_envar **envar);
+int			ft_cd(t_data *data, char **args);
+void		ft_echo(int fd, char **args);
+void		ft_env(t_env_table *table, int fd);
+void		ft_unset(t_env_table **table, char **args);
+void		ft_exit(t_data *data, char **args);
+void		ft_export(t_exec_info *exec, t_env_table **table,
+				char **args, int fd);
 #endif

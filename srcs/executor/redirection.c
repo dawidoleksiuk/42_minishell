@@ -6,12 +6,26 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:46:43 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/30 10:54:45 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 05:54:26 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executor.h"
+
+static char	*read_input_with_correct_reader(void)
+{
+	char	*str;
+
+	if (isatty(STDIN_FILENO))
+		str = readline("> ");
+	else
+	{
+		str = get_next_line(STDIN_FILENO);
+		str[ft_strlen(str) - 1] = '\0';
+	}
+	return (str);
+}
 
 /*
 Function is printing input from the user directly into the pipe, it will
@@ -26,24 +40,12 @@ static void	read_input(t_exec_info *ex_info, int out, char *delimiter)
 	if (setup_signal(SIGINT, &sig_handler_heredoc) != 0
 		|| setup_signal(SIGQUIT, SIG_IGN) != 0)
 		return (clean_exec(ex_info, NULL, 1, NULL));
-	if (isatty(STDIN_FILENO))
-		str = readline("> ");
-	else
-	{
-		str = get_next_line(STDIN_FILENO);
-		str[ft_strlen(str) - 1] = '\0';
-	}
+	str = read_input_with_correct_reader();
 	while (str && !ft_strisequal(delimiter, str, len + 1))
 	{
 		ft_putendl_fd(str, out);
 		free(str);
-		if (isatty(STDIN_FILENO))
-			str = readline("> ");
-		else
-		{
-			str = get_next_line(STDIN_FILENO);
-			str[ft_strlen(str) - 1] = '\0';
-		}
+		str = read_input_with_correct_reader();
 		if (g_signum != 0)
 		{
 			clean_exec(ex_info, "", 128 + g_signum, NULL);

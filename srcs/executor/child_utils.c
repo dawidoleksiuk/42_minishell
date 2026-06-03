@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 07:06:42 by alusnia           #+#    #+#             */
-/*   Updated: 2026/06/03 05:33:14 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 05:42:52 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void	iter_catalogs(t_exec_info *exec_info)
 {
 	size_t	i;
-	char *paths;
-	char **catalogs;
+	char	*paths;
+	char	**catalogs;
 
 	paths = exec_info->data->table->get(exec_info->data->table->table, "PATH");
 	if (!paths)
@@ -28,7 +28,8 @@ void	iter_catalogs(t_exec_info *exec_info)
 	{
 		exec_info->temp = catalogs[i];
 		if (!exec_info->temp)
-			return (free(catalogs), clean_exec(exec_info, "no catalogs were found\n", 1, NULL));
+			return (free(catalogs), clean_exec(exec_info,
+					"no catalogs were found\n", 1, NULL));
 		exec_info = check_catalogs(exec_info, exec_info->temp,
 				ft_strjoin("/", exec_info->args[0]));
 		free(catalogs[i++]);

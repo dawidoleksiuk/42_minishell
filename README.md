@@ -1,4 +1,3 @@
-```md
 *This project has been created as part of the 42 curriculum by doleksiu, alusnia.*
 
 # Minishell
@@ -13,7 +12,7 @@ This project recreates a small but functional shell inspired by `bash`. It displ
 The project was developed by:
 
 - **doleksiu** — tokenizer, expander, parser, signals
-- **alusnia** — executor, hash table
+- **alusnia** — executor, hash table, built-in commands
 
 ## Features
 
@@ -39,14 +38,7 @@ Minishell supports:
   - `Ctrl-C`
   - `Ctrl-D`
   - `Ctrl-\`
-- Built-in commands:
-  - `echo` with `-n`
-  - `cd`
-  - `pwd`
-  - `export`
-  - `unset`
-  - `env`
-  - `exit`
+- Built-in commands (`echo`, `cd`, `pwd`, `export`, `unset`, `env`, `exit`) powered by an **encapsulated hash table** for highly efficient environment variable management.
 
 ## Project Structure
 
@@ -57,19 +49,40 @@ The project is divided into several main parts:
 Implemented by **doleksiu**.
 
 - **Tokenizer:** Responsible solely for lexical analysis and splitting the raw input string into individual **tokens**.
-- **Expander:** Handles variable expansions ($VAR, $?). It is also responsible for quote removal and passing the ordered and expanded tokens to the parser, ensuring correct context interpretation.
+- **Expander:** Handles variable expansions (`$VAR`, `$?`). It is also responsible for quote removal and passing the ordered and expanded tokens to the parser, ensuring correct context interpretation.
 - **Parser:** Receives the prepared tokens and builds a structure ready for execution, handling redirection logic and command organization for the executor.
 - **Signals:** Signal handling makes the shell behave similarly to `bash` in interactive mode:
   - `Ctrl-C` displays a new prompt on a new line
   - `Ctrl-D` exits the shell
   - `Ctrl-\` does nothing
 
-### Executor & Hash Table
+### Executor, Built-ins & Encapsulated Hash Table
 
 Implemented by **alusnia**.
 
-- **Executor:** Responsible for running parsed commands. It handles built-in command execution, external commands with `execve`, process creation with `fork`, pipes, and file descriptor management.
-- **Hash Table:** Implemented to efficiently store and manage environment variables, allowing for fast lookup, addition, and removal of variables.
+- **Executor & Built-ins:** Responsible for running parsed commands and implementing the core logic for all built-in commands (`echo`, `cd`, `pwd`, `export`, `unset`, `env`, `exit`). It also handles external commands with `execve`, process creation with `fork`, pipes, and file descriptor management.
+- **Encapsulated Hash Table:** A custom data structure implemented to efficiently store and manage environment variables. By encapsulating the internal logic, it exposes a clean set of methods (for insertion, retrieval, and deletion) that directly power the `export`, `unset`, and `env` built-in commands. This ensures fast lookups and keeps the environment state management modular, isolated, and secure.
+
+## Prerequisites
+
+To compile and run this project, you need the following tools and libraries installed on your system:
+
+- **C Compiler:** `gcc` or `clang`
+- **Make:** To execute the build instructions
+- **Git:** To fetch the required custom utility libraries during compilation
+- **Readline Library:** Essential for the interactive prompt and command history
+
+**For Ubuntu / Debian:**
+```sh
+sudo apt update
+sudo apt install build-essential git libreadline-dev
+```
+
+**For macOS (using Homebrew):**
+```sh
+xcode-select --install
+brew install readline
+```
 
 ## Instructions
 
@@ -79,8 +92,9 @@ To compile the project, run:
 
 ```sh
 make
-
 ```
+
+> **Note on the Makefile:** This project uses a recursive Makefile. During the build process, it will automatically connect to GitHub to fetch the latest versions of our custom utility libraries (`libft`, `get_next_line`, `ft_printf`). Please do not be alarmed by the download process—this is intended behavior to ensure the shell is built with the most up-to-date and thoroughly tested foundational functions.
 
 This will create the `minishell` executable.
 
@@ -90,31 +104,28 @@ After compilation, start Minishell with:
 
 ```sh
 ./minishell
-
 ```
 
-### Cleaning
+### Cleaning & Rebuilding
 
-To remove object files, run:
+To remove locally generated object files, run:
 
 ```sh
 make clean
-
 ```
 
-To remove object files and the executable, run:
+To remove object files and the `minishell` executable, run:
 
 ```sh
 make fclean
-
 ```
 
-To rebuild the project from scratch, run:
+To perform a completely fresh build, run:
 
 ```sh
 make re
-
 ```
+> **Note on `make re`:** This command is designed to be thorough. It will completely remove the previously downloaded custom libraries (`libft`, `gnl`, `printf`) and fetch fresh, updated copies from GitHub before recompiling the entire project.
 
 ## Usage Examples
 
@@ -123,7 +134,6 @@ make re
 ```sh
 minishell$ ls | grep mini > output.txt
 minishell$ cat < output.txt
-
 ```
 
 ### Heredoc
@@ -133,7 +143,6 @@ minishell$ cat << EOF
 hello
 world
 EOF
-
 ```
 
 ## Built-in Commands
@@ -143,14 +152,14 @@ EOF
 | `echo` | Prints arguments to standard output, supports the `-n` option |
 | `cd` | Changes the current working directory |
 | `pwd` | Prints the current working directory |
-| `export` | Adds or displays environment variables |
-| `unset` | Removes environment variables |
-| `env` | Displays the environment |
-| `exit` | Exits the shell |
+| `export` | Adds or modifies environment variables in the hash table |
+| `unset` | Removes environment variables from the hash table |
+| `env` | Displays all current environment variables |
+| `exit` | Exits the shell safely |
 
 ## Error Handling
 
-Minishell handles common shell errors and execution failures. Allocated memory is freed when necessary. While `readline` may report internal leaks (as allowed by the subject), the project code aims to be free of memory leaks.
+Minishell handles common shell errors and execution failures. Allocated memory is safely freed to ensure the project is free of memory leaks. Note: `readline` may report internal leaks, which are generally ignored per the 42 subject guidelines, but our own code strictly manages memory.
 
 ## Limitations
 
@@ -181,7 +190,3 @@ Specifically, AI assisted us with:
 - **Debugging & Log Analysis:** Interpreting Valgrind memory leak reports, managing `readline` suppressions, and analyzing tester logs to resolve edge cases in variable expansion (e.g., `$VAR` and `$?`).
 - **Architectural Brainstorming:** Discussing logical approaches for structuring the program and managing parent-child process states. We strictly avoided generating or copy-pasting C code, ensuring that the final implementation is entirely our own and fully understood.
 - **Documentation:** Generating an initial structural draft of this README file, which was subsequently reviewed, refined, and validated against the project requirements.
-
-```
-
-```

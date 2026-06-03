@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 17:17:07 by alusnia           #+#    #+#             */
-/*   Updated: 2026/06/03 05:33:01 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 05:43:08 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,6 @@ void	do_your_job(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 	if (!cmd->args)
 		clean_exec(exec_info, "", 0, NULL);
 	exec_info->args = cmd->args;
-	// exec_info->args = filtr_cmd(cmd);
-	// if (!exec_info->args)
-	// 	return (clean_exec(exec_info, "malloc failed\n", 1, NULL));
 	if (!exec_info->args[0])
 		return (clean_exec(exec_info, "", 0, NULL));
 	if (check_for_built_ins(data, cmd))
