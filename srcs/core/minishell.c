@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 14:52:39 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/15 19:19:08 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/05/31 13:42:54 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	print_tokens(t_data *data)
 	}
 }
 
-void	print_cmds(t_data *data)
+void	print_cmds(t_cmd *cmd)
 {
-	t_cmd	*cmd;
+	// t_cmd	*cmd;
 	int		i;
 
 	i = 0;
-	cmd = data->cmd_head;
+	// cmd = data->cmd_head;
 	while (cmd)
 	{
 		i = 0;
