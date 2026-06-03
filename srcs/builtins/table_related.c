@@ -6,7 +6,7 @@
 /*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 13:54:00 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/29 16:56:46 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/03 07:42:57 by alusnia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	ft_export(t_exec_info *exec, t_env_table **table, char **args, int fd)
 		{
 			if ((*table)->set(&(*table)->table, args[i]))
 				exec->error = 1;
-			else
-				exec->error = 0;
 			i++;
 		}
 	}
