@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:22:09 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/31 12:15:43 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/06/06 11:39:59 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef enum e_type
 typedef struct s_token
 {
 	char			*content;
+	int				was_quoted;
 	t_type			type;
 	struct s_token	*next;
 }	t_token;

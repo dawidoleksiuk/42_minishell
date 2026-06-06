@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/31 13:18:16 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/06/06 12:10:24 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	append_exit_code(t_data *data, t_exp_data *exp, char **res)
 	exp->i += exp->key_len;
 	exp->start = exp->i + 1;
 	append_value(data, res, value);
+	free(value);
 }
 
 int	keylen(char *content, int start)

@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/13 16:00:06 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/06/06 12:01:42 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,31 @@ void	append_substr(t_data *data, char *content, char **res, int substr_len)
 	*res = res2;
 }
 
-void	process_char(t_data *data, t_exp_data *exp, char *content, char **res)
+void	process_char(t_data *data, t_exp_data *exp, t_token	*t, char **res)
 {
 	if (exp->status == DEFAULT && exp->c == '\'')
+	{
+		t->was_quoted = 1;
 		exp->status = IN_SINGLE;
+	}
 	else if (exp->status == DEFAULT && exp->c == '\"')
+	{
+		t->was_quoted = 1;
 		exp->status = IN_DOUBLE;
-	else if (exp->status == IN_SINGLE && exp->c == '\'')
-		exp->status = DEFAULT;
-	else if (exp->status == IN_DOUBLE && exp->c == '\"')
+	}
+	else if ((exp->status == IN_SINGLE && exp->c == '\'')
+		|| (exp->status == IN_DOUBLE && exp->c == '\"'))
 		exp->status = DEFAULT;
 	if ((exp->status != IN_SINGLE) && exp->c == '$')
 	{
-		append_substr(data, content + exp->start, res, exp->i - exp->start);
+		append_substr(data, t->content + exp->start, res, exp->i - exp->start);
 		exp->start = exp->i;
-		append_dollar(data, exp, content, res);
+		append_dollar(data, exp, t->content, res);
 	}
 	if ((exp->status != IN_SINGLE && exp->c == '\"')
 		|| (exp->status != IN_DOUBLE && exp->c == '\''))
 	{
-		append_substr(data, content + exp->start, res, exp->i - exp->start);
+		append_substr(data, t->content + exp->start, res, exp->i - exp->start);
 		exp->start = exp->i + 1;
 	}
 }
@@ -70,20 +75,20 @@ iterates through each token content char and:
 res is the result of the content after processing
 */
 
-char	*process_token_content(t_data *data, char *content)
+char	*process_token_content(t_data *data, t_token *token)
 {
 	t_exp_data	exp;
 	char		*res;
 
 	exp = data->exp_data;
 	res = NULL;
-	while (content[exp.i])
+	while (token->content[exp.i])
 	{
-		exp.c = (content[exp.i]);
-		process_char(data, &exp, content, &res);
+		exp.c = (token->content[exp.i]);
+		process_char(data, &exp, token, &res);
 		exp.i++;
 	}
-	append_substr(data, content + exp.start, &res, exp.i - exp.start);
+	append_substr(data, token->content + exp.start, &res, exp.i - exp.start);
 	return (res);
 }
 
@@ -95,7 +100,7 @@ void	expander(t_data *data)
 	token = data->token_head;
 	while (token)
 	{
-		res = process_token_content(data, token->content);
+		res = process_token_content(data, token);
 		if (res)
 		{
 			free(token->content);

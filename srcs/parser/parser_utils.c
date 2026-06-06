@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 17:38:03 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/31 14:05:49 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/06/06 11:49:59 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_token	*add_args(t_data *data, t_token *token, t_cmd *cmd)
 	i = realloc_args(data, token, cmd);
 	while (token && token->type == WORD)
 	{
-		if (token->content[0])
+		if (token->content[0] != '\0' || token->was_quoted == 1)
 		{
 			cmd->args[i] = ft_strdup(token->content);
 			if (!cmd->args[i])

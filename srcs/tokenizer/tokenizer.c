@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 13:21:15 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/05/09 22:20:46 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/06/06 12:14:14 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static t_token	*create_token_node(t_data *data, t_token **token)
 	if (!node)
 		clean_exit(data, "Malloc failed", 0);
 	node->content = NULL;
+	node->was_quoted = 0;
 	node->next = NULL;
 	if (*token != NULL)
 		(*token)->next = node;
@@ -52,8 +53,7 @@ static int	get_next_word(char *line, int *i)
 	}
 	if (status == IN_SINGLE || status == IN_DOUBLE)
 	{
-		ft_putstr_fd("minishell: bad quotes\n", 2);
-		return (1);
+		return (ft_putstr_fd("minishell: bad quotes\n", 2), 1);
 	}
 	return (0);
 }
