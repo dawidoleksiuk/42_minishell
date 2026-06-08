@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/06/06 12:10:24 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/06/08 22:27:26 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ void	append_dollar(t_data *data, t_exp_data *exp, char *content, char **res)
 		value = data->table->get(data->table->table, key);
 		value = ft_strdup(value);
 		if (!value)
+		{
 			free(key);
-		if (!value)
 			return (free(*res), clean_exit(data, "Malloc failed", 0));
+		}
 		append_value(data, res, value);
 		exp->i += exp->key_len;
 		exp->start = exp->i + 1;
