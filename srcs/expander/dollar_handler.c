@@ -6,7 +6,7 @@
 /*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 19:22:06 by doleksiu          #+#    #+#             */
-/*   Updated: 2026/06/08 22:30:17 by doleksiu         ###   ########.fr       */
+/*   Updated: 2026/06/08 22:31:56 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	append_value(t_data *data, char **res, char *value)
 {
 	char	*temp;
 
-	if (value[0] != '\0')
+	if (value && value[0] != '\0')
 	{
 		temp = ft_strjoin(*res, value);
 		if (!temp)
