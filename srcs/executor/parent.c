@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parent.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 21:19:55 by alusnia           #+#    #+#             */
-/*   Updated: 2026/05/15 21:05:32 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/14 15:20:47 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ void	check_out_children(t_exec_info *exec_info, int *exit_code)
 	pid = waitpid(-1, &status, 0);
 	if (isatty(STDIN_FILENO))
 	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &exec_info->data->termios_p_save);
+		if (tcsetattr(STDIN_FILENO, TCSANOW,
+				&exec_info->data->termios_p_save) != 0)
+			return (clean_exec(exec_info, "disable_echoctl failed\n", 1, NULL));
+		if (disable_echoctl() != 0)
+			return (clean_exec(exec_info, "disable_echoctl failed\n", 1, NULL));
 		if (setup_signal(SIGINT, &sig_handler)
 			|| setup_signal(SIGQUIT, SIG_IGN))
 			return (clean_exec(exec_info, NULL, 0, NULL));
@@ -94,7 +98,7 @@ t_exec_info	*give_birth(t_data *data, t_exec_info *exec_info, t_cmd *cmd)
 		return (exec_info->error = 1, exec_info);
 	if (setup_signal(SIGINT, SIG_IGN) || setup_signal(SIGQUIT, SIG_IGN))
 		return (exec_info);
-	else if (exec_info->pid == IS_CHILD)
+	if (exec_info->pid == IS_CHILD)
 		set_up_child(data, exec_info, cmd);
 	else
 	{

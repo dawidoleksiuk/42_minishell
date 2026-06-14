@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alusnia <alusnia@student.42Warsaw.pl>      +#+  +:+       +#+        */
+/*   By: doleksiu <doleksiu@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 19:22:09 by alusnia           #+#    #+#             */
-/*   Updated: 2026/06/03 06:22:13 by alusnia          ###   ########.fr       */
+/*   Updated: 2026/06/14 13:40:35 by doleksiu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,6 @@ void	executor(t_data *data, t_cmd *cmd_head)
 		data->exec_info->out = 1;
 	}
 	check_out_children(data->exec_info, &data->exit_code);
-	if (isatty(STDIN_FILENO))
-		if (disable_echoctl() != 0)
-			return (clean_exec(data->exec_info,
-					"disable_echoctl failed\n", 1, NULL));
 	if (data->exec_info->pipe_fd[1])
 		close(data->exec_info->pipe_fd[1]);
 	clean_exec(data->exec_info, NULL, 0, NULL);
